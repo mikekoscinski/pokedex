@@ -7,6 +7,18 @@ Front-end: React
 Back-end: Node.js, Express.js, PostgreSQL
 
 
+## TODO:
+
+Create tables, for each pokemon, of:
+
+- sprite/artwork (gen1-3 sprites, early sugimori, present sugimori)
+
+- The pokedex entry for each game version from gens 1-3
+
+- Moves
+
+- Evolution trees (evolved from __ at level __; evolves into __ at level __)
+
 
 ## History of design trade-offs:
 
