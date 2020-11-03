@@ -44,28 +44,31 @@ pokemon.forEach(name => {
 
 const h3Els = document.querySelectorAll('h3');
 const moveTableEls = [];
-const methodsObtained = ['Level Up', 'Egg', 'HM', 'TM'];
+const methodsObtained = ['level up', 'egg', 'hm', 'tm'];
 
 const emeraldMoveTableEls = [];
 
 
-
-
-h3Els.forEach(h3Element => {
-	methodsObtained.some(moveCategory => {
-		const isMoveEl = Boolean(h3Element.innerText.includes(moveCategory)).valueOf();
-		if (!isMoveEl) return;
-		const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody').querySelectorAll('a[class=ent-name]');
-		moveTableEls.push(h3SiblingDataTable);
+function filterForEmeraldVersionMoveTables () {
+	h3Els.forEach(h3Element => {
+		methodsObtained.some(moveCategory => {
+			const isMoveEl = Boolean(h3Element.innerText.toLowerCase().includes(moveCategory)).valueOf();
+			
+			const isEmeraldVersion = Boolean(h3Element.nextElementSibling.innerText.toLowerCase().includes('emerald')).valueOf();
+			
+			if (!isMoveEl) return;
+			if (!isEmeraldVersion) return;
+			
+			const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody').querySelectorAll('a[class=ent-name]');
+			
+			moveTableEls.push(h3SiblingDataTable);
+			
+		});
 	});
-});
+}
+
+filterForEmeraldVersionMoveTables();
 
 console.log(moveTableEls);
 
 
-
-// const eggMoveParentEls = $0.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody').querySelectorAll('a[class=ent-name]');
-
-// eggMoveParentEls.forEach(move => {
-// 	console.log(move.innerText);
-// });
