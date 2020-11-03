@@ -13,12 +13,9 @@ function generateURLs () {
 generateURLs();
 
 
-// TODO: (1) Save HTML for each pokemon
-
 // TODO: (2) Read HTML for each pokemon; save list of moves for each as a 4-parameter object: pokemon/move_id/method_obtained/level_obtained
 
 // TODO: (3) Render these objects as one massive, 4-field table. Copy the whole thing and drop into postgreSQL
-
 
 
 
@@ -44,56 +41,89 @@ const h3Els = document.querySelectorAll('h3');
 const moveTableElements = [];
 const methodsObtained = ['level up', 'egg', 'hm', 'tm'];
 
-// Filter for the correct table elements. Note, this is just so we can select the correct table elements to pull the actual move data from. We have not processed any **move** data yet -- we have only selected the appropriate tables to examine closer.
 
+// Select table elements to eventually be processed
 function filterTableElements () {
 	h3Els.forEach(h3Element => {
 		methodsObtained.some(moveCategory => {
 			const isMoveTableElement = Boolean(h3Element.innerText.toLowerCase().includes(moveCategory)).valueOf();
-			
 			const isEmeraldVersion = Boolean(h3Element.nextElementSibling.innerText.toLowerCase().includes('emerald')).valueOf();
-			
 			if (!isMoveTableElement) return;
 			if (!isEmeraldVersion) return;
-			
 			const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody');
-			
 			moveTableElements.push(h3SiblingDataTable);
 		});
 	});
 }
 filterTableElements();
-
 console.log(moveTableElements);
 
 
+const levelUpMoves = [];
+const eggMoves = [];
+const tmMoves = [];
+const hmMoves = [];
 
-// The order goes: Level Up, Egg, HM, TM..... could label based on index in the array
+// The order from 0-to-3 goes: Level Up, Egg, HM, TM..... could label the move objects based on index in the array
 
 // TODO: Now, create arrays of objects to store all moves from these tables
+
+function idMethodObtained (tableIndex) {
+	if (tableIndex === 0) return 'Level Up';
+	if (tableIndex === 1) return 'Egg';
+	if (tableIndex === 2) return 'HM';
+	if (tableIndex === 3) return 'TM';
+}
 
 function storeMoves () {
 	moveTableElements.forEach(table => {
 		
+		const tableIndex = moveTableElements.indexOf(table);
+		const moveEntries = Array.from(table.children);
+		
+		const move = table.querySelector('td[class="cell-name"]').innerText;
+		
+		console.log(tableIndex);
+		const method_obtained = idMethodObtained();
+		
+		
+		const level_obtained = (tableIndex === 0) ?
+			`,
+			level obtained: ${table.querySelector('td[class="cell-num"]').innerText}` :
+			''
+		;
+		
+		
+		
+		
+		
+		console.log(moveEntries);
+		
+		const newMoveSnippet = `{
+			move: ${move},
+			method_obtained: ${method_obtained}${level_obtained},
+		}`;
+		
+		console.log(newMoveSnippet);
+		
+		
+		
+		
+
+		
 		// Is it a level-up table? If so, need to grab the level the move is learned at too.
-				// Grab the FIRST ('td[class="cell-name"]').innerText AND ('td[class="cell-name"]').innerText
+		// Grab the FIRST ('td[class="cell-name"]').innerText AND ('td[class="cell-name"]').innerText
 		
 		// Else, just grab ('td[class="cell-name"]').innerText and slap a label (egg/hm/tm) on it
 		
-		const tableIndex = moveTableElements.indexOf(table);
-		
-		// console.log(table);
 		
 		
-		// i think i made a copy of the tables, as opposed to maintaining a reference to them
-		
-		
-		table.forEach(move => {
-			// console.log(move.innerText);
-		});
 	});
 };
-// storeMoves();
+storeMoves();
+
+
+
 
 
 
