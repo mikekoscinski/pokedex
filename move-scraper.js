@@ -56,7 +56,7 @@ function filterTableElements () {
 			if (!isMoveTableElement) return;
 			if (!isEmeraldVersion) return;
 			
-			const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody').querySelectorAll('a[class=ent-name]');
+			const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody');
 			
 			moveTableElements.push(h3SiblingDataTable);
 		});
