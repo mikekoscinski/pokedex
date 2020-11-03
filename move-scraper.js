@@ -41,10 +41,8 @@ generateURLs();
 // so, for all moves in eggMoves, methodObtained='Egg', etc.
 
 const h3Els = document.querySelectorAll('h3');
-const moveTableEls = [];
+const moveTableElements = [];
 const methodsObtained = ['level up', 'egg', 'hm', 'tm'];
-
-const emeraldMoveTableEls = [];
 
 // Filter for the correct table elements. Note, this is just so we can select the correct table elements to pull the actual move data from. We have not processed any **move** data yet -- we have only selected the appropriate tables to examine closer.
 
@@ -52,26 +50,52 @@ function filterTableElements () {
 	h3Els.forEach(h3Element => {
 		methodsObtained.some(moveCategory => {
 			const isMoveTableElement = Boolean(h3Element.innerText.toLowerCase().includes(moveCategory)).valueOf();
+			
 			const isEmeraldVersion = Boolean(h3Element.nextElementSibling.innerText.toLowerCase().includes('emerald')).valueOf();
+			
 			if (!isMoveTableElement) return;
 			if (!isEmeraldVersion) return;
+			
 			const h3SiblingDataTable = h3Element.nextElementSibling.nextElementSibling.firstElementChild.querySelector('tbody').querySelectorAll('a[class=ent-name]');
-			moveTableEls.push(h3SiblingDataTable);
+			
+			moveTableElements.push(h3SiblingDataTable);
 		});
 	});
 }
-
 filterTableElements();
 
-console.log(moveTableEls);
-
-// TODO: Now, store all moves from these tables into their appropriate arrays
+console.log(moveTableElements);
 
 
 
+// The order goes: Level Up, Egg, HM, TM..... could label based on index in the array
+
+// TODO: Now, create arrays of objects to store all moves from these tables
+
+function storeMoves () {
+	moveTableElements.forEach(table => {
+		
+		// Is it a level-up table? If so, need to grab the level the move is learned at too.
+				// Grab the FIRST ('td[class="cell-name"]').innerText AND ('td[class="cell-name"]').innerText
+		
+		// Else, just grab ('td[class="cell-name"]').innerText and slap a label (egg/hm/tm) on it
+		
+		const tableIndex = moveTableElements.indexOf(table);
+		
+		// console.log(table);
+		
+		
+		// i think i made a copy of the tables, as opposed to maintaining a reference to them
+		
+		
+		table.forEach(move => {
+			// console.log(move.innerText);
+		});
+	});
+};
+// storeMoves();
 
 
 
 
-
-// TODO: Eventually, will just have a single function, runScraper(), that calls our filterTableElements, our storeMoves, and our writeMoveHTML functions
+// TODO: Eventually, will just have a single function, runScraper(), that calls our filterTableElements, our storeMoves, and our writeMoveHTML functions. This function must pass 'name' as a parameter because it must be assigned to each object for easy copy/paste into SQL.
