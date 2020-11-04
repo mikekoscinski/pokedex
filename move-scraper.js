@@ -33,7 +33,7 @@ function retrieveMoves () {
 	// For each move table...
 	moveTableElements.forEach(table => {
 		const tableIndex = moveTableElements.indexOf(table);
-		const moveEntries = Array.from(table.children);
+		const moveEntries = [...table.children];
 		// ... grab each move from the table
 		moveEntries.forEach(entry => {
 			const move_id = entry.querySelector('td[class="cell-name"]').innerText;
