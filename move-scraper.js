@@ -74,6 +74,7 @@ function prepareScraper() {
 }
 
 function runScraper (name) {
+	// TODO: Will need to call these forEach pokemon in allPokemon
 	retrieveMoves();
 	filterTableElements();
 	retrieveMoves();
