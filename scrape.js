@@ -1,5 +1,5 @@
 const axios = require('axios');
-const $ = require('cheerio');
+const cheerio = require('cheerio');
 
 const pokemonURLPairsToScrape = [];
 const URLsForScraper = [];
@@ -73,7 +73,6 @@ function retrieveMoves () {
 function prepareScraper() {
 	generateURLsForScraper();
 	createPokemonURLPairs();
-	// console.log('Success: Created all name:url pairs')
 }
 
 function runScraper (name) {
@@ -92,17 +91,33 @@ prepareScraper();
 // TODO: Add the following to do it for each pairing:
 // pokemonURLPairsToScrape.forEach(pokemon => {
 
-axios.get('https://pokemondb.net/pokedex/mr-mime')
+axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 	.then(function (response) {
 		// handle success
-		console.log(response);
+		
+		// console.log(response.data);
+		const $ = cheerio.load(response.data);
+		// console.log($);
+		
+		const title = $('h1');
+		console.log(title.html())
+		
+		
 	})
 	.catch(function (error) {
 		// handle error
-		console.log(`ERROR: Mr. Mime`);
+		console.error(`ERROR: Nidoking`);
 	})
 	.then(function () {
 		// always executed
 	}
 );
-	
+
+
+
+
+
+
+// TODO: Save all move responses and turn them into a cli-table
+
+
