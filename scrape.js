@@ -1,3 +1,5 @@
+// TODO: Save all move responses and turn them into a cli-table
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -99,8 +101,8 @@ axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 		const $ = cheerio.load(response.data);
 		// console.log($);
 		
-		const title = $('h1');
-		console.log(title.html())
+		const moveTablesParent = $('div .tabs-panel').next().next().html();
+		console.log(moveTablesParent);
 		
 		
 	})
@@ -114,10 +116,18 @@ axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 );
 
 
+// Partial match:
+// 
+// <h3> CONTAINS: 'learns the following moves via breeding'
+
+// These are EXACT matches to search for:
+// 
+// <h3>Moves learnt by level up</h3>
+// <h3>Moves learnt by HM</h3>
+// <h3>Moves learnt by TM</h3>
 
 
 
 
-// TODO: Save all move responses and turn them into a cli-table
 
 
