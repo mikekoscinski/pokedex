@@ -44,6 +44,10 @@ function filterTableElements () {
 	});
 }
 
+
+
+
+
 function retrieveMoves () {
 	// For each move table...
 	moveTableElements.forEach(table => {
@@ -72,6 +76,13 @@ function retrieveMoves () {
 	});
 };
 
+
+
+
+
+
+
+
 function prepareScraper() {
 	generateURLsForScraper();
 	createPokemonURLPairs();
@@ -96,13 +107,49 @@ prepareScraper();
 axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 	.then(function (response) {
 		// handle success
-		
-		// console.log(response.data);
 		const $ = cheerio.load(response.data);
-		// console.log($);
+				
+		const baseElementForLevelUpAndEggMoves = $('div .tabs-panel').next().next().children().children();
 		
-		const moveTablesParent = $('div .tabs-panel').next().next().html();
-		console.log(moveTablesParent);
+		const levelUpDataTableBody = baseElementForLevelUpAndEggMoves.find('div .resp-scroll').children().find('tbody');
+		
+		// console.log(levelUpDataTableBody.html());
+		
+		const levelUpMoves = levelUpDataTableBody;
+		
+		console.log(levelUpMoves.html());
+		
+		const nidokingMoves = [];
+		
+		levelUpMoves.each(function (index, element) {
+			nidokingMoves[i] = {
+				pokemon_name: 'Nidoking',
+				move_id: $(this).children().find('td .cell-name').text(),
+				method_obtained: 'Level up',
+				level_obtained: $(this).children.find('td .cell-num').text(),
+			};
+			
+			console.log(nidokingMoves);
+		});
+		
+		
+		// Note that these are both in the FIRST <div class="grid-col span-lg-6">
+		// const levelUpMovesTable = $(moveTablesParent).next('div .resp-scroll').html();
+		
+		// console.log(levelUpMovesTable);
+		
+		
+		const eggMovesTable = '';
+		
+		
+		
+		
+		const baseElementForHMAndTMMoves = baseElementForLevelUpAndEggMoves.next();
+		
+		// Note that these are both in the SECOND <div class="grid-col span-lg-6">
+		const hmMovesTable = '';
+		const tmMovesTable = '';
+		
 		
 		
 	})
