@@ -108,28 +108,33 @@ axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 	.then(function (response) {
 		// handle success
 		const $ = cheerio.load(response.data);
-				
+		
 		const baseElementForLevelUpAndEggMoves = $('div .tabs-panel').next().next().children().children();
 		
-		const levelUpDataTableBody = baseElementForLevelUpAndEggMoves.find('div .resp-scroll').children().find('tbody');
 		
-		// console.log(levelUpDataTableBody.html());
 		
-		const levelUpMoves = levelUpDataTableBody;
+		const moveDataTableBodies = baseElementForLevelUpAndEggMoves.find('div .resp-scroll').children().find('tbody');
 		
-		console.log(levelUpMoves.html());
+		console.log(`There are ${moveDataTableBodies.length} data tables on the page.`);
+		
+		
+		
+		const levelUpMoves = moveDataTableBodies.children().html();
+		
+		console.log(levelUpMoves)
+		
+		
+		
 		
 		const nidokingMoves = [];
-		
-		levelUpMoves.each(function (index, element) {
-			nidokingMoves[i] = {
-				pokemon_name: 'Nidoking',
-				move_id: $(this).children().find('td .cell-name').text(),
-				method_obtained: 'Level up',
-				level_obtained: $(this).children.find('td .cell-num').text(),
-			};
-			
-			console.log(nidokingMoves);
+		levelUpMoves.children().each(function (index, element) {
+			// nidokingMoves[i] = {
+				// pokemon_name: 'Nidoking',
+				// move_id: $(this).children().find('td .cell-name').text(),
+				// method_obtained: 'Level up',
+				// level_obtained: $(this).children.find('td .cell-num').text(),
+			// };
+			// console.log(element);
 		});
 		
 		
@@ -155,7 +160,7 @@ axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 	})
 	.catch(function (error) {
 		// handle error
-		console.error(`ERROR: Nidoking`);
+		console.error(error);
 	})
 	.then(function () {
 		// always executed
