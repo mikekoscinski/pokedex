@@ -44,10 +44,6 @@ function filterTableElements () {
 	});
 }
 
-
-
-
-
 function retrieveMoves () {
 	// For each move table...
 	moveTableElements.forEach(table => {
@@ -76,24 +72,17 @@ function retrieveMoves () {
 	});
 };
 
-
-
-
-
-
-
-
 function prepareScraper() {
 	generateURLsForScraper();
 	createPokemonURLPairs();
 }
 
-function runScraper (name) {
-	// TODO: Will need to call these forEach pokemon in allPokemon
-	retrieveMoves();
-	filterTableElements();
-	retrieveMoves();
-}
+// function runScraper (name) {
+// 	// TODO: Will need to call these forEach pokemon in allPokemon
+// 	retrieveMoves();
+// 	filterTableElements();
+// 	retrieveMoves();
+// }
 
 // TODO: Call runScraper forEach pokemon in allPokemon
 prepareScraper();
@@ -104,68 +93,40 @@ prepareScraper();
 // TODO: Add the following to do it for each pairing:
 // pokemonURLPairsToScrape.forEach(pokemon => {
 
-axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
-	.then(function (response) {
-		// handle success
-		const $ = cheerio.load(response.data);
-		
-		const baseElementForLevelUpAndEggMoves = $('div .tabs-panel').next().next().children().children();
-		
-		
-		
-		const moveDataTableBodies = baseElementForLevelUpAndEggMoves.find('div .resp-scroll').children().find('tbody');
-		
-		console.log(`There are ${moveDataTableBodies.length} data tables on the page.`);
-		
-		
-		
-		const levelUpMoves = moveDataTableBodies.children().html();
-		
-		console.log(levelUpMoves)
-		
-		
-		
-		
-		const nidokingMoves = [];
-		levelUpMoves.children().each(function (index, element) {
-			// nidokingMoves[i] = {
-				// pokemon_name: 'Nidoking',
-				// move_id: $(this).children().find('td .cell-name').text(),
-				// method_obtained: 'Level up',
-				// level_obtained: $(this).children.find('td .cell-num').text(),
-			// };
-			// console.log(element);
-		});
-		
-		
-		// Note that these are both in the FIRST <div class="grid-col span-lg-6">
-		// const levelUpMovesTable = $(moveTablesParent).next('div .resp-scroll').html();
-		
-		// console.log(levelUpMovesTable);
-		
-		
-		const eggMovesTable = '';
-		
-		
-		
-		
-		const baseElementForHMAndTMMoves = baseElementForLevelUpAndEggMoves.next();
-		
-		// Note that these are both in the SECOND <div class="grid-col span-lg-6">
-		const hmMovesTable = '';
-		const tmMovesTable = '';
-		
-		
-		
-	})
-	.catch(function (error) {
-		// handle error
-		console.error(error);
-	})
-	.then(function () {
-		// always executed
-	}
-);
+function runScraper (pokemon) {
+	axios.get(pokemon.url)
+		.then(function (response) {
+			// handle success
+			const $ = cheerio.load(response.data);
+			
+			// const moveDataTableBodies = $('div .tabs-panel').next().next().children().children().first('div .resp-scroll'); // need to change 'first' to 'last' for HM/TM
+			
+			// NOTE: THIS IS IMPORTANT. CHECK LENGTH OF MASTER 
+			// console.log(`There are ${moveDataTableBodies.length} data tables on the page.\n`);
+			
+			const levelUpMoveTable = $('div .tabs-panel').next().next().children().children().children().next('div .resp-scroll').children('table').children('tbody'); // need to change 'first' to 'last' for HM/TM
+			
+			console.log(levelUpMoveTable.text());
+			
+			
+			
+		})
+		.catch(function (error) {
+			// handle error
+			console.error(error);
+		})
+		.then(function () {
+			// always executed
+		}
+	);
+}
+
+prepareScraper();
+// runScraper('Nidoking');
+
+pokemonURLPairsToScrape.forEach(pokemon => {
+	runScraper(pokemon);
+});
 
 
 // Partial match:
@@ -177,9 +138,5 @@ axios.get('https://pokemondb.net/pokedex/nidoking/moves/3')
 // <h3>Moves learnt by level up</h3>
 // <h3>Moves learnt by HM</h3>
 // <h3>Moves learnt by TM</h3>
-
-
-
-
 
 
