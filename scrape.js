@@ -99,7 +99,7 @@ function runScraper (pokemon) {
 			// Selects the contents of <div class="grid-row">, which contains each move table. Need to then traverse this parent element to select specific move tables
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
 
-			// Select each group of moves:
+			// Select each group of moves. Note that the long method chains are unfortunately necessary as each chain is sufficiently unique such that attempts to abstract them are unsuccessful
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
 			const moveTutorMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
@@ -108,6 +108,14 @@ function runScraper (pokemon) {
 			const tmMoves = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
 			// TODO: Write one function to process level-up (grabs level_learned, move_name) and another for everything else (grabs move_name)
+			// grab the first cell-num and store it as level
+			// grab the move name
+			// store each as a variable; store name = pokemon.name; store method based on _______ (need to figure this part out)
+			// for each pokemon and each move group, create an object & push to array
+			// each pokemon should have 6 groups in the master array. master array will eventually be rendered as table. table then copied to sheet and formatted for postgreSQL
+			
+			// E.g., tmMoves.forEach(move => grabMoves(move));
+			// remember: we start with the table body for each group. so we just need to run a few selectors for each table body, for each element in the body. we must manually assign the pokemon name (from the master parent object property, pokemon.name), and we must manually assign the method_obtained. (We could technically grab it by traversing the DOM again but it would be much more time consuming and harder to QA)
 			
 			
 		})
@@ -129,7 +137,9 @@ const nidokingTestObject = {
 }
 
 prepareScraper();
-runScraper(nidokingTestObject);
+// runScraper(nidokingTestObject);
+
+runScraper(pokemonURLPairsToScrape);
 
 // TODO: Use this to run scraper for all pokemon, once logic is correct
 // pokemonURLPairsToScrape.forEach(pokemon => {
