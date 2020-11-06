@@ -76,7 +76,23 @@ function runScraper (pokemon) {
 			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
 			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
-			console.log(tmMovesTable.text());
+			// console.log(levelUpMovesTable.html());
+			
+			const levelUpMoves = [];
+			
+			levelUpMovesTable.children().each(function (index, element) {
+				// console.log($(this).text());
+				
+				const newMoveToAdd = {
+					pokemon_name: pokemon.name,
+					move_id: $(this).children().first().next().text(),
+					method_obtained: 'Level up',
+					level_obtained: parseInt($(this).children().first().text()), // grab value from first <td class="cell-num">
+				}
+				console.log(newMoveToAdd);
+				
+			});
+			
 			
 			// TODO: Write one function to process level-up (grabs level_learned, move_name) and another for everything else (grabs move_name)
 			// grab the first cell-num and store it as level
