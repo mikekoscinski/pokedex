@@ -64,6 +64,7 @@ function runScraper (pokemon) {
 		.then(function (response) {
 			// handle success
 			const $ = cheerio.load(response.data);
+			const pokemonsMoves = [];
 			
 			// Selects the contents of <div class="grid-row">, which contains each move table. Need to then traverse this parent element to select specific move tables
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
@@ -76,35 +77,52 @@ function runScraper (pokemon) {
 			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
 			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
-			// console.log(levelUpMovesTable.html());
-			
-			const levelUpMoves = [];
-			
-			levelUpMovesTable.children().each(function (index, element) {
-				// console.log($(this).text());
-				
-				const newMoveToAdd = {
-					pokemon_name: pokemon.name,
-					move_id: $(this).children().first().next().text(),
-					method_obtained: 'Level up',
-					level_obtained: parseInt($(this).children().first().text()), // grab value from first <td class="cell-num">
-				}
-				console.log(newMoveToAdd);
-				
-			});
 			
 			
-			// TODO: Write one function to process level-up (grabs level_learned, move_name) and another for everything else (grabs move_name)
-			// grab the first cell-num and store it as level
-			// grab the move name
-			// store each as a variable; store name = pokemon.name; store method based on _______ (need to figure this part out)
-			// for each pokemon and each move group, create an object & push to array
-			// each pokemon should have 6 groups in the master array. master array will eventually be rendered as table. table then copied to sheet and formatted for postgreSQL
+			// Add the moves to the array:
 			
-			// E.g., tmMoves.forEach(move => grabMoves(move));
-			// remember: we start with the table body for each group. so we just need to run a few selectors for each table body, for each element in the body. we must manually assign the pokemon name (from the master parent object property, pokemon.name), and we must manually assign the method_obtained. (We could technically grab it by traversing the DOM again but it would be much more time consuming and harder to QA)
+			// Its easier to use a separate function for level up moves than it is to conditionally insert logic that grabs the level_obtained value
 			
+			const moveTables = [
+				{ move_source: levelUpMovesTable, method_obtained: 'Level up' },
+				{ move_source: eggMovesTable, method_obtained: 'Egg' },
+				{ move_source: moveTutorMovesTable, method_obtained: 'Move Tutor' },
+				{ move_source: preEvolutionMovesTable, method_obtained: 'Pre-evolution' },
+				{ move_source: hmMovesTable, method_obtained: 'HM' },
+				{ move_source: tmMovesTable, method_obtained: 'TM' },
+			];
 			
+			// levelUpMovesTable.children().each(function (index, element) {
+			// 	const newMoveToAdd = {
+			// 		pokemon_name: pokemon.name,
+			// 		move_id: $(this).children().first().next().text(),
+			// 		method_obtained: 'Level up',
+			// 		level_obtained: parseInt($(this).children().first().text()), // grab value from first <td class="cell-num">
+			// 	}
+			// 	pokemonsMoves.push(newMoveToAdd);
+			// });
+			
+			function grabMovesFromTable (table) {				
+				$(table.move_source).children().each(function (index, element) {
+					let move_id = $(this).children().first().text();
+					let level_obtained = '—'
+					if (table.method_obtained === 'Level up') {
+						move_id = $(this).children().first().next().text();
+						level_obtained = parseInt($(this).children().first().text());
+					}
+					if (table.method_obtained === 'HM' || table.method_obtained === 'TM') {
+						move_id = $(this).children().first().next().text();
+					}
+					const newMoveToAdd = {
+						pokemon_name: pokemon.name,
+						move_id: move_id, // $(this).children().first().text()
+						method_obtained: table.method_obtained,
+						level_obtained: level_obtained,
+					};
+					console.log(newMoveToAdd);
+				});
+			}
+			moveTables.forEach(table => grabMovesFromTable(table));
 		})
 		.catch(function (error) {
 			// handle error
