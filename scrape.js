@@ -98,25 +98,17 @@ function runScraper (pokemon) {
 			
 			// Selects the contents of <div class="grid-row">, which contains each move table. Need to then traverse this parent element to select specific move tables
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
-			// console.log(pokemonEmeraldMovesTab.html());
-			
-			// try using .get() with an index to select each table
-			
-			// the .first() will become a .last() for HM/TM
+
+			// Select each group of moves:
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
-			console.log(levelUpMovesTable.text());
-			
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
-			console.log(eggMovesTable.text());
-			
 			const moveTutorMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
-			console.log(moveTutorMoves.text());
-			
 			const preEvolutionMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
-			console.log(preEvolutionMoves.text());
+			const hmMoves = emeraldMovesTab.next().children().first().next().next().children().children().last();
+			const tmMoves = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
-			const hmMoves = emeraldMovesTab.children().last().next().next().children().children().last();
-			console.log(hmMoves.text());
+			// TODO: Write one function to process level-up (grabs level_learned, move_name) and another for everything else (grabs move_name)
+			
 			
 		})
 		.catch(function (error) {
