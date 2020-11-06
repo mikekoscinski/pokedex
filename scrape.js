@@ -31,34 +31,6 @@ function prepareScraper() {
 	createPokemonURLPairs();
 }
 
-function retrieveMoves () {
-	// For each move table...
-	moveTableElements.forEach(table => {
-		const tableIndex = moveTableElements.indexOf(table);
-		const moveEntries = [...table.children];
-		// ... grab each move from the table
-		moveEntries.forEach(entry => {
-			const move_id = entry.querySelector('td[class="cell-name"]').innerText;
-			const method_obtained = idMethodObtained();
-			const level_obtained = (tableIndex === 0) ?
-				`, level_obtained: ${entry.querySelector('td[class="cell-num"]').innerText}` :
-				''
-				// Only need 'level_obtained' property for moves obtained via level-up
-			;
-			function idMethodObtained () {
-				if (tableIndex === 0) return 'Level Up';
-				if (tableIndex === 1) return 'Egg';
-				if (tableIndex === 2) return 'HM';
-				if (tableIndex === 3) return 'TM';
-			}
-			// TODO: Eventually need to interpolate 'pokemon_name' from the 'name' parameter from master runScraper(pokemonName) function. Currently, hardcoded to fit Nidoking test example.
-			const newMoveToAdd = `{ pokemon_name: 'Nidoking', move_id: ${move_id}, method_obtained: ${method_obtained}${level_obtained}}`;
-			// Store each move entry from each move table
-			allMovesForAnIndividualPokemon.push(newMoveToAdd);
-		});
-	});
-};
-
 function runScraper (pokemon) {
 	axios.get(pokemon.url)
 		.then(function (response) {
