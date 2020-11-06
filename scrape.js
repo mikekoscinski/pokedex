@@ -85,10 +85,7 @@ function prepareScraper() {
 // }
 
 // TODO: Call runScraper forEach pokemon in allPokemon
-prepareScraper();
 // runScraper('Nidoking');
-
-
 
 // TODO: Add the following to do it for each pairing:
 // pokemonURLPairsToScrape.forEach(pokemon => {
@@ -99,16 +96,27 @@ function runScraper (pokemon) {
 			// handle success
 			const $ = cheerio.load(response.data);
 			
-			// const moveDataTableBodies = $('div .tabs-panel').next().next().children().children().first('div .resp-scroll'); // need to change 'first' to 'last' for HM/TM
+			// Selects the contents of <div class="grid-row">, which contains each move table. Need to then traverse this parent element to select specific move tables
+			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
+			// console.log(pokemonEmeraldMovesTab.html());
 			
-			// NOTE: THIS IS IMPORTANT. CHECK LENGTH OF MASTER 
-			// console.log(`There are ${moveDataTableBodies.length} data tables on the page.\n`);
+			// try using .get() with an index to select each table
 			
-			const levelUpMoveTable = $('div .tabs-panel').next().next().children().children().children().next('div .resp-scroll').children('table').children('tbody'); // need to change 'first' to 'last' for HM/TM
+			// the .first() will become a .last() for HM/TM
+			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
+			console.log(levelUpMovesTable.text());
 			
-			console.log(levelUpMoveTable.text());
+			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
+			console.log(eggMovesTable.text());
 			
+			const moveTutorMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
+			console.log(moveTutorMoves.text());
 			
+			const preEvolutionMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
+			console.log(preEvolutionMoves.text());
+			
+			const hmMoves = emeraldMovesTab.children().last().next().next().children().children().last();
+			console.log(hmMoves.text());
 			
 		})
 		.catch(function (error) {
@@ -121,22 +129,17 @@ function runScraper (pokemon) {
 	);
 }
 
+
+
+const nidokingTestObject = {
+	name: 'Nidoking',
+	url: 'https://pokemondb.net/pokedex/nidoking/moves/3',
+}
+
 prepareScraper();
-// runScraper('Nidoking');
+runScraper(nidokingTestObject);
 
-pokemonURLPairsToScrape.forEach(pokemon => {
-	runScraper(pokemon);
-});
-
-
-// Partial match:
-// 
-// <h3> CONTAINS: 'learns the following moves via breeding'
-
-// These are EXACT matches to search for:
-// 
-// <h3>Moves learnt by level up</h3>
-// <h3>Moves learnt by HM</h3>
-// <h3>Moves learnt by TM</h3>
-
-
+// TODO: Use this to run scraper for all pokemon, once logic is correct
+// pokemonURLPairsToScrape.forEach(pokemon => {
+// 	runScraper(pokemon);
+// });
