@@ -8,6 +8,7 @@ const allPokemonNames = [
 ];
 const URLsForScraper = [];
 const pokemonURLPairsToScrape = [];
+const allPokemonMovePairs = [];
 
 function generateURLsForScraper () {
 	allPokemonNames.forEach(pokemon => {
@@ -49,12 +50,7 @@ function runScraper (pokemon) {
 			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
 			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
-			
-			
-			// Add the moves to the array:
-			
-			// Its easier to use a separate function for level up moves than it is to conditionally insert logic that grabs the level_obtained value
-			
+			// Consolidate move tables to iterate the grabMoves() function over using forEach
 			const moveTables = [
 				{ move_source: levelUpMovesTable, method_obtained: 'Level up' },
 				{ move_source: eggMovesTable, method_obtained: 'Egg' },
@@ -63,16 +59,6 @@ function runScraper (pokemon) {
 				{ move_source: hmMovesTable, method_obtained: 'HM' },
 				{ move_source: tmMovesTable, method_obtained: 'TM' },
 			];
-			
-			// levelUpMovesTable.children().each(function (index, element) {
-			// 	const newMoveToAdd = {
-			// 		pokemon_name: pokemon.name,
-			// 		move_id: $(this).children().first().next().text(),
-			// 		method_obtained: 'Level up',
-			// 		level_obtained: parseInt($(this).children().first().text()), // grab value from first <td class="cell-num">
-			// 	}
-			// 	pokemonsMoves.push(newMoveToAdd);
-			// });
 			
 			function grabMovesFromTable (table) {				
 				$(table.move_source).children().each(function (index, element) {
@@ -87,7 +73,7 @@ function runScraper (pokemon) {
 					}
 					const newMoveToAdd = {
 						pokemon_name: pokemon.name,
-						move_id: move_id, // $(this).children().first().text()
+						move_id: move_id,
 						method_obtained: table.method_obtained,
 						level_obtained: level_obtained,
 					};
