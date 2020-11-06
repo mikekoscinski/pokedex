@@ -3,25 +3,25 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const allPokemonNames = [
+const pokemonNames = [
 	"Bulbasaur", "Ivysaur", "Venusaur", "Charmander", "Charmeleon", "Charizard", "Squirtle", "Wartortle", "Blastoise", "Caterpie", "Metapod", "Butterfree", "Weedle", "Kakuna", "Beedrill", "Pidgey", "Pidgeotto", "Pidgeot", "Rattata", "Raticate", "Spearow", "Fearow", "Ekans", "Arbok", "Pikachu", "Raichu", "Sandshrew", "Sandslash", "Nidoran-f", "Nidorina", "Nidoqueen", "Nidoran-m", "Nidorino", "Nidoking", "Clefairy", "Clefable", "Vulpix", "Ninetales", "Jigglypuff", "Wigglytuff", "Zubat", "Golbat", "Oddish", "Gloom", "Vileplume", "Paras", "Parasect", "Venonat", "Venomoth", "Diglett", "Dugtrio", "Meowth", "Persian", "Psyduck", "Golduck", "Mankey", "Primeape", "Growlithe", "Arcanine", "Poliwag", "Poliwhirl", "Poliwrath", "Abra", "Kadabra", "Alakazam", "Machop", "Machoke", "Machamp", "Bellsprout", "Weepinbell", "Victreebel", "Tentacool", "Tentacruel", "Geodude", "Graveler", "Golem", "Ponyta", "Rapidash", "Slowpoke", "Slowbro", "Magnemite", "Magneton", "Farfetchd", "Doduo", "Dodrio", "Seel", "Dewgong", "Grimer", "Muk", "Shellder", "Cloyster", "Gastly", "Haunter", "Gengar", "Onix", "Drowzee", "Hypno", "Krabby", "Kingler", "Voltorb", "Electrode", "Exeggcute", "Exeggutor", "Cubone", "Marowak", "Hitmonlee", "Hitmonchan", "Lickitung", "Koffing", "Weezing", "Rhyhorn", "Rhydon", "Chansey", "Tangela", "Kangaskhan", "Horsea", "Seadra", "Goldeen", "Seaking", "Staryu", "Starmie", "Mr-Mime", "Scyther", "Jynx", "Electabuzz", "Magmar", "Pinsir", "Tauros", "Magikarp", "Gyarados", "Lapras", "Ditto", "Eevee", "Vaporeon", "Jolteon", "Flareon", "Porygon", "Omanyte", "Omastar", "Kabuto", "Kabutops", "Aerodactyl", "Snorlax", "Articuno", "Zapdos", "Moltres", "Dratini", "Dragonair", "Dragonite", "Mewtwo", "Mew", "Chikorita", "Bayleef", "Meganium", "Cyndaquil", "Quilava", "Typhlosion", "Totodile", "Croconaw", "Feraligatr", "Sentret", "Furret", "Hoothoot", "Noctowl", "Ledyba", "Ledian", "Spinarak", "Ariados", "Crobat", "Chinchou", "Lanturn", "Pichu", "Cleffa", "Igglybuff", "Togepi", "Togetic", "Natu", "Xatu", "Mareep", "Flaaffy", "Ampharos", "Bellossom", "Marill", "Azumarill", "Sudowoodo", "Politoed", "Hoppip", "Skiploom", "Jumpluff", "Aipom", "Sunkern", "Sunflora", "Yanma", "Wooper", "Quagsire", "Espeon", "Umbreon", "Murkrow", "Slowking", "Misdreavus", "Unown", "Wobbuffet", "Girafarig", "Pineco", "Forretress", "Dunsparce", "Gligar", "Steelix", "Snubbull", "Granbull", "Qwilfish", "Scizor", "Shuckle", "Heracross", "Sneasel", "Teddiursa", "Ursaring", "Slugma", "Magcargo", "Swinub", "Piloswine", "Corsola", "Remoraid", "Octillery", "Delibird", "Mantine", "Skarmory", "Houndour", "Houndoom", "Kingdra", "Phanpy", "Donphan", "Porygon2", "Stantler", "Smeargle", "Tyrogue", "Hitmontop", "Smoochum", "Elekid", "Magby", "Miltank", "Blissey", "Raikou", "Entei", "Suicune", "Larvitar", "Pupitar", "Tyranitar", "Lugia", "Ho-oh", "Celebi", "Treecko", "Grovyle", "Sceptile", "Torchic", "Combusken", "Blaziken", "Mudkip", "Marshtomp", "Swampert", "Poochyena", "Mightyena", "Zigzagoon", "Linoone", "Wurmple", "Silcoon", "Beautifly", "Cascoon", "Dustox", "Lotad", "Lombre", "Ludicolo", "Seedot", "Nuzleaf", "Shiftry", "Taillow", "Swellow", "Wingull", "Pelipper", "Ralts", "Kirlia", "Gardevoir", "Surskit", "Masquerain", "Shroomish", "Breloom", "Slakoth", "Vigoroth", "Slaking", "Nincada", "Ninjask", "Shedinja", "Whismur", "Loudred", "Exploud", "Makuhita", "Hariyama", "Azurill", "Nosepass", "Skitty", "Delcatty", "Sableye", "Mawile", "Aron", "Lairon", "Aggron", "Meditite", "Medicham", "Electrike", "Manectric", "Plusle", "Minun", "Volbeat", "Illumise", "Roselia", "Gulpin", "Swalot", "Carvanha", "Sharpedo", "Wailmer", "Wailord", "Numel", "Camerupt", "Torkoal", "Spoink", "Grumpig", "Spinda", "Trapinch", "Vibrava", "Flygon", "Cacnea", "Cacturne", "Swablu", "Altaria", "Zangoose", "Seviper", "Lunatone", "Solrock", "Barboach", "Whiscash", "Corphish", "Crawdaunt", "Baltoy", "Claydol", "Lileep", "Cradily", "Anorith", "Armaldo", "Feebas", "Milotic", "Castform", "Kecleon", "Shuppet", "Banette", "Duskull", "Dusclops", "Tropius", "Chimecho", "Absol", "Wynaut", "Snorunt", "Glalie", "Spheal", "Sealeo", "Walrein", "Clamperl", "Huntail", "Gorebyss", "Relicanth", "Luvdisc", "Bagon", "Shelgon", "Salamence", "Beldum", "Metang", "Metagross", "Regirock", "Regice", "Registeel", "Latias", "Latios", "Kyogre", "Groudon", "Rayquaza", "Jirachi", "Deoxys",
 ];
-const URLsForScraper = [];
+const urlsToScrape = [];
 const pokemonURLPairsToScrape = [];
-const allPokemonMovePairs = [];
+const pokemonMovePairs = [];
 
 function generateURLsForScraper () {
-	allPokemonNames.forEach(pokemon => {
+	pokemonNames.forEach(pokemon => {
 		const newURL = `https://pokemondb.net/pokedex/${pokemon}/moves/3`;
-		URLsForScraper.push(newURL);
+		urlsToScrape.push(newURL);
 	});
 };
 
 function createPokemonURLPairs () {
-	allPokemonNames.forEach(pokemon => {
+	pokemonNames.forEach(pokemon => {
 		const newPokemonToScrape = { 
 			name: pokemon,
-			url: URLsForScraper.find(url => url.includes(pokemon)),
+			url: urlsToScrape.find(url => url.includes(pokemon)),
 		}
 		pokemonURLPairsToScrape.push(newPokemonToScrape);
 	});	
@@ -32,17 +32,16 @@ function prepareScraper() {
 	createPokemonURLPairs();
 }
 
-function runScraper (pokemon) {
+function scrape (pokemon) {
 	axios.get(pokemon.url)
 		.then(function (response) {
 			// handle success
 			const $ = cheerio.load(response.data);
 			const pokemonsMoves = [];
-			
-			// Selects the contents of <div class="grid-row">, which contains each move table. Need to then traverse this parent element to select specific move tables
+			// Select move panel from emerald version
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
 
-			// Select each group of moves. Note that the long method chains are unfortunately necessary as each chain is sufficiently unique such that attempts to abstract them are unsuccessful
+			// Select each move table
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
 			const moveTutorMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
@@ -77,7 +76,7 @@ function runScraper (pokemon) {
 						method_obtained: table.method_obtained,
 						level_obtained: level_obtained,
 					};
-					console.log(newMoveToAdd);
+					pokemonMovePairs.push(newMoveToAdd);
 				});
 			}
 			moveTables.forEach(table => grabMovesFromTable(table));
@@ -87,9 +86,19 @@ function runScraper (pokemon) {
 			console.error(error);
 		})
 		.then(function () {
-			// always executed
+			// 
 		}
 	);
+}
+
+function scrapeAllPokemonPages () {
+	pokemonURLPairsToScrape.forEach(pokemon => scrape(pokemon));
+}
+
+// TODO: Need to add async/await to console.log pokemonMovePairs only after the scraper has grabbed all moves
+async function runScraper () {
+	const response = await scrapeAllPokemonPages();
+	console.log(pokemonMovePairs.length);
 }
 
 const nidokingTestObject = {
@@ -98,5 +107,5 @@ const nidokingTestObject = {
 }
 
 prepareScraper();
-// pokemonURLPairsToScrape.forEach(pokemon => runScraper(pokemon));
-runScraper(nidokingTestObject);
+// runScraper(nidokingTestObject);
+runScraper();
