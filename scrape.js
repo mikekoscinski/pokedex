@@ -26,6 +26,11 @@ function createPokemonURLPairs () {
 	});	
 }
 
+function prepareScraper() {
+	generateURLsForScraper();
+	createPokemonURLPairs();
+}
+
 function retrieveMoves () {
 	// For each move table...
 	moveTableElements.forEach(table => {
@@ -54,11 +59,6 @@ function retrieveMoves () {
 	});
 };
 
-function prepareScraper() {
-	generateURLsForScraper();
-	createPokemonURLPairs();
-}
-
 function runScraper (pokemon) {
 	axios.get(pokemon.url)
 		.then(function (response) {
@@ -71,12 +71,12 @@ function runScraper (pokemon) {
 			// Select each group of moves. Note that the long method chains are unfortunately necessary as each chain is sufficiently unique such that attempts to abstract them are unsuccessful
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
-			const moveTutorMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
-			const preEvolutionMoves = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
-			const hmMoves = emeraldMovesTab.next().children().first().next().next().children().children().last();
-			const tmMoves = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
+			const moveTutorMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
+			const preEvolutionMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
+			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
+			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
-			console.log(tmMoves.text());
+			console.log(tmMovesTable.text());
 			
 			// TODO: Write one function to process level-up (grabs level_learned, move_name) and another for everything else (grabs move_name)
 			// grab the first cell-num and store it as level
