@@ -1,5 +1,3 @@
-// TODO: Save all move responses and turn them into a cli-table
-
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -8,7 +6,8 @@ const pokemonNames = [
 ];
 const urlsToScrape = [];
 const pokemonURLPairsToScrape = [];
-const pokemonMovePairs = [];
+// Master array containing all pokemon/move permutations. TODO: print as cli-table
+const parentPokemonMoveTable = [];
 
 function generateURLsForScraper () {
 	pokemonNames.forEach(pokemon => {
@@ -32,16 +31,15 @@ function prepareScraper() {
 	createPokemonURLPairs();
 }
 
-function scrape (pokemon) {
+function getPokemonMoves (pokemon) {
 	axios.get(pokemon.url)
 		.then(function (response) {
-			// handle success
+			// This entire local scope handles success of HTTP GET request to *individual* URL
 			const $ = cheerio.load(response.data);
 			const pokemonsMoves = [];
-			// Select move panel from emerald version
+			// Select move panel for emerald version
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
-
-			// Select each move table
+			// Select the move table children from the move panel
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
 			const moveTutorMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
@@ -50,7 +48,7 @@ function scrape (pokemon) {
 			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
 			
 			// Consolidate move tables to iterate the grabMoves() function over using forEach
-			const moveTables = [
+			const childPokemonMoveTables = [
 				{ move_source: levelUpMovesTable, method_obtained: 'Level up' },
 				{ move_source: eggMovesTable, method_obtained: 'Egg' },
 				{ move_source: moveTutorMovesTable, method_obtained: 'Move Tutor' },
@@ -59,7 +57,7 @@ function scrape (pokemon) {
 				{ move_source: tmMovesTable, method_obtained: 'TM' },
 			];
 			
-			function grabMovesFromTable (table) {				
+			function grabMovesFromChildTable (table) {				
 				$(table.move_source).children().each(function (index, element) {
 					let move_id = $(this).children().first().text();
 					let level_obtained = '—'
@@ -70,16 +68,17 @@ function scrape (pokemon) {
 					if (table.method_obtained === 'HM' || table.method_obtained === 'TM') {
 						move_id = $(this).children().first().next().text();
 					}
-					const newMoveToAdd = {
+					const newChildPokemonMovePermutationToAdd = {
 						pokemon_name: pokemon.name,
 						move_id: move_id,
 						method_obtained: table.method_obtained,
 						level_obtained: level_obtained,
 					};
-					pokemonMovePairs.push(newMoveToAdd);
+					parentPokemonMoveTable.push(newChildPokemonMovePermutationToAdd);
 				});
 			}
-			moveTables.forEach(table => grabMovesFromTable(table));
+			// For each table, grab its moves and push to master pokemon/move table
+			childPokemonMoveTables.forEach(table => grabMovesFromChildTable(table));
 		})
 		.catch(function (error) {
 			// handle error
@@ -91,21 +90,18 @@ function scrape (pokemon) {
 	);
 }
 
-function scrapeAllPokemonPages () {
-	pokemonURLPairsToScrape.forEach(pokemon => scrape(pokemon));
-}
-
 // TODO: Need to add async/await to console.log pokemonMovePairs only after the scraper has grabbed all moves
-async function runScraper () {
-	const response = await scrapeAllPokemonPages();
-	console.log(pokemonMovePairs.length);
+function runScraper () {
+	pokemonURLPairsToScrape.forEach(pokemon => getPokemonMoves(pokemon));
+	
 }
 
-const nidokingTestObject = {
-	name: 'Nidoking',
-	url: 'https://pokemondb.net/pokedex/nidoking/moves/3',
-}
+// const nidokingTestObject = {
+// 	name: 'Nidoking',
+// 	url: 'https://pokemondb.net/pokedex/nidoking/moves/3',
+// }
 
 prepareScraper();
 // runScraper(nidokingTestObject);
 runScraper();
+console.log(parentPokemonMoveTable.length);
