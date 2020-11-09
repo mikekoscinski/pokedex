@@ -11,7 +11,7 @@ const pokemonNames = [
 ];
 const urlsToScrape = [];
 const pokemonURLPairsToScrape = [];
-// Master array containing all pokemon/move permutations. TODO: print as cli-table
+// Master array containing all pokemon/move permutation objects
 const parentPokemonMoveTable = [];
 
 function generateURLsForScraper () {
