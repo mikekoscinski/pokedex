@@ -82,4 +82,6 @@ My selectors in Cheerio assume the presence of an egg data table, even if it is 
 
 Thus, in cases where a pokemon does not have an egg table, I am overshooting the Move Tutor data table element and am selecting nothing.
 
-- Recall that the HM and TM moves are stored in a separate <div> -- one div makes up the left side of the page, the other (HM/TM) the right side.
+- Recall that the HM and TM moves are stored in a separate div - one div makes up the left side of the page, the other (HM/TM) the right side.
+
+TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
