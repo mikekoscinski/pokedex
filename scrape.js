@@ -1,3 +1,5 @@
+// TODO: Handle if TM moves but no HM moves
+
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fileSystem = require('fs');
@@ -50,7 +52,38 @@ function getPokemonMoves (pokemon) {
 			
 			// Select the move table children from the move panel
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
+			
+			// TODO: The egg moves table is the only table that __could__ be missing. So, a quick hack to check if there is an egg moves table = count the number of <div class="resp-scroll"> in the section. If that is != 3
+			
+			
+			// TODO: EDGE CASES to handle:
+			
+			// FIRST MOVES DIV:
+			// Move Tutor but no Egg (e.g., Moltres)
+			
+			
+			// SECOND MOVES DIV:
+			// TM but no HM (e.g., Golbat)
+			
+			// The data tables are organized: 
+			// 1.) Level up, Egg, Move Tutor, Pre-evolution
+			// 2.) HM, TM
+			
+			const numberOfDataTablesOnPage = emeraldMovesTab.find($('table[class="data-table"]')).length;
+			
+			const numberOfDataTablesInFirstGridColSpanLg6 = emeraldMovesTab.children().first().find($('table[class="data-table"]')).length;
+			
+			
+			// console.log(`${pokemon.name}: ${numberOfDataTablesOnPage}`);
+			
+			console.log(`${pokemon.name}: ${numberOfDataTablesInFirstGridColSpanLg6}`);
+			
+			
+			
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
+			
+			
+			
 			const moveTutorMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
 			const preEvolutionMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
 			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
@@ -84,6 +117,12 @@ function getPokemonMoves (pokemon) {
 						level_obtained: level_obtained,
 					};
 					
+					// NOTE: Change which section is commented based on testing/production
+					
+					// Push to array
+					
+					
+					
 					// Write to CSV
 					writeStream.write(`${newChildPokemonMove.pokemon_name}, ${newChildPokemonMove.move_id}, ${newChildPokemonMove.method_obtained}, ${newChildPokemonMove.level_obtained} \n`);
 				});
@@ -97,9 +136,32 @@ function getPokemonMoves (pokemon) {
 	);
 }
 
-function runScraper () {
-	pokemonURLPairsToScrape.forEach(pokemon => getPokemonMoves(pokemon));
+// NOTE: THIS IS THE MASTER ONE:
+// function runScraper () {
+// 	pokemonURLPairsToScrape.forEach(pokemon => getPokemonMoves(pokemon));
+// };
+
+// NOTE: THIS IS THE TEST ONE:
+function runScraper (pokemonList) {
+	pokemonList.forEach(pokemon => getPokemonMoves(pokemon));
+	// getPokemonMoves(pokemon);
 };
 
+// NOTE: Keep these objects for testing
+const nidokingTestArrayOfObject = [{
+	name: 'Nidoking',
+	url: 'https://pokemondb.net/pokedex/nidoking/moves/3',
+}];
+const moltresTestArrayOfObject = [{
+	name: 'Moltres',
+	url: 'https://pokemondb.net/pokedex/moltres/moves/3',
+}];
+
 prepareScraper();
-runScraper();
+// NOTE: THIS IS THE PRODUCTION FUNCTION
+// TODO: Pass this as parameter: pokemonURLPairsToScrape
+// runScraper(pokemonURLPairsToScrape);
+
+// NOTE: Keep for testing
+runScraper(nidokingTestArrayOfObject);
+runScraper(moltresTestArrayOfObject);
