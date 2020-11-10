@@ -84,4 +84,6 @@ Thus, in cases where a pokemon does not have an egg table, I am overshooting the
 
 - Recall that the HM and TM moves are stored in a separate div - one div makes up the left side of the page, the other (HM/TM) the right side.
 
+Upon closer inspection, all of Deoxys' moves are listed under a tab for its Speed Forme. They could not have been selected by my scraper, as the DOM on Deoxys' page is unique from that of all other 387 pokemon. (Interestingly, this is not the case for Castform, the only other pokemon that can take multiple forms.)
+
 TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
