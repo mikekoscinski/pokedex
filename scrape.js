@@ -44,6 +44,10 @@ function getPokemonMoves (pokemon) {
 			const pokemonsMoves = [];
 			// Select move panel for emerald version
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
+			
+			
+			// TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
+			
 			// Select the move table children from the move panel
 			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
