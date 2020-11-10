@@ -35,3 +35,51 @@ If the GET request fails, console.log the error
 - **Axios**: Promise based HTTP client for the browser and node.js. More info here: https://github.com/axios/axios.
 
 - **Cheerio**: Fast, flexible, and lean implementation of core jQuery designed specifically for the server. More info here: https://github.com/cheeriojs/cheerio.
+
+## Data QA
+
+To check my work, I manually searched this dataset for outliers, to find pokemon that seemed to learn an abnormally small or large number of moves.
+
+Prior to any QA intervention, the mean number of moves learned was 50.7. The median was 51.5. This indicated a slight negative skewness.
+
+The standard deviation of the dataset (prior to any QA intervention) was 15.2. To manually check any outliers, I searched the dataset for pokemon with move totals outside 2 and 3 standard distributions.
+
+There were:
+
+- 2 pokemon that learned more than 81.2 moves (+2 StDevs)
+
+- 0 pokemon that learned 96.4 moves (+3 StDevs)
+
+- 15 pokemon that learned fewer than 20.3 moves (-2 StDevs)
+
+- 13 pokemon that learned fewer than 5.0 moves (-3 StDevs)
+
+Given the relatively small size of the dataset (386 pokemon), I decided to check each of these outliers manually, by visiting their Pokemon Emerald learnset page at https://pokemondb.net/pokedex/${name}/moves/3.
+
+After completing my QA, I identified five (5) pokemon whose learnsets were not scraped in full:
+
+- Metapod: Scraper retrieved 2 of its 4 moves. Its pre-evolution moves were not retrieved. (Note: There is no egg moves data table on this page)
+
+- Kakuna: Scraper retrieved 2 of its 4 moves. Its pre-evolution moves were not retrieved. (Note: There is no egg moves data table on this page)
+
+- Silcoon: Scraper retrieved 2 of its 5 moves. Its pre-evolution moves were not retrieved. (Note: There is no egg moves data table on this page)
+
+- Cascoon: Scraper retrieved 2 of its 5 moves. Its pre-evolution moves were not retrieved. (Note: There is no egg moves data table on this page)
+
+- Deoxys: Scraper retrieved 3 of its 71 moves. However, these 3 moves did not contain any data: the level up, HM, and TM categories returned one blank move, each; the egg, pr-evolution, and move tutor categories were not retrieved at all. (Note: There is no egg moves data table on this page)
+
+**Conclusion**:
+
+I am not currently capturing the Move Tutor moves for pokemon that do not learn any Egg moves.
+
+Why? Each data table is grabbed via Cheerio's DOM traversal, not class-specific selectors (since all data tables, regardless of content, are of the same mono-class)
+
+- Each pokemon has a level up moves table, even if it only contains one item
+
+- Many pokemon (genderless; e.g., legendaries) cannot breed in this game. Thus, these pokemon will not learn any egg moves.
+
+My selectors in Cheerio assume the presence of an egg data table, even if it is empty. This is not the case.
+
+Thus, in cases where a pokemon does not have an egg table, I am overshooting the Move Tutor data table element and am selecting nothing.
+
+- Recall that the HM and TM moves are stored in a separate <div> -- one div makes up the left side of the page, the other (HM/TM) the right side.
