@@ -46,15 +46,15 @@ function getPokemonMoves (pokemon) {
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children();
 			
 			// TODO: Edge cases to handle:
-			// 1st div - No Egg / No Move Tutor / yes pre-evolution
-			// 1st div - no egg / yes move tutor / no pre-evolution
-			// 1st div - no egg / yes move tutor / yes pre-evolution
-			// 2nd div - no HM / yes TM
 			
-			// TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
+			// 1st div - No Egg / No Move Tutor / yes pre-evolution (e.g., Cascoon)
 			
+			// 1st div - no egg / yes move tutor / no pre-evolution (e.g., Moltres)
 			
-			// TODO: The egg moves table is the only table that __could__ be missing. So, a quick hack to check if there is an egg moves table = count the number of <div class="resp-scroll"> in the section. If that is != 3
+			// 1st div - no egg / yes move tutor / yes pre-evolution (e.g., Beedrill)
+			
+			// 2nd div - no HM / yes TM (e.g., Golbat)
+			
 			
 			// The data tables are organized: 
 			// 1.) Level up, Egg, Move Tutor, Pre-evolution
@@ -68,19 +68,30 @@ function getPokemonMoves (pokemon) {
 			
 			
 			// Select the move table children from the move panel
-			
-			// const levelUpMovesTable = emeraldMovesTab.children().children().first().next().next().children().children().last();
-			
+						
 			const levelUpMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Moves learnt by level up';
 			}).next().next().children().children().last();
 			
+			const eggMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Egg moves';
+			}).next().next().children().children().last();
+			
+			const moveTutorMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Move Tutor moves';
+			}).next().next().children().children().last();
+			
+			const preEvolutionMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Pre-evolution moves';
+			}).next().next().children().children().last();
+			
+
 			
 			
+			// const moveTutorMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().children().children().last();
+			// const preEvolutionMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
 			
-			const eggMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().children().children().last();
-			const moveTutorMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().children().children().last();
-			const preEvolutionMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
+			
 			const hmMovesTable = emeraldMovesTab.children().next().children().first().next().next().children().children().last();
 			const tmMovesTable = emeraldMovesTab.children().next().children().first().next().next().next().next().next().children().children().last();
 			
@@ -151,6 +162,11 @@ const moltresTestArrayOfObject = [{
 	name: 'Moltres',
 	url: 'https://pokemondb.net/pokedex/moltres/moves/3',
 }];
+const cascoonTestArrayOfObject = [{
+	name: 'Cascoon',
+	url: 'https://pokemondb.net/pokedex/cascoon/moves/3',
+}];
+
 
 prepareScraper();
 // NOTE: THIS IS THE PRODUCTION FUNCTION
@@ -159,4 +175,5 @@ prepareScraper();
 
 // NOTE: Keep for testing
 runScraper(nidokingTestArrayOfObject);
-// runScraper(moltresTestArrayOfObject);
+runScraper(moltresTestArrayOfObject);
+runScraper(cascoonTestArrayOfObject);
