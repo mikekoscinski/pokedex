@@ -66,11 +66,18 @@ function getPokemonMoves (pokemon) {
 			
 			console.log(`${pokemon.name}: ${numberOfDataTablesOnPage}`);
 			
-			console.log(emeraldMovesTab.html());
-			
 			
 			// Select the move table children from the move panel
-			const levelUpMovesTable = emeraldMovesTab.children().children().first().next().next().children().children().last();
+			
+			// const levelUpMovesTable = emeraldMovesTab.children().children().first().next().next().children().children().last();
+			
+			const levelUpMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Moves learnt by level up';
+			}).next().next().children().children().last();
+			
+			
+			
+			
 			const eggMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().children().children().last();
 			const moveTutorMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().children().children().last();
 			const preEvolutionMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
