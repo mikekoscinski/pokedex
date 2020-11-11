@@ -45,13 +45,20 @@ function getPokemonMoves (pokemon) {
 			// Select move panel for emerald version
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children();
 			
-			// TODO: Edge cases to handle:
+			// TODO: Test cases to handle:
 			
-			// 1st div - No Egg / No Move Tutor / yes pre-evolution (e.g., Cascoon)
+			// Reminder: all pokemon have at least ONE level up move. We need to test what happens after that, from egg moves onward
 			
-			// 1st div - no egg / yes move tutor / no pre-evolution (e.g., Moltres)
+			// 1st div - yes level up / yes egg / yes move tutor / yes pre-evolution (e.g., Nidoking - test passes)
 			
-			// 1st div - no egg / yes move tutor / yes pre-evolution (e.g., Beedrill)
+			// 1st div - no egg / yes move tutor / yes pre-evolution (e.g., Beedrill - test passes)
+
+			// 1st div - no egg / no move tutor / yes pre-evolution (e.g., Cascoon - test passes)
+			
+			// 1st div - no egg / yes move tutor / no pre-evolution (e.g., Moltres - test passes)
+			
+			// 1st div - no egg / no move tutor / no pre-evolution (e.g., Magikarp - test _____)
+			
 			
 			// 2nd div - no HM / yes TM (e.g., Golbat)
 			
@@ -166,6 +173,11 @@ const cascoonTestArrayOfObject = [{
 	name: 'Cascoon',
 	url: 'https://pokemondb.net/pokedex/cascoon/moves/3',
 }];
+const beedrillTestArrayOfObject = [{
+	name: 'Beedrill',
+	url: 'https://pokemondb.net/pokedex/beedrill/moves/3',
+}]
+
 
 
 prepareScraper();
@@ -177,3 +189,4 @@ prepareScraper();
 runScraper(nidokingTestArrayOfObject);
 runScraper(moltresTestArrayOfObject);
 runScraper(cascoonTestArrayOfObject);
+runScraper(beedrillTestArrayOfObject);
