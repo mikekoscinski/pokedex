@@ -131,18 +131,11 @@ function getPokemonMoves (pokemon) {
 	);
 }
 
-// NOTE: THIS IS THE MASTER ONE:
-// function runScraper () {
-// 	pokemonURLPairsToScrape.forEach(pokemon => getPokemonMoves(pokemon));
-// };
-
-// NOTE: THIS IS THE TEST ONE:
 function runScraper (pokemonList) {
 	pokemonList.forEach(pokemon => getPokemonMoves(pokemon));
-	// getPokemonMoves(pokemon);
 };
 
-// NOTE: Keep these objects for testing
+// For unit tests:
 const nidokingTestArrayOfObject = [{
 	name: 'Nidoking',
 	url: 'https://pokemondb.net/pokedex/nidoking/moves/3',
@@ -169,15 +162,15 @@ const magikarpTestArrayOfObject = [{
 }]
 
 prepareScraper();
+
 // NOTE: THIS IS THE PRODUCTION FUNCTION
 // TODO: Pass this as parameter: pokemonURLPairsToScrape
 // runScraper(pokemonURLPairsToScrape);
 
-// NOTE: Keep for testing
+// Unit tests:
 runScraper(nidokingTestArrayOfObject);
 runScraper(moltresTestArrayOfObject);
 runScraper(cascoonTestArrayOfObject);
 runScraper(beedrillTestArrayOfObject);
 runScraper(zubatTestArrayOfObject);
 runScraper(magikarpTestArrayOfObject);
-
