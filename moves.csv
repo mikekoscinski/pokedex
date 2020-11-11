@@ -1,46 +1,94 @@
 pokemon_name,move_id,method_obtained,level_obtained 
-Beedrill, Fury Attack, Level up, 1 
-Beedrill, Fury Attack, Level up, 10 
-Beedrill, Focus Energy, Level up, 15 
-Beedrill, Twineedle, Level up, 20 
-Beedrill, Rage, Level up, 25 
-Beedrill, Pursuit, Level up, 30 
-Beedrill, Pin Missile, Level up, 35 
-Beedrill, Agility, Level up, 40 
-Beedrill, Endeavor, Level up, 45 
-Beedrill, Double-Edge, Move Tutor, - 
-Beedrill, Endure, Move Tutor, - 
-Beedrill, Fury Cutter, Move Tutor, - 
-Beedrill, Mimic, Move Tutor, - 
-Beedrill, Sleep Talk, Move Tutor, - 
-Beedrill, Snore, Move Tutor, - 
-Beedrill, Substitute, Move Tutor, - 
-Beedrill, Swagger, Move Tutor, - 
-Beedrill, Swift, Move Tutor, - 
-Beedrill, Swords Dance, Move Tutor, - 
-Beedrill, Harden, Pre-evolution, - 
-Beedrill, Poison Sting, Pre-evolution, - 
-Beedrill, String Shot, Pre-evolution, - 
-Beedrill, Cut, HM, - 
-Beedrill, Rock Smash, HM, - 
-Beedrill, Toxic, TM, - 
-Beedrill, Hidden Power, TM, - 
-Beedrill, Sunny Day, TM, - 
-Beedrill, Hyper Beam, TM, - 
-Beedrill, Protect, TM, - 
-Beedrill, Giga Drain, TM, - 
-Beedrill, Frustration, TM, - 
-Beedrill, Solar Beam, TM, - 
-Beedrill, Return, TM, - 
-Beedrill, Brick Break, TM, - 
-Beedrill, Double Team, TM, - 
-Beedrill, Sludge Bomb, TM, - 
-Beedrill, Aerial Ace, TM, - 
-Beedrill, Facade, TM, - 
-Beedrill, Secret Power, TM, - 
-Beedrill, Rest, TM, - 
-Beedrill, Attract, TM, - 
-Beedrill, Thief, TM, - 
+Zubat, Leech Life, Level up, 1 
+Zubat, Supersonic, Level up, 6 
+Zubat, Astonish, Level up, 11 
+Zubat, Bite, Level up, 16 
+Zubat, Wing Attack, Level up, 21 
+Zubat, Confuse Ray, Level up, 26 
+Zubat, Air Cutter, Level up, 31 
+Zubat, Mean Look, Level up, 36 
+Zubat, Poison Fang, Level up, 41 
+Zubat, Haze, Level up, 46 
+Zubat, Curse, Egg, - 
+Zubat, Feint Attack, Egg, - 
+Zubat, Gust, Egg, - 
+Zubat, Pursuit, Egg, - 
+Zubat, Quick Attack, Egg, - 
+Zubat, Whirlwind, Egg, - 
+Zubat, Double-Edge, Move Tutor, - 
+Zubat, Endure, Move Tutor, - 
+Zubat, Mimic, Move Tutor, - 
+Zubat, Sleep Talk, Move Tutor, - 
+Zubat, Snore, Move Tutor, - 
+Zubat, Substitute, Move Tutor, - 
+Zubat, Swagger, Move Tutor, - 
+Zubat, Swift, Move Tutor, - 
+Zubat, Toxic, TM, - 
+Zubat, Hidden Power, TM, - 
+Zubat, Sunny Day, TM, - 
+Zubat, Taunt, TM, - 
+Zubat, Protect, TM, - 
+Zubat, Rain Dance, TM, - 
+Zubat, Giga Drain, TM, - 
+Zubat, Frustration, TM, - 
+Zubat, Return, TM, - 
+Zubat, Shadow Ball, TM, - 
+Zubat, Double Team, TM, - 
+Zubat, Sludge Bomb, TM, - 
+Zubat, Aerial Ace, TM, - 
+Zubat, Torment, TM, - 
+Zubat, Facade, TM, - 
+Zubat, Secret Power, TM, - 
+Zubat, Rest, TM, - 
+Zubat, Attract, TM, - 
+Zubat, Thief, TM, - 
+Zubat, Steel Wing, TM, - 
+Zubat, Snatch, TM, - 
+Cascoon, Harden, Level up, 1 
+Cascoon, Harden, Level up, 7 
+Cascoon, Poison Sting, Pre-evolution, - 
+Cascoon, String Shot, Pre-evolution, - 
+Cascoon, Tackle, Pre-evolution, - 
+Moltres, Ember, Level up, 1 
+Moltres, Wing Attack, Level up, 1 
+Moltres, Fire Spin, Level up, 13 
+Moltres, Agility, Level up, 25 
+Moltres, Endure, Level up, 37 
+Moltres, Flamethrower, Level up, 49 
+Moltres, Safeguard, Level up, 61 
+Moltres, Heat Wave, Level up, 73 
+Moltres, Sky Attack, Level up, 85 
+Moltres, Double-Edge, Move Tutor, - 
+Moltres, Endure, Move Tutor, - 
+Moltres, Mimic, Move Tutor, - 
+Moltres, Mud-Slap, Move Tutor, - 
+Moltres, Sleep Talk, Move Tutor, - 
+Moltres, Snore, Move Tutor, - 
+Moltres, Substitute, Move Tutor, - 
+Moltres, Swagger, Move Tutor, - 
+Moltres, Swift, Move Tutor, - 
+Moltres, Fly, HM, - 
+Moltres, Rock Smash, HM, - 
+Moltres, Roar, TM, - 
+Moltres, Toxic, TM, - 
+Moltres, Hidden Power, TM, - 
+Moltres, Sunny Day, TM, - 
+Moltres, Hyper Beam, TM, - 
+Moltres, Protect, TM, - 
+Moltres, Rain Dance, TM, - 
+Moltres, Safeguard, TM, - 
+Moltres, Frustration, TM, - 
+Moltres, Return, TM, - 
+Moltres, Double Team, TM, - 
+Moltres, Flamethrower, TM, - 
+Moltres, Sandstorm, TM, - 
+Moltres, Fire Blast, TM, - 
+Moltres, Aerial Ace, TM, - 
+Moltres, Facade, TM, - 
+Moltres, Secret Power, TM, - 
+Moltres, Rest, TM, - 
+Moltres, Steel Wing, TM, - 
+Moltres, Overheat, TM, - 
 Nidoking, Double Kick, Level up, 1 
 Nidoking, Focus Energy, Level up, 1 
 Nidoking, Peck, Level up, 1 
@@ -121,72 +169,45 @@ Nidoking, Thief, TM, -
 Magikarp, Splash, Level up, 1 
 Magikarp, Tackle, Level up, 15 
 Magikarp, Flail, Level up, 30 
-Zubat, Leech Life, Level up, 1 
-Zubat, Supersonic, Level up, 6 
-Zubat, Astonish, Level up, 11 
-Zubat, Bite, Level up, 16 
-Zubat, Wing Attack, Level up, 21 
-Zubat, Confuse Ray, Level up, 26 
-Zubat, Air Cutter, Level up, 31 
-Zubat, Mean Look, Level up, 36 
-Zubat, Poison Fang, Level up, 41 
-Zubat, Haze, Level up, 46 
-Zubat, Curse, Egg, - 
-Zubat, Feint Attack, Egg, - 
-Zubat, Gust, Egg, - 
-Zubat, Pursuit, Egg, - 
-Zubat, Quick Attack, Egg, - 
-Zubat, Whirlwind, Egg, - 
-Zubat, Double-Edge, Move Tutor, - 
-Zubat, Endure, Move Tutor, - 
-Zubat, Mimic, Move Tutor, - 
-Zubat, Sleep Talk, Move Tutor, - 
-Zubat, Snore, Move Tutor, - 
-Zubat, Substitute, Move Tutor, - 
-Zubat, Swagger, Move Tutor, - 
-Zubat, Swift, Move Tutor, - 
-Cascoon, Harden, Level up, 1 
-Cascoon, Harden, Level up, 7 
-Cascoon, Poison Sting, Pre-evolution, - 
-Cascoon, String Shot, Pre-evolution, - 
-Cascoon, Tackle, Pre-evolution, - 
-Moltres, Ember, Level up, 1 
-Moltres, Wing Attack, Level up, 1 
-Moltres, Fire Spin, Level up, 13 
-Moltres, Agility, Level up, 25 
-Moltres, Endure, Level up, 37 
-Moltres, Flamethrower, Level up, 49 
-Moltres, Safeguard, Level up, 61 
-Moltres, Heat Wave, Level up, 73 
-Moltres, Sky Attack, Level up, 85 
-Moltres, Double-Edge, Move Tutor, - 
-Moltres, Endure, Move Tutor, - 
-Moltres, Mimic, Move Tutor, - 
-Moltres, Mud-Slap, Move Tutor, - 
-Moltres, Sleep Talk, Move Tutor, - 
-Moltres, Snore, Move Tutor, - 
-Moltres, Substitute, Move Tutor, - 
-Moltres, Swagger, Move Tutor, - 
-Moltres, Swift, Move Tutor, - 
-Moltres, Fly, HM, - 
-Moltres, Rock Smash, HM, - 
-Moltres, Roar, TM, - 
-Moltres, Toxic, TM, - 
-Moltres, Hidden Power, TM, - 
-Moltres, Sunny Day, TM, - 
-Moltres, Hyper Beam, TM, - 
-Moltres, Protect, TM, - 
-Moltres, Rain Dance, TM, - 
-Moltres, Safeguard, TM, - 
-Moltres, Frustration, TM, - 
-Moltres, Return, TM, - 
-Moltres, Double Team, TM, - 
-Moltres, Flamethrower, TM, - 
-Moltres, Sandstorm, TM, - 
-Moltres, Fire Blast, TM, - 
-Moltres, Aerial Ace, TM, - 
-Moltres, Facade, TM, - 
-Moltres, Secret Power, TM, - 
-Moltres, Rest, TM, - 
-Moltres, Steel Wing, TM, - 
-Moltres, Overheat, TM, - 
+Beedrill, Fury Attack, Level up, 1 
+Beedrill, Fury Attack, Level up, 10 
+Beedrill, Focus Energy, Level up, 15 
+Beedrill, Twineedle, Level up, 20 
+Beedrill, Rage, Level up, 25 
+Beedrill, Pursuit, Level up, 30 
+Beedrill, Pin Missile, Level up, 35 
+Beedrill, Agility, Level up, 40 
+Beedrill, Endeavor, Level up, 45 
+Beedrill, Double-Edge, Move Tutor, - 
+Beedrill, Endure, Move Tutor, - 
+Beedrill, Fury Cutter, Move Tutor, - 
+Beedrill, Mimic, Move Tutor, - 
+Beedrill, Sleep Talk, Move Tutor, - 
+Beedrill, Snore, Move Tutor, - 
+Beedrill, Substitute, Move Tutor, - 
+Beedrill, Swagger, Move Tutor, - 
+Beedrill, Swift, Move Tutor, - 
+Beedrill, Swords Dance, Move Tutor, - 
+Beedrill, Harden, Pre-evolution, - 
+Beedrill, Poison Sting, Pre-evolution, - 
+Beedrill, String Shot, Pre-evolution, - 
+Beedrill, Cut, HM, - 
+Beedrill, Rock Smash, HM, - 
+Beedrill, Toxic, TM, - 
+Beedrill, Hidden Power, TM, - 
+Beedrill, Sunny Day, TM, - 
+Beedrill, Hyper Beam, TM, - 
+Beedrill, Protect, TM, - 
+Beedrill, Giga Drain, TM, - 
+Beedrill, Frustration, TM, - 
+Beedrill, Solar Beam, TM, - 
+Beedrill, Return, TM, - 
+Beedrill, Brick Break, TM, - 
+Beedrill, Double Team, TM, - 
+Beedrill, Sludge Bomb, TM, - 
+Beedrill, Aerial Ace, TM, - 
+Beedrill, Facade, TM, - 
+Beedrill, Secret Power, TM, - 
+Beedrill, Rest, TM, - 
+Beedrill, Attract, TM, - 
+Beedrill, Thief, TM, - 
