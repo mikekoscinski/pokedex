@@ -8,27 +8,17 @@ Implemented in JavaScript with Nodejs, Axios, and Cheerio.
 
 0. Manually input the names of each pokemon.
 
-1. Generate URLs to scrape.
-
-- Note the edge cases where the proper name does not match the URL's name (E.g., Nidoran♂ -> nidoran-m; Nidoran♀ -> nidoran-f; Mr. Mime -> mr-mime; Farfetch'd -> farfetchd).
-
-- For each edge case, I wrote in the URL name variant directly, instead of using regex handlers to modify names to the appropriate URL form. This would not scale well for hundreds of variants, but we only have a few edge cases here.
+1. Generate URLs to scrape. (Note: There are edge cases where proper name != URL name. E.g., Nidoran♂ -> nidoran-m; Nidoran♀ -> nidoran-f; Mr. Mime -> mr-mime; Farfetch'd -> farfetchd. Since there are <5 edge cases, I wrote the name variant in directly for each edge case)
 
 2. Create a 'pokemon' object for each name:URL pair.
 
-For each 'pokemon' object:
+3. Make an HTTP GET request to each pokemon's URL. (Console log the error if it fails)
 
-3. Make an HTTP GET request to the pokemon's URL.
+4. For each GET request, grab each move the pokemon learns from Pokemon Emerald version's various move tables.
 
-If the GET request is successful:
+5. For each GET request, push each pokemon/move permutation to the master table, which contains all permutations for all 380+ pokemon.
 
-4. For each pokemon, grab each move the pokemon learns from Pokemon Emerald version's various move tables.
-
-5. For each pokemon, push each pokemon/move permutation to the master table, which contains all permutations for all 380+ pokemon.
-
-If the GET request fails, console.log the error
-
-6. TODO: Once all GET requests and their subsequent actions have been completed, console log a cli-table containing each pokemon/move permutation. This should contain ~19,500 rows.
+6. As each GET request processes, write the result to a .csv containing all pokemon/move combinations
 
 ## Dependencies
 
@@ -68,25 +58,19 @@ After completing my QA, I identified five (5) pokemon whose learnsets were not s
 
 - Deoxys: Scraper retrieved 3 of its 71 moves. However, these 3 moves did not contain any data: the level up, HM, and TM categories returned one blank move, each; the egg, pr-evolution, and move tutor categories were not retrieved at all. (Note: There is no egg moves data table on this page)
 
-**Conclusion**:
+The scraper would not grab all elements for a pokemon if a specific data-table returned `null`, which would return `null` for all nextElementSibling data-tables, as each subsequent data-table was defined via a reference to its immediate precedent. This has now been corrected.
 
-I am not currently capturing the Move Tutor moves for pokemon that do not learn any Egg moves.
+**Findings**:
 
-Why? Each data table is grabbed via Cheerio's DOM traversal, not class-specific selectors (since all data tables, regardless of content, are of the same mono-class)
+v0 of scrape.js selected each move type's data table by referencing its previousElementSibling (in Cheerio's syntax).
 
-- Each pokemon has a level up moves table, even if it only contains one item
+For instance, the Move Tutor data table was selected by referencing Egg moves' element, then traversing further down the DOM.
 
-- Many pokemon (genderless; e.g., legendaries) cannot breed in this game. Thus, these pokemon will not learn any egg moves.
+However, this created errors in instances where certain types of moves (Egg moves, most commonly) did not have a data-table present on the DOM.
 
-My selectors in Cheerio assume the presence of an egg data table, even if it is empty. This is not the case.
+**Outcome**:
 
-Thus, in cases where a pokemon does not have an egg table, I am overshooting the Move Tutor data table element and am selecting nothing.
-
-- Recall that the HM and TM moves are stored in a separate div - one div makes up the left side of the page, the other (HM/TM) the right side.
-
-Upon closer inspection, all of Deoxys' moves are listed under a tab for its Speed Forme. They could not have been selected by my scraper, as the DOM on Deoxys' page is unique from that of all other 387 pokemon. (Interestingly, this is not the case for Castform, the only other pokemon that can take multiple forms.)
-
-TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
+The scraper now uses Cheerio's `.find()` method to select each data-table based on the text contained in its `<h3>` previousElementSibling.
 
 ## Unit Tests
 
@@ -114,6 +98,6 @@ Unit tests for the 2nd div (all pass):
 
 Notes:
 
-- Test cases marked 'n/a' have matching pokemon.
+- Test cases marked 'n/a' do not have any pokemon that match the specified case
 
-- Every pokemon learns at least one move via level up. Thus, level up will always be marked 'yes'
+- Every pokemon learns at least one move via level up. Thus, level up is always marked 'Yes'
