@@ -46,7 +46,6 @@ function getPokemonMoves (pokemon) {
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children();
 						
 			// Select move table children from the move panel
-						
 			const levelUpMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Moves learnt by level up';
 			}).next().next().children().children().last();
@@ -139,14 +138,13 @@ const magikarpTestArrayOfObject = [{
 
 prepareScraper();
 
-// NOTE: THIS IS THE PRODUCTION FUNCTION
-// TODO: Pass this as parameter: pokemonURLPairsToScrape
-// runScraper(pokemonURLPairsToScrape);
+// Production:
+runScraper(pokemonURLPairsToScrape);
 
 // Unit tests:
-runScraper(nidokingTestArrayOfObject);
-runScraper(moltresTestArrayOfObject);
-runScraper(cascoonTestArrayOfObject);
-runScraper(beedrillTestArrayOfObject);
-runScraper(zubatTestArrayOfObject);
-runScraper(magikarpTestArrayOfObject);
+// runScraper(nidokingTestArrayOfObject);
+// runScraper(moltresTestArrayOfObject);
+// runScraper(cascoonTestArrayOfObject);
+// runScraper(beedrillTestArrayOfObject);
+// runScraper(zubatTestArrayOfObject);
+// runScraper(magikarpTestArrayOfObject);
