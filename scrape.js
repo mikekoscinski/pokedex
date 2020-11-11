@@ -44,47 +44,29 @@ function getPokemonMoves (pokemon) {
 			const pokemonsMoves = [];
 			// Select move panel for emerald version
 			const emeraldMovesTab = $('div .tabs-panel').next().next().children();
-			
-			// TODO: Test cases to handle:
-			
-
-			
-			const numberOfDataTablesOnPage = emeraldMovesTab.find($('table[class="data-table"]')).length;
-			
-			const numberOfDataTablesInFirstGridColSpanLg6 = emeraldMovesTab.children().first().find($('table[class="data-table"]')).length;
-			
-			console.log(`${pokemon.name}: ${numberOfDataTablesOnPage}`);
-			
-			
-			// Select the move table children from the move panel
+						
+			// Select move table children from the move panel
 						
 			const levelUpMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Moves learnt by level up';
 			}).next().next().children().children().last();
-			
 			const eggMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Egg moves';
 			}).next().next().children().children().last();
-			
 			const moveTutorMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Move Tutor moves';
 			}).next().next().children().children().last();
-			
 			const preEvolutionMovesTable = emeraldMovesTab.children().children().filter(function () {
 				return $(this).text() === 'Pre-evolution moves';
 			}).next().next().children().children().last();
+			const hmMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Moves learnt by HM';
+			}).next().next().children().children().last();
+			const tmMovesTable = emeraldMovesTab.children().children().filter(function () {
+				return $(this).text() === 'Moves learnt by TM';
+			}).next().next().children().children().last();
 			
-
-			
-			
-			// const moveTutorMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().children().children().last();
-			// const preEvolutionMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
-			
-			
-			const hmMovesTable = emeraldMovesTab.children().next().children().first().next().next().children().children().last();
-			const tmMovesTable = emeraldMovesTab.children().next().children().first().next().next().next().next().next().children().children().last();
-			
-			// Consolidate move tables to iterate the grabMoves() function over using forEach
+			// So we can efficiently run grabMoves() forEach table
 			const childPokemonMoveTables = [
 				{ move_source: levelUpMovesTable, method_obtained: 'Level up' },
 				{ move_source: eggMovesTable, method_obtained: 'Egg' },
@@ -112,17 +94,11 @@ function getPokemonMoves (pokemon) {
 						level_obtained: level_obtained,
 					};
 					
-					// NOTE: Change which section is commented based on testing/production
-					
-					// Push to array
-					
-					
-					
 					// Write to CSV
 					writeStream.write(`${newChildPokemonMove.pokemon_name}, ${newChildPokemonMove.move_id}, ${newChildPokemonMove.method_obtained}, ${newChildPokemonMove.level_obtained} \n`);
 				});
 			}
-			// For each table, grab its moves and push to master pokemon/move table
+			// Grab moves from each table; push to master pokemon/move table
 			childPokemonMoveTables.forEach(table => grabMovesFromChildTable(table));
 		})
 		.catch(function (error) {
