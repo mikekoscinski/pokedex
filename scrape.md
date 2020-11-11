@@ -87,3 +87,24 @@ Thus, in cases where a pokemon does not have an egg table, I am overshooting the
 Upon closer inspection, all of Deoxys' moves are listed under a tab for its Speed Forme. They could not have been selected by my scraper, as the DOM on Deoxys' page is unique from that of all other 387 pokemon. (Interestingly, this is not the case for Castform, the only other pokemon that can take multiple forms.)
 
 TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
+
+## Unit Tests
+
+All of the following unit tests pass:
+
+| Level up | Egg | Move Tutor | Pre-evolution | Test case |
+| :------: | :-: | :--------: | :-----------: | :-------: |
+|   Yes    | Yes |    Yes     |      Yes      | Nidoking  |
+|   Yes    | Yes |    Yes     |      No       |   Zubat   |
+|   Yes    | Yes |     No     |      Yes      |    n/a    |
+|   Yes    | Yes |     No     |      No       |    n/a    |
+|   Yes    | No  |    Yes     |      Yes      | Beedrill  |
+|   Yes    | No  |    Yes     |      No       |  Moltres  |
+|   Yes    | No  |     No     |      Yes      |  Cascoon  |
+|   Yes    | No  |     No     |      No       | Magikarp  |
+
+Notes:
+
+- Test cases marked 'n/a' have matching pokemon.
+
+- Every pokemon learns at least one move via level up. Thus, level up will always be marked 'yes'
