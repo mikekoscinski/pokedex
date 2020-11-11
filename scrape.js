@@ -47,25 +47,7 @@ function getPokemonMoves (pokemon) {
 			
 			// TODO: Test cases to handle:
 			
-			// Reminder: all pokemon have at least ONE level up move. We need to test what happens after that, from egg moves onward
-			
-			// 1st div - yes level up / yes egg / yes move tutor / yes pre-evolution (e.g., Nidoking - test passes)
-			
-			// 1st div - no egg / yes move tutor / yes pre-evolution (e.g., Beedrill - test passes)
 
-			// 1st div - no egg / no move tutor / yes pre-evolution (e.g., Cascoon - test passes)
-			
-			// 1st div - no egg / yes move tutor / no pre-evolution (e.g., Moltres - test passes)
-			
-			// 1st div - no egg / no move tutor / no pre-evolution (e.g., Magikarp - test _____)
-			
-			
-			// 2nd div - no HM / yes TM (e.g., Golbat)
-			
-			
-			// The data tables are organized: 
-			// 1.) Level up, Egg, Move Tutor, Pre-evolution
-			// 2.) HM, TM
 			
 			const numberOfDataTablesOnPage = emeraldMovesTab.find($('table[class="data-table"]')).length;
 			
@@ -177,8 +159,14 @@ const beedrillTestArrayOfObject = [{
 	name: 'Beedrill',
 	url: 'https://pokemondb.net/pokedex/beedrill/moves/3',
 }]
-
-
+const zubatTestArrayOfObject = [{
+	name: 'Zubat',
+	url: 'https://pokemondb.net/pokedex/zubat/moves/3',
+}]
+const magikarpTestArrayOfObject = [{
+	name: 'Magikarp',
+	url: 'https://pokemondb.net/pokedex/magikarp/moves/3',
+}]
 
 prepareScraper();
 // NOTE: THIS IS THE PRODUCTION FUNCTION
@@ -190,3 +178,6 @@ runScraper(nidokingTestArrayOfObject);
 runScraper(moltresTestArrayOfObject);
 runScraper(cascoonTestArrayOfObject);
 runScraper(beedrillTestArrayOfObject);
+runScraper(zubatTestArrayOfObject);
+runScraper(magikarpTestArrayOfObject);
+
