@@ -90,7 +90,7 @@ TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns 
 
 ## Unit Tests
 
-All of the following unit tests pass:
+Unit tests for the 1st div (all pass):
 
 | Level up | Egg | Move Tutor | Pre-evolution | Test case |
 | :------: | :-: | :--------: | :-----------: | :-------: |
@@ -102,6 +102,15 @@ All of the following unit tests pass:
 |   Yes    | No  |    Yes     |      No       |  Moltres  |
 |   Yes    | No  |     No     |      Yes      |  Cascoon  |
 |   Yes    | No  |     No     |      No       | Magikarp  |
+
+Unit tests for the 2nd div:
+
+| HM  | TM  | Test case |
+| :-: | :-: | :-------: |
+| Yes | Yes | Nidoking  |
+| Yes | No  |    n/a    |
+| No  | Yes |   Zubat   |
+| No  | No  | Magikarp  |
 
 Notes:
 
