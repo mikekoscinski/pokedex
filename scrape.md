@@ -103,7 +103,7 @@ Unit tests for the 1st div (all pass):
 |   Yes    | No  |     No     |      Yes      |  Cascoon  |
 |   Yes    | No  |     No     |      No       | Magikarp  |
 
-Unit tests for the 2nd div:
+Unit tests for the 2nd div (all pass):
 
 | HM  | TM  | Test case |
 | :-: | :-: | :-------: |
