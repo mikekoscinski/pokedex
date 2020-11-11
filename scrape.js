@@ -1,5 +1,3 @@
-// TODO: Handle if TM moves but no HM moves
-
 const axios = require('axios');
 const cheerio = require('cheerio');
 const fileSystem = require('fs');
@@ -45,25 +43,18 @@ function getPokemonMoves (pokemon) {
 			const $ = cheerio.load(response.data);
 			const pokemonsMoves = [];
 			// Select move panel for emerald version
-			const emeraldMovesTab = $('div .tabs-panel').next().next().children().children();
+			const emeraldMovesTab = $('div .tabs-panel').next().next().children();
 			
+			// TODO: Edge cases to handle:
+			// 1st div - No Egg / No Move Tutor / yes pre-evolution
+			// 1st div - no egg / yes move tutor / no pre-evolution
+			// 1st div - no egg / yes move tutor / yes pre-evolution
+			// 2nd div - no HM / yes TM
 			
 			// TODO: Create hasEggMoveDataTable and add a conditional statement that reassigns the moveTutorDataTable value if there is not an egg table
 			
-			// Select the move table children from the move panel
-			const levelUpMovesTable = emeraldMovesTab.children().first().next().next().children().children().last();
 			
 			// TODO: The egg moves table is the only table that __could__ be missing. So, a quick hack to check if there is an egg moves table = count the number of <div class="resp-scroll"> in the section. If that is != 3
-			
-			
-			// TODO: EDGE CASES to handle:
-			
-			// FIRST MOVES DIV:
-			// Move Tutor but no Egg (e.g., Moltres)
-			
-			
-			// SECOND MOVES DIV:
-			// TM but no HM (e.g., Golbat)
 			
 			// The data tables are organized: 
 			// 1.) Level up, Egg, Move Tutor, Pre-evolution
@@ -73,21 +64,18 @@ function getPokemonMoves (pokemon) {
 			
 			const numberOfDataTablesInFirstGridColSpanLg6 = emeraldMovesTab.children().first().find($('table[class="data-table"]')).length;
 			
+			console.log(`${pokemon.name}: ${numberOfDataTablesOnPage}`);
 			
-			// console.log(`${pokemon.name}: ${numberOfDataTablesOnPage}`);
-			
-			console.log(`${pokemon.name}: ${numberOfDataTablesInFirstGridColSpanLg6}`);
-			
+			console.log(emeraldMovesTab.html());
 			
 			
-			const eggMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().children().children().last();
-			
-			
-			
-			const moveTutorMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().children().children().last();
-			const preEvolutionMovesTable = emeraldMovesTab.children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
-			const hmMovesTable = emeraldMovesTab.next().children().first().next().next().children().children().last();
-			const tmMovesTable = emeraldMovesTab.next().children().first().next().next().next().next().next().children().children().last();
+			// Select the move table children from the move panel
+			const levelUpMovesTable = emeraldMovesTab.children().children().first().next().next().children().children().last();
+			const eggMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().children().children().last();
+			const moveTutorMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().children().children().last();
+			const preEvolutionMovesTable = emeraldMovesTab.children().children().first().next().next().next().next().next().next().next().next().next().next().next().children().children().last();
+			const hmMovesTable = emeraldMovesTab.children().next().children().first().next().next().children().children().last();
+			const tmMovesTable = emeraldMovesTab.children().next().children().first().next().next().next().next().next().children().children().last();
 			
 			// Consolidate move tables to iterate the grabMoves() function over using forEach
 			const childPokemonMoveTables = [
@@ -164,4 +152,4 @@ prepareScraper();
 
 // NOTE: Keep for testing
 runScraper(nidokingTestArrayOfObject);
-runScraper(moltresTestArrayOfObject);
+// runScraper(moltresTestArrayOfObject);
