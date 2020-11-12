@@ -1,8 +1,8 @@
 create table intermediary (
-	national_dex_id INTEGER(3) NOT NULL,
+	national_dex_id INTEGER NOT NULL,
 	move_name VARCHAR(15) NOT NULL UNIQUE,
 	method_obtained VARCHAR(8) NOT NULL,
-	level_obtained INTEGER(3) NOT NULL,
+	level_obtained INTEGER NOT NULL,
 );
 INSERT INTO intermediary (national_dex_id, move_id, method_obtained, level_obtained) VALUES (1, 'Tackle', 'Level up', 1);
 INSERT INTO intermediary (national_dex_id, move_id, method_obtained, level_obtained) VALUES (1, 'Growl', 'Level up', 4);
