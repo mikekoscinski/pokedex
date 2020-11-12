@@ -1,4 +1,5 @@
 create table pokemon (
+	id BIGSERIAL NOT NULL PRIMARY KEY UNIQUE,
 	national_dex_id INTEGER NOT NULL,
 	pokemon_name VARCHAR(30) NOT NULL UNIQUE,
 	generation INTEGER NOT NULL,
@@ -96,7 +97,7 @@ INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (80, 'Slowbro', 1, 'Kanto', 'Water', 'Psychic', 95, 75, 110, 100, 80, 30, 490, 82);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (81, 'Magnemite', 1, 'Kanto', 'Electric', 'Steel', 25, 35, 70, 95, 55, 45, 325, 54);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (82, 'Magneton', 1, 'Kanto', 'Electric', 'Steel', 50, 60, 95, 120, 70, 70, 465, 78);
-INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (83, 'Farfetch'd', 1, 'Kanto', 'Normal', 'Flying', 52, 65, 55, 58, 62, 60, 352, 59);
+INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (83, 'Farfetch''d', 1, 'Kanto', 'Normal', 'Flying', 52, 65, 55, 58, 62, 60, 352, 59);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (84, 'Doduo', 1, 'Kanto', 'Normal', 'Flying', 35, 85, 45, 35, 35, 75, 310, 52);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (85, 'Dodrio', 1, 'Kanto', 'Normal', 'Flying', 60, 110, 70, 60, 60, 100, 460, 77);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (86, 'Seel', 1, 'Kanto', 'Water', NULL, 65, 45, 55, 45, 70, 45, 325, 54);
