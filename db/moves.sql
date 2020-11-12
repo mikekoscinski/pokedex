@@ -1,5 +1,5 @@
 create table moves (
-	move_name VARCHAR(15) NOT NULL UNIQUE,
+	move_name VARCHAR(15) NOT NULL PRIMARY KEY UNIQUE,
 	move_type VARCHAR(8) NOT NULL,
 	move_category VARCHAR(8) NOT NULL,
 	move_power INTEGER NOT NULL,
