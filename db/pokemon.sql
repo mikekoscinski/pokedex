@@ -1,18 +1,18 @@
 create table pokemon (
 	national_dex_id INTEGER NOT NULL,
 	pokemon_name VARCHAR(30) NOT NULL UNIQUE,
-	generation INTEGER(1) NOT NULL,
+	generation INTEGER NOT NULL,
 	region VARCHAR(5) NOT NULL,
 	primary_type VARCHAR(8) NOT NULL,
 	secondary_type VARCHAR(8),
-	hp_stat INTEGER(3) NOT NULL,
-	attack_stat INTEGER(3) NOT NULL,
-	defense_stat INTEGER(3) NOT NULL,
-	special_attack_stat INTEGER(3) NOT NULL,
-	special_defense_stat INTEGER(3) NOT NULL,
-	speed_stat INTEGER(3) NOT NULL,
-	total_stats INTEGER(3) NOT NULL,
-	average_stats INTEGER(3) NOT NULL,
+	hp_stat INTEGER NOT NULL,
+	attack_stat INTEGER NOT NULL,
+	defense_stat INTEGER NOT NULL,
+	special_attack_stat INTEGER NOT NULL,
+	special_defense_stat INTEGER NOT NULL,
+	speed_stat INTEGER NOT NULL,
+	total_stats INTEGER NOT NULL,
+	average_stat INTEGER NOT NULL,
 );
 INSERT INTO pokemon (national_dex_number, name, generation, region, primary_type, secondary_type, hp, attack, defense, special_attack, special_defense, speed, total_stats, average_stats) VALUES (1, 'Bulbasaur', 1, 'Kanto', 'Grass', 'Poison', 45, 49, 49, 65, 65, 45, 318, 53);
 INSERT INTO pokemon (national_dex_number, name, generation, region, primary_type, secondary_type, hp, attack, defense, special_attack, special_defense, speed, total_stats, average_stats) VALUES (2, 'Ivysaur', 1, 'Kanto', 'Grass', 'Poison', 60, 62, 63, 80, 80, 60, 405, 68);

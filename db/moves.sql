@@ -2,9 +2,9 @@ create table moves (
 	move_name VARCHAR(15) NOT NULL UNIQUE,
 	move_type VARCHAR(8) NOT NULL,
 	move_category VARCHAR(8) NOT NULL,
-	move_power INTEGER(3) NOT NULL,
-	move_accuracy INTEGER(3) NOT NULL,
-	move_pp INTEGER(2) NOT NULL,
+	move_power INTEGER NOT NULL,
+	move_accuracy INTEGER NOT NULL,
+	move_pp INTEGER NOT NULL,
 	move_effect VARCHAR(125) NOT NULL,
 );
 INSERT INTO moves (move_generation_introduced, move_name, move_type, move_category, move_power, move_accuracy, move_pp, move_effect) VALUES (1, 'Absorb', 'Grass', 'Special', 20, 100, 25, 'User recovers half the HP inflicted on opponent.');
