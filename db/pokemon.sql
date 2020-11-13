@@ -13,7 +13,7 @@ create table pokemon (
 	special_defense_stat INTEGER NOT NULL,
 	speed_stat INTEGER NOT NULL,
 	total_stats INTEGER NOT NULL,
-	average_stat INTEGER NOT NULL,
+	average_stat INTEGER NOT NULL 
 );
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (1, 'Bulbasaur', 1, 'Kanto', 'Grass', 'Poison', 45, 49, 49, 65, 65, 45, 318, 53);
 INSERT INTO pokemon (national_dex_id, pokemon_name, generation, region, primary_type, secondary_type, hp_stat, attack_stat, defense_stat, special_attack_stat, special_defense_stat, speed_stat, total_stats, average_stat) VALUES (2, 'Ivysaur', 1, 'Kanto', 'Grass', 'Poison', 60, 62, 63, 80, 80, 60, 405, 68);
