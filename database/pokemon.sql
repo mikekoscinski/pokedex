@@ -1,11 +1,11 @@
-CREATE TABLE Pokemon (
-	id BIGSERIAL PRIMARY KEY NOT NULL UNIQUE, 
-	pokedex_id INTEGER NOT NULL references Pokedex(id), 
+CREATE TABLE "Pokemon" ( 
+	id BIGSERIAL NOT NULL PRIMARY KEY UNIQUE, 
+	pokedex_id INTEGER NOT NULL references "Pokedex"(id), 
 	name VARCHAR(255) NOT NULL UNIQUE, 
-	generation_id INTEGER NOT NULL references Generation(id), 
-	region_id VARCHAR(255) NOT NULL references Region(id), 
-	primary_type_id VARCHAR(255) NOT NULL references Type(id), 
-	secondary_type_id VARCHAR(255) references Type(id), 
+	generation_id INTEGER NOT NULL references "Generation"(id), 
+	region_id VARCHAR(255) NOT NULL references "Region"(id), 
+	primary_type_id VARCHAR(255) NOT NULL references "Type"(id), 
+	secondary_type_id VARCHAR(255) references "Type"(id), 
 	hp INTEGER NOT NULL, 
 	attack INTEGER NOT NULL, 
 	defense INTEGER NOT NULL, 

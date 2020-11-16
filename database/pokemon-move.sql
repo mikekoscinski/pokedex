@@ -1,9 +1,9 @@
-CREATE TABLE PokemonMove (
+CREATE TABLE "PokemonMove" (
 	id VARCHAR(255) PRIMARY KEY NOT NULL UNIQUE, 
-	pokedex_id INTEGER NOT NULL references Pokedex(id), 
-	move_id VARCHAR(255) NOT NULL references Move(id), 
-	method_obtained_id VARCHAR(255) NOT NULL references MethodObtained(id), 
-	level_obtained_id INTEGER references LevelObtained(id) 
+	pokedex_id INTEGER NOT NULL references "Pokedex"(id), 
+	move_id VARCHAR(255) NOT NULL references "Move"(id), 
+	method_obtained_id VARCHAR(255) NOT NULL references "MoveMethodObtained"(id), 
+	level_obtained_id INTEGER references "MoveLevelObtained"(id) 
 );
 INSERT INTO PokemonMove (id, pokedex_id, move_id, method_obtained_id, level_obtained_id) VALUES ('1-Tackle', 1, 'Tackle', 'Level up', 1);
 INSERT INTO PokemonMove (id, pokedex_id, move_id, method_obtained_id, level_obtained_id) VALUES ('1-Growl', 1, 'Growl', 'Level up', 4);

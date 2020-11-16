@@ -1,12 +1,12 @@
-CREATE TABLE Move (
+CREATE TABLE "Move" (
 	id VARCHAR(255) NOT NULL PRIMARY KEY UNIQUE,
-	generation_id INTEGER NOT NULL references Generation(id),
-	type_id VARCHAR(255) NOT NULL references Type(id),
-	category_id VARCHAR(255) NOT NULL references Category(id),
+	generation_id INTEGER NOT NULL references "Generation"(id),
+	type_id VARCHAR(255) NOT NULL references "Type"(id),
+	category_id VARCHAR(255) NOT NULL references "MoveCategory"(id),
 	power INTEGER,
 	accuracy INTEGER,
 	pp INTEGER,
-	effect VARCHAR(255),
+	effect VARCHAR(255) 
 );
 INSERT INTO Move (id, generation_id, type_id, category_id, power, accuracy, pp, effect) VALUES ('Absorb', 1, 'Grass', 'Special', 20, 100, 25, 'User recovers half the HP inflicted on opponent.');
 INSERT INTO Move (id, generation_id, type_id, category_id, power, accuracy, pp, effect) VALUES ('Acid', 1, 'Poison', 'Special', 40, 100, 30, 'May lower opponent''s Special Defense.');
