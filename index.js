@@ -2,12 +2,10 @@ const express = require("express");
 
 const app = express();
 
-app.use((request, response) => {
-	console.log(request.headers);
-	response.setHeader('Content-Type', 'text/html');
-	response.end('<html><body><h1>Testing...</h1></body></html>');
-});
+app.get('/', (request, response) => {
+	response.status(200).send('Hello world, welcome to the pokedex.');
+})
 
-app.listen(3000, function () {
-	console.log('Server is running at port 3000.');
-});
+app.listen(port, () => {
+	console.log('App running on port 3000.');
+})
