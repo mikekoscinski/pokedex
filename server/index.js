@@ -12,15 +12,30 @@ app.use(express.json());
 
 // Get all pokemon
 
-app.get('/Dexter', async (req, res) => {
+app.get("/pokemon", async (req, res) => {
 	try {
-		const allPokemon = await pool.query("SELECT * FROM 'Dexter'");
+		const allPokemon = await pool.query('SELECT * FROM "Pokemon"');
 		res.json(allPokemon.rows);
-		console.log(allPokemon);
 	} catch (error) {
 		console.error(error.message);
 	}
-})
+});
+
+// Get specific pokemon
+
+// TODO: This is currently case-sensitive; must pass 'Bulbasaur' as param; 'bulbasaur' as lowercase will return nothing
+
+app.get("/pokemon/:name", async (req, res) => {
+	try {
+		const { name } = req.params;
+		const pokemon = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
+		res.json(pokemon.rows[0]);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+
+
 
 app.listen(5000, () => {
 	console.log('Server has started on port 5000');
