@@ -6,20 +6,6 @@ Front-end: React
 
 Back-end: Node.js, Express.js, PostgreSQL
 
-
-## TODO:
-
-Create tables, for each pokemon, of:
-
-- sprite/artwork (gen1-3 sprites, early sugimori, present sugimori)
-
-- The pokedex entry for each game version from gens 1-3
-
-- Moves
-
-- Evolution trees (evolved from __ at level __; evolves into __ at level __)
-
-
 ## History of design trade-offs:
 
 2020-10-30: Originally wanted to maintain a separate table of pokemon base stats for each generation of the game. However, base stats stayed the same (for all pokemon) throughout the gen 2-3 games. Gen 1 pokemon had different base stats in the gen 1 game, but they were modified in gen 2 and remained the same in gen 3. I have decided to only use the gen 3 base stats to ensure consistency when comparing the relative merits of pokemon across generations.
