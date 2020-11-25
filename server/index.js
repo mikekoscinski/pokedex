@@ -8,18 +8,29 @@ app.use(cors());
 app.use(express.json());
 
 
+const pokemonController = require('../controller/pokemon-controller');
+
+
 // ROUTES (RESTful API with Postgres)
 
 // Get all pokemon
 
-app.get("/pokemon", async (req, res) => {
-	try {
-		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-		res.json(allPokemon.rows);
-	} catch (error) {
-		console.error(error.message);
-	}
-});
+app.get('/pokemon', pokemonController.index);
+
+
+
+// THIS WORKS:
+// app.get("/pokemon", async (req, res) => {
+// 	try {
+// 		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
+// 		res.json(allPokemon.rows);
+// 	} catch (error) {
+// 		console.error(error.message);
+// 	}
+// });
+
+
+
 
 // Get a specific pokemon
 
