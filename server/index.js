@@ -1,52 +1,18 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const pool = require('./database.js'); // lets us run queries with postgres
+const pokemonController = require('../controller/pokemon-controller');
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-
-const pokemonController = require('../controller/pokemon-controller');
-
-
-// ROUTES (RESTful API with Postgres)
-
-// Get all pokemon
-
+// ROUTES (RESTful API with Postgres):
+// Get all pokemon (for index page)
 app.get('/pokemon', pokemonController.index);
 
-
-
-// THIS WORKS:
-// app.get("/pokemon", async (req, res) => {
-// 	try {
-// 		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-// 		res.json(allPokemon.rows);
-// 	} catch (error) {
-// 		console.error(error.message);
-// 	}
-// });
-
-
-
-
-// Get a specific pokemon
-
-// TODO: This is currently case-sensitive; must pass 'Bulbasaur' as param; 'bulbasaur' as lowercase will return nothing
-
-app.get("/pokemon/:name", async (req, res) => {
-	try {
-		const { name } = req.params;
-		const pokemon = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
-		res.json(pokemon.rows[0]);
-	} catch (error) {
-		console.error(error.message);
-	}
-});
-
-
+// Get a specific pokemon (for individual pokedex entry page)
+app.get('/pokemon/:name', pokemonController.entry); // TODO: This is currently case-sensitive; must pass 'Bulbasaur' as param; 'bulbasaur' as lowercase will return nothing
 
 app.listen(5000, () => {
 	console.log('Server has started on port 5000');
