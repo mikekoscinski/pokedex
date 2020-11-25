@@ -8,20 +8,20 @@ app.use(cors());
 app.use(express.json());
 
 
-// ROUTES
+// ROUTES (RESTful API with Postgres)
 
 // Get all pokemon
 
 app.get("/pokemon", async (req, res) => {
 	try {
-		const allPokemon = await pool.query('SELECT * FROM "Pokemon"');
+		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
 		res.json(allPokemon.rows);
 	} catch (error) {
 		console.error(error.message);
 	}
 });
 
-// Get specific pokemon
+// Get a specific pokemon
 
 // TODO: This is currently case-sensitive; must pass 'Bulbasaur' as param; 'bulbasaur' as lowercase will return nothing
 
