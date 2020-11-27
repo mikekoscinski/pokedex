@@ -2,16 +2,19 @@
 
 const express = require('express');
 const app = express(); // Should I invoke .router() here instead? Read the arguments for & against. I think using .router() is considered the best practice, as it creates mini apps that are easier to manage?
+
+const router = app.Router();
+
 const cors = require('cors');
 
 
 // Middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // import 'cors' library first
+app.use(express.json()); // provides access to client-side JSON data via request.body object
 
 
 // Controllers
-const pokemonController = require('./controller');
+const pokemonController = require('./controller/controller');
 const { Router } = require('express');
 
 
@@ -32,8 +35,6 @@ app.get('/pokemon', pokemonController.getPokedexIndex);
 app.get('/pokemon/:name', pokemonController.getPokedexEntry); // TODO: fix case-sensitive; must pass 'Bulbasaur'; 'bulbasaur' returns nothing
 
 
-
 app.listen(5000, () => {
 	console.log('Server has started on port 5000');
 });
-
