@@ -1,13 +1,15 @@
+const express = require('express');
+const router = express.Router();
+
 const model = require('../model/model.js');
-// also require view
-// and export controller so router can access
+// TODO: also require view and export controller so router can access
 
 
 
 exports.getPokedexIndex = async (req, res) => {
 	try {
 		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-		res.json(allPokemon.rows);
+		res.json(allPokemon.rows); // TODO: should this be res.send for normal text?
 		
 		// TODO: Does the view have to be rendered in here? (Yes)
 		
