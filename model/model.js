@@ -10,14 +10,14 @@ const pool = new Pool({
 	database: 'Dexter'
 });
 
-
-
-async function getPokedexIndexPageData () {
-	await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-}
-
-
-async function getPokemonEntry (name) {
-	const pokemon = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
-}
-
+module.exports = {
+	getIndexData: async function () {
+		const data = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
+		return data;
+	},
+	
+	getEntryData: async function (name) {
+		const data = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
+		return data;
+	}
+};
