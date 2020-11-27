@@ -5,32 +5,25 @@ const model = require('../model/model.js');
 // TODO: also require view and export controller so router can access
 
 
-
-exports.getPokedexIndex = async (req, res) => {
+router.get('/pokemon', async (req, res) => {
 	try {
-		const allPokemon = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-		res.json(allPokemon.rows); // TODO: should this be res.send for normal text?
-		
-		// TODO: Does the view have to be rendered in here? (Yes)
-		
+		const indexData = await model.getIndexData();
+		res.send(indexData.rows); // TODO: alternative: res.json()
+		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
 	}
-};
+});
 
-exports.getPokedexEntry = async (req, res) => {
+router.get('/pokemon/:name', async (req, res) => {
 	try {
-		const { name } = req.params;
-		const pokemon = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
-		res.json(pokemon.rows[0]);
+		const { name } = req.params; // must destructure; req.params = object w/ 'name' property
+		const entryData = await model.getEntryData(name);
+		res.send(entryData.rows[0]); // TODO: alternative: res.json()
+		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
 	}
-};
+});
 
-
-
-async function getPokedexIndexData () {
-	await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
-}
-
+module.exports = router;
