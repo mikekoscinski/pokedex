@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
-
 const model = require('../model/model.js');
-// TODO: also require view and export controller so router can access
-
+// TODO: require view 
 
 router.get('/', async (req, res) => {
 	try {
-		res.send('Welcome to the Pokédex.');
 		// TODO: Update response
+		res.send('Welcome to the Pokédex.');
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -18,7 +16,8 @@ router.get('/', async (req, res) => {
 router.get('/pokemon', async (req, res) => {
 	try {
 		const indexData = await model.getIndexData();
-		res.send(indexData.rows); // TODO: alternative: res.json()
+		// TODO: alternative to res.send() is: res.json()
+		res.send(indexData.rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -27,20 +26,19 @@ router.get('/pokemon', async (req, res) => {
 
 router.get('/pokemon/:name', async (req, res) => {
 	try {
-		const { name } = req.params; // must destructure; req.params = object w/ 'name' property
+		const { name } = req.params; // must destructure - req.params is an object w/ 'name' property
 		const entryData = await model.getEntryData(name);
-		res.send(entryData.rows[0]); // TODO: alternative: res.json()
+		res.send(entryData.rows[0]);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
 	}
 });
 
-// TODO: Search, Teams, Account
-
 router.get('/search', async (req, res) => {
 	try {
-		res.send('Welcome to the search page.');
+		const searchData = await model.getSearchData();
+		res.send(searchData.rows);
 		// TODO: Update response
 		// TODO: Render view
 	} catch (error) {
@@ -50,8 +48,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/teams', async (req, res) => {
 	try {
-		res.send('Welcome to your teams page.');
 		// TODO: Update response
+		res.send('Welcome to your teams page.');
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -60,13 +58,12 @@ router.get('/teams', async (req, res) => {
 
 router.get('/account', async (req, res) => {
 	try {
-		res.send('Welcome to your account page.');
 		// TODO: Update response
+		res.send('Welcome to your account page.');
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
 	}
 });
-
 
 module.exports = router;
