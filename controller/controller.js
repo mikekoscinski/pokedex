@@ -1,9 +1,9 @@
-// TODO: res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
+// res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
 
 const express = require('express');
 const router = express.Router();
 const model = require('../model/model.js');
-// TODO: require view 
+// TODO: require view
 
 router.get('/', async (req, res) => {
 	try {
