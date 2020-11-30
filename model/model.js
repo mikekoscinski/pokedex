@@ -1,5 +1,4 @@
-// 'pg' is only library we need in 'model' directory
-
+// 'pg' is only library we need in 'model' directory - allows us to make postgresql queries
 const Pool = require('pg').Pool;
 
 const pool = new Pool({
@@ -10,6 +9,7 @@ const pool = new Pool({
 	database: 'Dexter'
 });
 
+// Functions called in 'controller.js' to retrieve data
 module.exports = {
 	getIndexData: async function () {
 		const data = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
