@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+const hostname = 'localhost';
+const port = 5000;
+
 // Middleware
 app.use(cors()); // import 'cors' library first
 app.use(express.json()); // provides access to client-side JSON data via request.body object
@@ -14,8 +17,11 @@ const controller = require('./controller/controller.js');
 app.use('/', controller);
 app.use('/pokemon', controller);
 app.use('/pokemon/:name', controller);
-// TODO: replicate for all other pages: e.g. search, teams, account
+app.use('/search', controller);
+app.use('/teams', controller);
+app.use('/account', controller);
 
-app.listen(5000, () => {
-	console.log('Server has started on port 5000');
+// Creates Node.js web server at specified host & port
+app.listen(port, () => {
+	console.log(`Server running at http://${hostname}:${port}/`);
 });
