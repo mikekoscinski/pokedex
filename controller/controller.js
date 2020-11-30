@@ -1,3 +1,5 @@
+// TODO: res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
+
 const express = require('express');
 const router = express.Router();
 const model = require('../model/model.js');
@@ -5,8 +7,8 @@ const model = require('../model/model.js');
 
 router.get('/', async (req, res) => {
 	try {
-		// TODO: Update response
-		res.send('Welcome to the Pokédex.');
+		const homepageData = await model.getHomepageData();
+		res.send(homepageData);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -15,8 +17,7 @@ router.get('/', async (req, res) => {
 
 router.get('/pokemon', async (req, res) => {
 	try {
-		const indexData = await model.getIndexData();
-		// TODO: alternative to res.send() is: res.json()
+		const indexData = await model.getIndexData(); // TODO: Should I destructure this into an array prior to using forEach() to render views?
 		res.send(indexData.rows);
 		// TODO: Render view
 	} catch (error) {
@@ -26,7 +27,7 @@ router.get('/pokemon', async (req, res) => {
 
 router.get('/pokemon/:name', async (req, res) => {
 	try {
-		const { name } = req.params; // must destructure - req.params is an object w/ 'name' property
+		const { name } = req.params; // object destructuring to extract 'name' property value from req.params (req = object w/ 'name' param)
 		const entryData = await model.getEntryData(name);
 		res.send(entryData.rows[0]);
 		// TODO: Render view
@@ -39,7 +40,6 @@ router.get('/search', async (req, res) => {
 	try {
 		const searchData = await model.getSearchData();
 		res.send(searchData.rows);
-		// TODO: Update response
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -48,8 +48,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/teams', async (req, res) => {
 	try {
-		// TODO: Update response
-		res.send('Welcome to your teams page.');
+		const teamData = await model.getTeamData();
+		res.send(teamData); // TODO: Update to teamData.rows once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -58,8 +58,8 @@ router.get('/teams', async (req, res) => {
 
 router.get('/account', async (req, res) => {
 	try {
-		// TODO: Update response
-		res.send('Welcome to your account page.');
+		const accountData = await model.getAccountData();
+		res.send(accountData); // TODO: Update to accountData.rows once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
