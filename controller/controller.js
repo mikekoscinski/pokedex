@@ -17,6 +17,8 @@ router.get('/', async (req, res) => {
 
 
 
+
+
 router.get('/pokemon', async (req, res) => {
 	try {
 		const indexData = await model.getIndexData(); 
@@ -30,6 +32,8 @@ router.get('/pokemon', async (req, res) => {
 		console.error(error.message);
 	}
 });
+
+
 
 
 
