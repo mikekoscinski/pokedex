@@ -21,10 +21,11 @@ router.get('/', async (req, res) => {
 
 router.get('/pokemon', async (req, res) => {
 	try {
-		const indexData = await model.getIndexData(); 
-		// TODO: Should I spread this into an array prior to using forEach() to render views?
+		const indexData = await model.getIndexData();
+		// indexData is not iterable; must spread into array prior to .forEach()
+		const indexDataArray = Object.entries(indexData);
 		
-		// TODO: Cannot use .forEach() directly on indexData. Must first turn it into an array. Can do so with: const indexDataArray = Object.entries(indexData);
+		
 		
 		res.send(indexData.rows);
 		// TODO: Render view
