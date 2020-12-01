@@ -9,10 +9,10 @@ const pool = new Pool({
 	database: 'Dexter'
 });
 
-// Functions called in 'controller.js' to retrieve data
+// Functions called in controller.js to retrieve data
 module.exports = {
 	getHomepageData: async function () {
-		// TODO: Update when required
+		// TODO: Update
 		const data = 'Welcome to the Pokédex.';
 		return data;
 	},
