@@ -4,7 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Navmenu from './navmenu';
+import Navmenu from './Navmenu';
 
 ReactDOM.render(
   <React.StrictMode>

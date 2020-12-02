@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+// Server configuration
 const hostname = 'localhost';
 const port = 5000;
 
