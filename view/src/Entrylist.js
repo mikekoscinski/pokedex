@@ -1,5 +1,12 @@
 import React from "react";
-import Entry from "./Entry";
+
+function Entry ({ entries }) {
+	return (
+		<div>
+			Bulbasaur
+		</div>
+	)
+};
 
 export default function Entrylist ({ entries }) {
 	return (
