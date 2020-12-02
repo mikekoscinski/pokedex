@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import Entrylist from "./Entrylist";
 
+
+// TODO: 
+
 export default function App() {
   const [entries, setEntries] = useState(['Bulbasaur', 'Ivysaur']);
   return (

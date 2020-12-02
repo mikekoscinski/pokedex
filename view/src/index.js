@@ -8,8 +8,10 @@ import Navmenu from './Navmenu';
 
 ReactDOM.render(
   <React.StrictMode>
+    <strong>Application view:</strong>
     <App />
-    <p>test in index.js</p>
+    <hr></hr>
+    <strong>Navmenu view:</strong>
     <Navmenu />
   </React.StrictMode>,
   document.getElementById('root')

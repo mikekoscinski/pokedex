@@ -21,11 +21,9 @@ router.get('/', async (req, res) => {
 router.get('/pokemon', async (req, res) => {
 	try {
 		const { rows } = await model.getIndexData();
-		
 		rows.forEach(el => console.log(el));
 		
-		
-		// TODO: Render view
+		// TODO: Render view. I think I need to call a renderView function with 'rows' passed as a paremeter (then, in the React component file, call .forEach on 'rows' to render each row in the component)
 		res.send(rows);
 		// res.render('index');
 		
