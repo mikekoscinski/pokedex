@@ -1,7 +1,7 @@
 import React from "react";
-import Entry from "./entry";
+import Entry from "./Entry";
 
-export default function entryList ({ entries }) {
+export default function Entrylist ({ entries }) {
 	return (
 		entries.map(entry => {
 			return <Entry entry={entry} />

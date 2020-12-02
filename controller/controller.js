@@ -16,8 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 
-
-
+////////////////////////////////////////////////////////////
 
 router.get('/pokemon', async (req, res) => {
 	try {
@@ -26,16 +25,18 @@ router.get('/pokemon', async (req, res) => {
 		const indexDataArray = Object.entries(indexData);
 		
 		
-		
 		res.send(indexData.rows);
 		// TODO: Render view
+		
+		
+		
+		
 	} catch (error) {
 		console.error(error.message);
 	}
 });
 
-
-
+////////////////////////////////////////////////////////////
 
 
 router.get('/pokemon/:name', async (req, res) => {
