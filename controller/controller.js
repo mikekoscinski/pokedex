@@ -7,8 +7,8 @@ const model = require('../model/model.js');
 
 router.get('/', async (req, res) => {
 	try {
-		const homepageData = await model.getHomepageData();
-		res.send(homepageData);
+		const { rows } = await model.getHomepageData();
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -20,15 +20,14 @@ router.get('/', async (req, res) => {
 
 router.get('/pokemon', async (req, res) => {
 	try {
-		const indexData = await model.getIndexData();
-		// indexData is not iterable; must spread into array prior to .forEach()
-		const indexDataArray = Object.entries(indexData);
+		const { rows } = await model.getIndexData();
+		
+		rows.forEach(el => console.log(el));
 		
 		
-		res.send(indexData.rows);
 		// TODO: Render view
-		
-		
+		res.send(rows);
+		// res.render('index');
 		
 		
 	} catch (error) {
@@ -38,12 +37,11 @@ router.get('/pokemon', async (req, res) => {
 
 ////////////////////////////////////////////////////////////
 
-
 router.get('/pokemon/:name', async (req, res) => {
 	try {
-		const { name } = req.params; // object destructuring to extract 'name' property value from req.params (req = object w/ 'name' param)
-		const entryData = await model.getEntryData(name);
-		res.send(entryData.rows[0]);
+		const { name } = req.params;
+		const { rows } = await model.getEntryData(name);
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -52,8 +50,8 @@ router.get('/pokemon/:name', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 	try {
-		const searchData = await model.getSearchData();
-		res.send(searchData.rows);
+		const { rows } = await model.getSearchData();
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -62,8 +60,9 @@ router.get('/search', async (req, res) => {
 
 router.get('/teams', async (req, res) => {
 	try {
-		const teamData = await model.getTeamData();
-		res.send(teamData); // TODO: Update to teamData.rows once PSQL table + query finalized
+		const { rows } = await model.getTeamData();
+		res.send(rows); 
+		// TODO: Update to teamData.rows once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -72,8 +71,9 @@ router.get('/teams', async (req, res) => {
 
 router.get('/account', async (req, res) => {
 	try {
-		const accountData = await model.getAccountData();
-		res.send(accountData); // TODO: Update to accountData.rows once PSQL table + query finalized
+		const { rows } = await model.getAccountData();
+		res.send(rows); 
+		// TODO: Update to accountData.rows once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
