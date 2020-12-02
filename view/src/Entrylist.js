@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Entry ({ entries }) {
+function Entry (row) {
 	return (
-		<div>
-			Bulbasaur
-		</div>
+		// {row.id}
+		// {row.name}
+		<p>Pikachu</p>
 	)
 };
 
-export default function Entrylist ({ entries }) {
+export default function Entrylist (rows) {
+	
+	const [entries, setEntries] = useState(['test']);
+	
+	// setEntries(rows);
+	
 	return (
 		entries.map(entry => {
 			return <Entry entry={entry} />

@@ -7,7 +7,7 @@ import Entrylist from "./Entrylist";
 // TODO: 
 
 export default function App() {
-  const [entries, setEntries] = useState(['Bulbasaur', 'Ivysaur']);
+  const [entries, setEntries] = useState([]);
   return (
     <>
       <Entrylist entries={entries}/>
