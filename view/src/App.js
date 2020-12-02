@@ -1,17 +1,13 @@
-import React, { useState } from "react";
-import Index from "./entry-list";
+// TODO: Make a single-page app, with 'view' and 'menu'; 'view' updated via state? This should just be the view? Menu is a separate component; rendered in index.js
 
-function App() {
+import React, { useState } from "react";
+import Entrylist from "./Entrylist";
+
+export default function App() {
   const [entries, setEntries] = useState(['Bulbasaur', 'Ivysaur']);
-  
   return (
     <>
-      <Index entries={entries}/>
-      <div>Menu</div>
+      <Entrylist entries={entries}/>
     </>
   );
-}
-
-// TODO: Make a single-page app, with 'view' and 'menu'; 'view' updated via state?
-
-export default App;
+};
