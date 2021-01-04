@@ -3,14 +3,11 @@
 import React, { useState } from "react";
 import Entrylist from "./Entrylist";
 
-
-// TODO: 
+// TODO:
 
 export default function App() {
   const [entries, setEntries] = useState([]);
   return (
-    <>
-      <Entrylist entries={entries}/>
-    </>
+    <Entrylist entries={entries}/>
   );
 };
