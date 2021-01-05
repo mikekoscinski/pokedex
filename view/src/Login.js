@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-export default function Entry () {
+export default function Login () {
 	return (
-		<h1>Entry</h1>
+		<h1>Log in</h1>
 	)
 }
