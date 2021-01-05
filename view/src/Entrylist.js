@@ -1,3 +1,5 @@
+// TODO: Need to redirect to pokemon/:name <tr> onClick
+
 import React, { useEffect, useState } from "react";
 
 export default function EntryList () {
