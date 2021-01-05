@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Entrylist (rows) {
+export default function EntryList () {
 	
 	const [entries, setEntries] = useState([]);
 	
@@ -29,7 +29,7 @@ export default function Entrylist (rows) {
 			</thead>
 			<tbody>
 				{entries.map(entry => (
-					<tr key={entry.name}>
+					<tr key={entry.name} onClick={() => console.log(entry.name)}>
 						<td>{entry.pokedex_id}</td>
 						<td>{entry.name}</td>
 					</tr>
