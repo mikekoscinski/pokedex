@@ -26,11 +26,15 @@
 
 import React from 'react';
 import { render } from 'react-dom';
+
+// Components:
 import Router from './Router';
+import Navmenu from './Navmenu';
 
 render(
   <React.StrictMode>
     <Router />
+    <Navmenu />
   </React.StrictMode>,
   document.getElementById('root')
 );
