@@ -1,6 +1,7 @@
 // TODO: Need to redirect to pokemon/:name <tr> onClick
 
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 
 export default function EntryList () {
 	
@@ -33,7 +34,8 @@ export default function EntryList () {
 				{entries.map(entry => (
 					<tr key={entry.name} onClick={() => console.log(entry.name)}>
 						<td>{entry.pokedex_id}</td>
-						<td>{entry.name}</td>
+						{/* TODO: Link needs to be adjusted for Castform, Deoxys, Farfetch'd, Mr. Mime edge cases */}
+						<td><Link to={`/pokemon/${entry.name.toLowerCase()}`}>{entry.name}</Link></td>
 					</tr>
 				))}
 			</tbody>
