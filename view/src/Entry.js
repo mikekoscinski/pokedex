@@ -6,9 +6,9 @@ export default function Entry () {
 	const [entry, setEntry] = useState([]);
 
 	const getEntry = async () => {
-		try {
-			// TODO: Must dynamically interpolate pokedex_id from URL params. const entryPokedexID from URL params?
-			const response = await fetch('http://localhost:5000/pokemon/1'); 
+		try {			
+			// TODO: Is this the best practice for dynamic page rendering?
+			const response = await fetch(`http://localhost:5000${window.location.pathname}`); 
 			const jsonData = await response.json();
 			setEntry(jsonData);
 		} catch (error) {
@@ -32,7 +32,7 @@ export default function Entry () {
 							<div className="bio-entry"><p>Primary type: <span className="bio-value">{entry.primary_type_id}</span></p></div>
 							<div className="bio-entry"><p>Secondary type: <span className="bio-value">{entry.secondary_type_id}</span></p></div>
 							{/* TODO: Once bios are in DB, match bio entry to above format. May need different div structure, as it should span entire page, vs table-like underlined flexbox appearance  */}
-							<p>Bulbasaur is a leaf boi.</p>
+							<p>TODO: INSERT BIO HERE.</p>
 						</div>
 					</div>
 					<div className="stats-section">
