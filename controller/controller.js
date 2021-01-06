@@ -1,5 +1,7 @@
 // res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
 
+// NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, data returned must be named 'rows'.
+
 const express = require('express');
 const router = express.Router();
 const model = require('../model/model.js');
@@ -7,8 +9,8 @@ const model = require('../model/model.js');
 
 router.get('/', async (req, res) => {
 	try {
-		const { data } = await model.getHomepageData();
-		res.send(data);
+		const { rows } = await model.getHomepageData();
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -28,14 +30,14 @@ router.get('/', async (req, res) => {
 
 router.get('/pokemon', async (req, res) => {
 	try {
-		const { data } = await model.getIndexData();
+		const { rows } = await model.getIndexData();
 
-		console.log('test');
+		console.log(model.getIndexData());
 
 		// TODO: I need to somehow use data.forEach(el => renderView(el));
 		
 		// TODO: Render view. I think I need to call a renderView function with 'data' passed as a paremeter (then, in the React component file, call .forEach on 'data' to render each row in the component)
-		res.send(data);
+		res.send(rows);
 		// res.render('index');
 		
 		
@@ -60,8 +62,8 @@ router.get('/pokemon', async (req, res) => {
 router.get('/pokemon/:name', async (req, res) => {
 	try {
 		const { name } = req.params;
-		const { data } = await model.getEntryData(name);
-		res.send(data);
+		const { rows } = await model.getEntryData(name);
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -70,8 +72,8 @@ router.get('/pokemon/:name', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 	try {
-		const { data } = await model.getSearchData();
-		res.send(data);
+		const { rows } = await model.getSearchData();
+		res.send(rows);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -80,8 +82,8 @@ router.get('/search', async (req, res) => {
 
 router.get('/teams', async (req, res) => {
 	try {
-		const { data } = await model.getTeamData();
-		res.send(data); 
+		const { rows } = await model.getTeamData();
+		res.send(rows); 
 		// TODO: Update to teamData.data once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
@@ -91,8 +93,8 @@ router.get('/teams', async (req, res) => {
 
 router.get('/account', async (req, res) => {
 	try {
-		const { data } = await model.getAccountData();
-		res.send(data); 
+		const { rows } = await model.getAccountData();
+		res.send(rows); 
 		// TODO: Update to accountData.data once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
