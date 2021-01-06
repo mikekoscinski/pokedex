@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 export default function Entry () {
-	
-	// TODO: store entryName from URL params
-
-	// TODO: Need to retrieve data using multiple queries for the entry page
-	
-	// TODO: What other data do I need?
-
-
+	// TODO: Need to retrieve data using multiple queries for the entry page. What other data do I need?
 
 	const [entry, setEntry] = useState([]);
 
 	const getEntry = async () => {
 		try {
-			const response = await fetch('http://localhost:5000/pokemon/Bulbasaur');
+			// TODO: Must dynamically interpolate pokedex_id from URL params. const entryPokedexID from URL params?
+			const response = await fetch('http://localhost:5000/pokemon/1'); 
 			const jsonData = await response.json();
 			setEntry(jsonData);
 		} catch (error) {
@@ -54,9 +48,6 @@ export default function Entry () {
 							<div className="stat-entry"><p>Total Stats: <span className="stat-value">{entry.total_stats}</span></p></div>
 						</div>
 					</div>
-					
-				
-				
 				</div>
 			))}
 		</div>

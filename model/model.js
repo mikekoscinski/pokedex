@@ -13,7 +13,7 @@ const pool = new Pool({
 module.exports = {
 	// TODO: Matching React component named Login; need to match
 	getHomepageData: async function () {
-		// TODO: Update
+		// TODO: Update data once page's utility is finalized
 		const data = 'Welcome to the Pokédex.';
 		return data;
 	},
@@ -23,8 +23,8 @@ module.exports = {
 		return data;
 	},
 	
-	getEntryData: async function (name) { // TODO: -> pokedex_id
-		const data = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]); // TODO: -> pokdex_id
+	getEntryData: async function (pokedex_id) {
+		const data = await pool.query('SELECT * FROM "Pokemon" WHERE pokedex_id = $1', [pokedex_id]);
 		return data;
 	},
 	
@@ -34,22 +34,14 @@ module.exports = {
 	},
 	
 	getTeamData: async function () {
-		// TODO: Should user_id be a param here? Is there a way to do that without displaying user_id in the URL?
-		const data = 'Update getTeamData() query in model.js'; // TODO
-		
-		// TODO: Add user_id as param. Perhaps it should be just like getEntryData -- the GET request is '/:user_id/teams', then destructure { userID } and pass it here as a param. 
-		// const data = await pool.query('SELECT * FROM "Team" WHERE user_id = $1', [user_id]);
-		
+		// TODO: Should user_id be a param here? Is there a way to do that without displaying user_id in the URL? Add user_id as param. Perhaps it should be just like getEntryData -- the GET request is '/:user_id/teams', then destructure { userID } and pass it here as a param. E.G. const data = await pool.query('SELECT * FROM "Team" WHERE user_id = $1', [user_id]);
+		const data = 'Update getTeamData() query in model.js';
 		return data;
 	},
 	
 	getAccountData: async function () {
-		// TODO: Update query -- will take form of pool.query(${query});
+		// TODO: Update query -- will take form of pool.query(${query}). Same as getTeamData() -- pass user_id as a param; destructure it as { userID } in controller.js. E.G. const data = pool.query('SELECT * FROM "User" WHERE user_id = $1', [user_id]);
 		const data = 'Update getAccountData() query in model.js';
-		
-		// TODO: Same as getTeamData() -- pass user_id as a param; destructure it as { userID } in controller.js
-		// const data = pool.query('SELECT * FROM "User" WHERE user_id = $1', [user_id]);
-		
 		return data;
 	}
 };
