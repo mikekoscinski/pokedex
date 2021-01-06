@@ -11,6 +11,7 @@ const pool = new Pool({
 
 // Functions called in controller.js to retrieve data
 module.exports = {
+	// TODO: Matching React component named Login; need to match
 	getHomepageData: async function () {
 		// TODO: Update
 		const data = 'Welcome to the Pokédex.';
@@ -22,10 +23,8 @@ module.exports = {
 		return data;
 	},
 	
-
-	// TODO: Change 'name' to 'pokedex_id'?
-	getEntryData: async function (name) {
-		const data = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
+	getEntryData: async function (name) { // TODO: -> pokedex_id
+		const data = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]); // TODO: -> pokdex_id
 		return data;
 	},
 	
