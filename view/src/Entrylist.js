@@ -34,7 +34,7 @@ export default function EntryList () {
 				{entries.map(entry => (
 					<tr key={entry.name} onClick={() => console.log(entry.name)}>
 						<td>{entry.pokedex_id}</td>
-						{/* TODO: Link needs to be adjusted for Castform, Deoxys, Farfetch'd, Mr. Mime edge cases */}
+						{/* TODO: Link needs to be adjusted for Castform, Deoxys, Farfetch'd, Mr. Mime edge cases (NOTE: I think using pokedex_id takes care of that?*/}
 						<td><Link to={`/pokemon/${entry.name.toLowerCase()}`}>{entry.name}</Link></td>
 					</tr>
 				))}

@@ -6,6 +6,10 @@ export default function Entry () {
 
 	// TODO: Need to retrieve data using multiple queries for the entry page
 	
+	// TODO: What other data do I need?
+
+
+
 	const [entry, setEntry] = useState([]);
 
 	const getEntry = async () => {
@@ -22,32 +26,32 @@ export default function Entry () {
 		getEntry();
 	}, []);
 
-	console.log(entry);
-
 	return (
 		<div className="pokedex-entry">
 			{entry.map(entry => (
 				<div key={`pokedex-entry-${entry.pokedex_id}`}>
 					<h1>{`No. ${entry.pokedex_id} - ${entry.name}`}</h1>
-					<div className="bio">
+					<div className="bio-section">
 						<h2>Bio</h2>
-						<p>Region: {entry.region_id}</p>
-						<p>Primary type: {entry.primary_type_id}</p>
-						<p>Secondary type: {entry.secondary_type_id}</p>
-						<p>Bulbasaur is a leaf boi.</p>
+						<div className="bio-values">
+							<div className="bio-entry"><p>Region: <span className="bio-value">{entry.region_id}</span></p></div>
+							<div className="bio-entry"><p>Primary type: <span className="bio-value">{entry.primary_type_id}</span></p></div>
+							<div className="bio-entry"><p>Secondary type: <span className="bio-value">{entry.secondary_type_id}</span></p></div>
+							{/* TODO: Once bios are in DB, match bio entry to above format. May need different div structure, as it should span entire page, vs table-like underlined flexbox appearance  */}
+							<p>Bulbasaur is a leaf boi.</p>
+						</div>
 					</div>
-					<div className="stats">
+					<div className="stats-section">
 						<h2>Stats</h2>
 						<div className="stat-values">
-							<p>Attack: {entry.attack}</p>
-							<p>Defense: {entry.defense}</p>
-							<p>Special Attack: {entry.special_attack}</p>
-							<p>Special Defense: {entry.special_defense}</p>
-							<p>Speed: {entry.speed}</p>
+							<div className="stat-entry"><p>Attack: <span className="stat-value">{entry.attack}</span></p></div>
+							<div className="stat-entry"><p>Defense: <span className="stat-value">{entry.defense}</span></p></div>
+							<div className="stat-entry"><p>Special Attack: <span className="stat-value">{entry.special_attack}</span></p></div>
+							<div className="stat-entry"><p>Special Defense: <span className="stat-value">{entry.special_defense}</span></p></div>
+							<div className="stat-entry"><p>Speed: <span className="stat-value">{entry.speed}</span></p></div>
 							<p>---</p>
-							<p>Average Stat: {entry.average_stat}</p>
-							<p>Total Stats: {entry.total_stats}</p>
-							
+							<div className="stat-entry"><p>Average Stat: <span className="stat-value">{entry.average_stat}</span></p></div>
+							<div className="stat-entry"><p>Total Stats: <span className="stat-value">{entry.total_stats}</span></p></div>
 						</div>
 					</div>
 					
