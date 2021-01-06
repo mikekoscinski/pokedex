@@ -17,7 +17,7 @@ const controller = require('./controller/controller.js');
 // Routes
 app.use('/', controller);
 app.use('/pokemon', controller);
-app.use('/pokemon/:name', controller);
+app.use('/pokemon/:pokedex_id', controller);
 app.use('/search', controller);
 app.use('/teams', controller);
 app.use('/account', controller);

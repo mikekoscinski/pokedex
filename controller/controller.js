@@ -24,24 +24,16 @@ router.get('/pokemon', async (req, res) => {
 	}
 });
 
-// TODO: Should this be /pokemon/:pokedex_id? Because shouldn't have duplicate entries? Instead should do an edge case render for Castform + Deoxys entirely within Entry.js
-router.get('/pokemon/:name', async (req, res) => {
+router.get('/pokemon/:pokedex_id', async (req, res) => {
 	try {
-		const { name } = req.params; // TODO: -> pokedex_id
-		const { rows } = await model.getEntryData(name);
+		// pokedex_id (whatever is specified in above get request after : colon) is sole object property in req.params
+		const { pokedex_id } = req.params;
+		const { rows } = await model.getEntryData(pokedex_id);
 		res.send(rows);
 	} catch (error) {
 		console.error(error.message);
 	}
 });
-
-
-
-
-
-
-
-
 
 router.get('/search', async (req, res) => {
 	try {
