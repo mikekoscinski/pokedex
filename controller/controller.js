@@ -7,8 +7,8 @@ const model = require('../model/model.js');
 
 router.get('/', async (req, res) => {
 	try {
-		const { rows } = await model.getHomepageData();
-		res.send(rows);
+		const { data } = await model.getHomepageData();
+		res.send(data);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -28,19 +28,19 @@ router.get('/', async (req, res) => {
 
 router.get('/pokemon', async (req, res) => {
 	try {
-		const { rows } = await model.getIndexData();
+		const { data } = await model.getIndexData();
 
 		console.log('test');
 
-		// TODO: I need to somehow use rows.forEach(el => renderView(el));
+		// TODO: I need to somehow use data.forEach(el => renderView(el));
 		
-		// TODO: Render view. I think I need to call a renderView function with 'rows' passed as a paremeter (then, in the React component file, call .forEach on 'rows' to render each row in the component)
-		res.send(rows);
+		// TODO: Render view. I think I need to call a renderView function with 'data' passed as a paremeter (then, in the React component file, call .forEach on 'data' to render each row in the component)
+		res.send(data);
 		// res.render('index');
 		
 		
 		
-		// TODO: Store 'rows' in dictionary
+		// TODO: Store 'data' in dictionary
 		// don't do an array of objects here
 		
 		
@@ -56,16 +56,12 @@ router.get('/pokemon', async (req, res) => {
 
 
 
-
-
-
-
-
+// TODO: Should this be /pokemon/:pokedex_id? Because shouldn't have duplicate entries? Instead should do an edge case render for Castform + Deoxys entirely within Entry.js
 router.get('/pokemon/:name', async (req, res) => {
 	try {
 		const { name } = req.params;
-		const { rows } = await model.getEntryData(name);
-		res.send(rows);
+		const { data } = await model.getEntryData(name);
+		res.send(data);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -74,8 +70,8 @@ router.get('/pokemon/:name', async (req, res) => {
 
 router.get('/search', async (req, res) => {
 	try {
-		const { rows } = await model.getSearchData();
-		res.send(rows);
+		const { data } = await model.getSearchData();
+		res.send(data);
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -84,9 +80,9 @@ router.get('/search', async (req, res) => {
 
 router.get('/teams', async (req, res) => {
 	try {
-		const { rows } = await model.getTeamData();
-		res.send(rows); 
-		// TODO: Update to teamData.rows once PSQL table + query finalized
+		const { data } = await model.getTeamData();
+		res.send(data); 
+		// TODO: Update to teamData.data once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);
@@ -95,9 +91,9 @@ router.get('/teams', async (req, res) => {
 
 router.get('/account', async (req, res) => {
 	try {
-		const { rows } = await model.getAccountData();
-		res.send(rows); 
-		// TODO: Update to accountData.rows once PSQL table + query finalized
+		const { data } = await model.getAccountData();
+		res.send(data); 
+		// TODO: Update to accountData.data once PSQL table + query finalized
 		// TODO: Render view
 	} catch (error) {
 		console.error(error.message);

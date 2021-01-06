@@ -22,6 +22,8 @@ module.exports = {
 		return data;
 	},
 	
+
+	// TODO: Change 'name' to 'pokedex_id'?
 	getEntryData: async function (name) {
 		const data = await pool.query('SELECT * FROM "Pokemon" WHERE name = $1', [name]);
 		return data;
