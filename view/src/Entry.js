@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export default function Entry () {
 	// TODO: Need to retrieve data using multiple queries for the entry page. What other data do I need?
