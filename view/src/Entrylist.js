@@ -30,7 +30,7 @@ export default function EntryList () {
 			</thead>
 			<tbody>
 				{entries.map(entry => (
-					<tr key={`${entry.pokedex_id}-${entry.name}`} onClick={() => console.log(entry.name)}>
+					<tr key={`${entry.pokedex_id}-${entry.name}`} name={entry.name} pokedex_id={entry.pokedex_id} onClick={() => console.log(entry.name)}>
 						<td>{entry.pokedex_id}</td>
 						<td><Link to={`/pokemon/${entry.pokedex_id}`}>{entry.name}</Link></td>
 					</tr>
