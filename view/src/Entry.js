@@ -7,8 +7,9 @@ export default function Entry () {
 
 	const getEntry = async () => {
 		try {			
-			// TODO: Is this the best practice for dynamic page rendering?
-			const response = await fetch(`http://localhost:5000${window.location.pathname}`); 
+			// TODO: Is this the best practice for dynamic page rendering? Should I be accessing the link like this?
+			const response = await fetch(`http://localhost:5000${window.location.pathname}`);
+			// TODO: Should I be making the requests directly? Should I import model.js and invoke its methods directly?
 			const jsonData = await response.json();
 			setEntry(jsonData);
 		} catch (error) {
@@ -23,15 +24,14 @@ export default function Entry () {
 	return (
 		<div className="pokedex-entry">
 			{entry.map(entry => (
-				<div key={`pokedex-entry-${entry.pokedex_id}`}>
+				<div key={`pokedex-entry-${entry.name}-${entry.pokedex_id}`}>
 					<h1>{`No. ${entry.pokedex_id} - ${entry.name}`}</h1>
 					<div className="bio-section">
 						<h2>Bio</h2>
 						<div className="bio-values">
 							<div className="bio-entry"><p>Region: <span className="bio-value">{entry.region_id}</span></p></div>
-							<div className="bio-entry"><p>Primary type: <span className="bio-value">{entry.primary_type_id}</span></p></div>
-							<div className="bio-entry"><p>Secondary type: <span className="bio-value">{entry.secondary_type_id}</span></p></div>
-							{/* TODO: Once bios are in DB, match bio entry to above format. May need different div structure, as it should span entire page, vs table-like underlined flexbox appearance  */}
+							<div className="bio-entry"><p><span className="bio-value type">{entry.primary_type_id} <span className="bio-value type">{entry.secondary_type_id}</span></span></p></div>
+							{/* TODO: Once bios are in DB. May need different div structure for bio; should span entire page, vs table-like underlined flexbox appearance  */}
 							<p>TODO: INSERT BIO HERE.</p>
 						</div>
 					</div>
