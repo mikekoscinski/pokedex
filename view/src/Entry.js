@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Entry () {
+// TODO: Should I use pokedex_id or just window.location.pathname? The latter works fine right now. The former introduces React missing dependency errors. (See: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook). CONCLUSION: Will use window.location for now
+
+export default function Entry ({ match }) {
 	// TODO: Need to retrieve data using multiple queries for the entry page. What other data do I need?
 
+	const { pokedex_id } = match.params;
 	const [entry, setEntry] = useState([]);
+	
+	// TODO: When I made the fetch request using window.location.pathname, useEffect had no missing dependencies - because window.location.pathname was a globally available value.
 
 	const getEntry = async () => {
-		try {			
-			// TODO: Is this the best practice for dynamic page rendering? Should I be accessing the link like this?
+		try {
+			// const response = await fetch(`http://localhost:5000/pokemon/${pokedex_id}`);
 			const response = await fetch(`http://localhost:5000${window.location.pathname}`);
-			// TODO: Should I be making the requests directly? Should I import model.js and invoke its methods directly?
 			const jsonData = await response.json();
 			setEntry(jsonData);
 		} catch (error) {

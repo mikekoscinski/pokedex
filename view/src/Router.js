@@ -16,7 +16,7 @@ export default function Router () {
 			<Switch>
 				<Route exact path="/" component={Login} />
 				<Route exact path="/pokemon" component={EntryList} />
-				<Route exact path="/pokemon/:name" component={Entry} />
+				<Route exact path="/pokemon/:pokedex_id" component={Entry} />
 				<Route exact path="/search" component={Search} />
 				<Route exact path="/teams" component={Teams} />
 				<Route exact path="/myaccount" component={MyAccount} />

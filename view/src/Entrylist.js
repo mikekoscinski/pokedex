@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function EntryList () {
-	
 	const [entries, setEntries] = useState([]);
 	
 	const getEntries = async () => {
@@ -10,7 +9,6 @@ export default function EntryList () {
 			const response = await fetch('http://localhost:5000/pokemon');
 			const jsonData = await response.json();
 			setEntries(jsonData);
-			
 		} catch (error) {
 			console.error(error.message);
 		}
