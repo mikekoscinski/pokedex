@@ -26,9 +26,20 @@ router.get('/pokemon', async (req, res) => {
 
 router.get('/pokemon/:pokedex_id', async (req, res) => {
 	try {
-		// pokedex_id (whatever is specified in above get request after : colon) is sole object property in req.params
+		// pokedex_id (the variable specified in get request URL after colon) is sole object property in req.params
 		const { pokedex_id } = req.params;
 		const { rows } = await model.getEntryData(pokedex_id);
+		res.send(rows);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+
+// TODO: Under development
+router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
+	try {
+		const { pokedex_id } = req.params;
+		const { rows } = await model.getEntryMovesData(pokedex_id);
 		res.send(rows);
 	} catch (error) {
 		console.error(error.message);
