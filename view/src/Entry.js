@@ -22,11 +22,6 @@ export default function Entry ({ match }) {
 		}
 	};
 
-	useEffect(() => {
-		getEntry();
-	}, []);
-
-	// TODO: IN DEVELOPMENT
 	const getEntryMoves = async () => {
 		try {
 			const response = await fetch(`http://localhost:5000${window.location.pathname}/moves`);
@@ -37,7 +32,11 @@ export default function Entry ({ match }) {
 		}
 	};
 
-	// TODO: IN DEVELOPMENT
+	// TODO: Can I combine these?
+	useEffect(() => {
+		getEntry();
+	}, []);
+
 	useEffect(() => {
 		getEntryMoves();
 	}, []);
@@ -70,15 +69,27 @@ export default function Entry ({ match }) {
 							<div className="stat-entry"><p>Total Stats: <span className="stat-value">{entry.total_stats}</span></p></div>
 						</div>
 					</div>
-			{/* TODO: NEED TO MAP OVER EACH MOVE IN ENTRYMOVES */}
 					<div className="moves-section">
 						<h2>Moves</h2>
-						<h3>Level Up Moves</h3>
-						<h3>Egg Moves</h3>
-						<h3>Egg Move Tutor</h3>
-						<h3>Pre-Evolution Moves</h3>
-						<h3>HM Moves</h3>
-						<h3>TM Moves</h3>
+						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
+							<>
+							<h3>{methodObtained}</h3>
+							<table>
+								<thead>
+									<th>Move</th>
+									{(methodObtained === 'Level up') ? <th>Level Obtained</th> : null}
+								</thead>
+								<tbody>
+									{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
+										<tr>
+											<td>{move.move_id}</td>
+											{(methodObtained === 'Level up') ? <td>{move.level_obtained_id}</td> : null}
+										</tr>
+									))}
+								</tbody>
+							</table>
+							</>
+						))}
 					</div>
 				</div>
 			))}
