@@ -72,23 +72,26 @@ export default function Entry ({ match }) {
 					<div className="moves-section">
 						<h2>Moves</h2>
 						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
-							<>
-							<h3>{methodObtained}</h3>
-							<table>
-								<thead>
-									<th>Move</th>
-									{(methodObtained === 'Level up') ? <th>Level Obtained</th> : null}
-								</thead>
-								<tbody>
-									{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
+							<div key={`${entry.name}-${methodObtained.replace(/\s/g, '')}-moves`}>
+								<h3 key={methodObtained}>{methodObtained}</h3>
+								<table>
+									<thead>
 										<tr>
-											<td>{move.move_id}</td>
-											{(methodObtained === 'Level up') ? <td>{move.level_obtained_id}</td> : null}
+											<th>Move</th>
+											{/* https://reactjs.org/docs/conditional-rendering.html */}
+											{(methodObtained === 'Level up') ? <th>Level Obtained</th> : null}
 										</tr>
-									))}
-								</tbody>
-							</table>
-							</>
+									</thead>
+									<tbody>
+										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
+											<tr key={move.move_id}>
+												<td>{move.move_id}</td>
+												{(methodObtained === 'Level up') ? <td>{move.level_obtained_id}</td> : null}
+											</tr>
+										))}
+									</tbody>
+								</table>
+							</div>
 						))}
 					</div>
 				</div>
