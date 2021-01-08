@@ -32,7 +32,7 @@ export default function Entry ({ match }) {
 		}
 	};
 
-	// TODO: Can I combine these?
+	// React recommends separating hooks by concern, hence separate useEffect calls. Source: https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
 	useEffect(() => {
 		getEntry();
 	}, []);
