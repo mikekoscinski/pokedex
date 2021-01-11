@@ -35,11 +35,19 @@ router.get('/pokemon/:pokedex_id', async (req, res) => {
 	}
 });
 
-// TODO: Under development
 router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
 	try {
 		const { pokedex_id } = req.params;
 		const { rows } = await model.getEntryMovesData(pokedex_id);
+		res.send(rows);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+
+router.get('/moves', async (req, res) => {
+	try {
+		const { rows } = await model.getEntryMovesInfo();
 		res.send(rows);
 	} catch (error) {
 		console.error(error.message);
