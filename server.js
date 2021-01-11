@@ -19,6 +19,7 @@ app.use('/', controller);
 app.use('/pokemon', controller);
 app.use('/pokemon/:pokedex_id', controller);
 app.use('/pokemon/:pokedex_id/moves', controller);
+app.use('/moves', controller);
 app.use('/search', controller);
 app.use('/teams', controller);
 app.use('/account', controller);

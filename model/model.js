@@ -25,20 +25,17 @@ module.exports = {
 	
 	getEntryData: async function (pokedex_id) {
 		const data = await pool.query('SELECT * FROM "Pokemon" WHERE pokedex_id = $1', [pokedex_id]);
-		
-
-		const movesData = await pool.query('SELECT move_id, method_obtained_id, level_obtained_id FROM "PokemonMove" WHERE pokedex_id = $1', [pokedex_id]);
-
-		// TODO: Returns an array. But I need to isolate this array from the other query results I need to complete the Entry page. By keeping them separate I can map over each to populate the Entry component's specific sections without needing to do validation. (E.g. I don't need to check that I am mapping over bio info).
-		
-		// TODO: So, instead of concatenatng these separate arrays, I should write two separate getEntryData functions...
-		
+		const movesData = await pool.query('SELECT move_id, method_obtained_id, level_obtained_id FROM "PokemonMove" WHERE pokedex_id = $1', [pokedex_id]);		
 		return data;
 	},
 
-	// TODO: UNDER DEVELOPMENT
 	getEntryMovesData: async function (pokedex_id) {
 		const data = await pool.query('SELECT move_id, method_obtained_id, level_obtained_id FROM "PokemonMove" WHERE pokedex_id = $1', [pokedex_id]);
+		return data;
+	},
+
+	getEntryMovesInfo: async function () {
+		const data = await pool.query('SELECT * FROM "Move"');
 		return data;
 	},
 	

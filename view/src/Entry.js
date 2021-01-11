@@ -10,6 +10,9 @@ export default function Entry ({ match }) {
 	// TODO: Need to create entryMoves, setEntryMoves in state
 	const [entryMoves, setEntryMoves] = useState([]);
 
+	// TODO: 
+	const [entryMovesInfo, setEntryMovesInfo] = useState([]);
+
 	const getEntry = async () => {
 		try {
 			// const response = await fetch(`http://localhost:5000/pokemon/${pokedex_id}`);
@@ -32,6 +35,16 @@ export default function Entry ({ match }) {
 		}
 	};
 
+	const getEntryMovesInfo = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/moves');
+			const jsonData = await response.json();
+			setEntryMovesInfo(jsonData);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+
 	// React recommends separating hooks by concern, hence separate useEffect calls. Source: https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
 	useEffect(() => {
 		getEntry();
@@ -39,6 +52,10 @@ export default function Entry ({ match }) {
 
 	useEffect(() => {
 		getEntryMoves();
+	}, []);
+
+	useEffect(() => {
+		getEntryMovesInfo();
 	}, []);
 
 	return (
@@ -80,13 +97,30 @@ export default function Entry ({ match }) {
 											<th>Move</th>
 											{/* https://reactjs.org/docs/conditional-rendering.html */}
 											{(methodObtained === 'Level up') ? <th>Level Obtained</th> : null}
+											<th>Type</th>
+											<th>Category</th>
+											<th>Power</th>
+											<th>Accuracy</th>
+											<th>PP</th>
+											<th>Effect</th>
 										</tr>
 									</thead>
 									<tbody>
 										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
-											<tr key={move.move_id}>
+											<tr key={`${move.move_id.replace(/\s/g, '-').toLowerCase()}-${move.method_obtained_id.replace(/\s/g, '-').toLowerCase()}${move.level_obtained_id ? `-level-${move.level_obtained_id}` : null}`}>
 												<td>{move.move_id}</td>
 												{(methodObtained === 'Level up') ? <td>{move.level_obtained_id}</td> : null}
+												{/* TODO: 
+														moveInfo.map(move => (
+															<td> for each property of the move
+														))
+												 */}
+												<td>Type</td>
+												<td>Category</td>
+												<td>Power</td>
+												<td>Accuracy</td>
+												<td>PP</td>
+												<td>Effect</td>
 											</tr>
 										))}
 									</tbody>
