@@ -14,13 +14,13 @@ export default function Router () {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={Login} />
-				<Route exact path="/pokemon" component={EntryList} />
-				<Route exact path="/pokemon/:pokedex_id" component={Entry} />
-				<Route exact path="/search" component={Search} />
-				<Route exact path="/teams" component={Teams} />
-				<Route exact path="/myaccount" component={MyAccount} />
-				<Route component={NotFound} />
+				<Route exact path="/" component={Login} key={'login'} />
+				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
+				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
+				<Route exact path="/search" component={Search} key={'search'} />
+				<Route exact path="/teams" component={Teams} key={'teams'} />
+				<Route exact path="/myaccount" component={MyAccount} key={'myaccount'} />
+				<Route component={NotFound} key={'notfound'} />
 			</Switch>
 		</BrowserRouter>
 	)

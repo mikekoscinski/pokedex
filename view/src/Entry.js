@@ -73,7 +73,7 @@ export default function Entry ({ match }) {
 							<div className="biography" key={'biography'}><p>TODO: INSERT BIO HERE.</p></div>
 						</div>
 					</div>
-					<div className="stats-section" key={'stats'}>
+					<div className="stats-section" key={'stats-section'}>
 						<h2 key={'h2'}>Stats</h2>
 						<div className="stat-values" key={'stat-values'}>
 							<div className="stat-entry" key={'attack'}><p>Attack: <span className="stat-value">{entry.attack}</span></p></div>
@@ -85,7 +85,7 @@ export default function Entry ({ match }) {
 							<div className="stat-entry" key={'total'}><p>Total Stats: <span className="stat-value">{entry.total_stats}</span></p></div>
 						</div>
 					</div>
-					<div className="moves-section" key={"moves"}>
+					<div className="moves-section" key={"moves-section"}>
 						<h2 key={'h2'}>Moves</h2>
 						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
 							<div key={`${methodObtained.replace(/\s/g, '-').toLowerCase()}-moves`}>
