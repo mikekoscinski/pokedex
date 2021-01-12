@@ -58,71 +58,150 @@ export default function Entry ({ match }) {
 		getEntryMovesInfo();
 	}, []);
 
+	const formatKeyText = (subkey) => {
+		// Return formatted value for inclusion in React key values
+		return `${subkey.replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').toLowerCase()}`;
+	};
+
+
+// TODO: Change this to composeKey function; make it universal, let it accept any input (so, pass each input.property in the function call directly
+	const formatMoveTDKey = (entry) => {
+		return (move) => {
+			return (methodObtained) => {
+				return (datatype) => {
+					return `${formatKeyText(entry.name)}-${formatKeyText(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatKeyText(methodObtained)}-moves-td-${datatype}`;
+				}
+			}
+		}
+	};
+
+	// const formatSubkeyForMoveData = ({ name }, { move_id, level_obtained_id}, methodObtained) => {
+	// 	return `${formatSubkey(entry.name)}-${formatSubkey(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatSubkey(methodObtained)}-moves-tr`;
+	// }
+
+
 	return (
 		<div className="pokedex-entry" key={'pokedex-entries'}>
 			{entry.map(entry => (
-				<div key={`pokedex-entry-${entry.name.replace(/\s/g, '-').toLowerCase()}`}>
-					<h1 className="entry-name" key={'entry-name'}>{entry.name}</h1>
-					<h3 className="entry-number" key={'entry-number'}>{`No. ${entry.pokedex_id}`}</h3>
-					<div className="bio-section" key={'bio'}>
-						<h2 key={'h2'}>Bio</h2>
-						<div className="bio-values" key={'values'}>
-							<div className="bio-entry" key={'region'}><p>Region: <span className="bio-value">{entry.region_id}</span></p></div>
-							<div className="bio-entry" key={'types'}><p><span className="bio-value type">{entry.primary_type_id} <span className="bio-value type">{entry.secondary_type_id}</span></span></p></div>
-							{/* TODO: Once bios are in DB. May need different div structure for bio; should span entire page, vs table-like underlined flexbox appearance  */}
-							<div className="biography" key={'biography'}><p>TODO: INSERT BIO HERE.</p></div>
+				<div key={`${formatKeyText(entry.name)}-pokedex-entry`}>
+					<h1 className="entry-name" key={`${formatKeyText(entry.name)}-entry-name`}>
+						{entry.name}
+					</h1>
+					<h3 className="entry-number" key={`${formatKeyText(entry.name)}-entry-number`}>
+						{`No. ${entry.pokedex_id}`}
+					</h3>
+
+					<div className="bio-section" key={`${formatKeyText(entry.name)}-bio-section`}>
+						<h2 key={`${formatKeyText(entry.name)}-bio-h2`}>
+							Bio
+						</h2>
+						<div className="bio-values" key={`${formatKeyText(entry.name)}-bio-values`}>
+							<div className="bio-entry" key={`${formatKeyText(entry.name)}-region`}>
+								<p key={`${formatKeyText(entry.name)}-region-p`}>
+									Region: <span className="bio-value" key={`${formatKeyText(entry.name)}-region-span`}>
+										{entry.region_id}
+									</span>
+								</p>
+							</div>
+							<div className="bio-entry" key={`${formatKeyText(entry.name)}-types`}>
+								<p key={`${formatKeyText(entry.name)}-types-p`}>
+									<span className="bio-value type" key={`${formatKeyText(entry.name)}-primary-type`}>
+										{entry.primary_type_id}
+									</span> 
+									<span className="bio-value type" key={`${formatKeyText(entry.name)}-secondary-type`}>
+										{entry.secondary_type_id}
+									</span>
+								</p>
+							</div>
+							<div className="biography" key={`${formatKeyText(entry.name)}-biography`}>
+								<p key={`${formatKeyText(entry.name)}-biography-p`}>TODO: INSERT BIO HERE.</p>
+							</div>
 						</div>
 					</div>
-					<div className="stats-section" key={'stats-section'}>
-						<h2 key={'h2'}>Stats</h2>
-						<div className="stat-values" key={'stat-values'}>
-							<div className="stat-entry" key={'attack'}><p>Attack: <span className="stat-value">{entry.attack}</span></p></div>
-							<div className="stat-entry" key={'defense'}><p>Defense: <span className="stat-value">{entry.defense}</span></p></div>
-							<div className="stat-entry" key={'special-attack'}><p>Special Attack: <span className="stat-value">{entry.special_attack}</span></p></div>
-							<div className="stat-entry" key={'special-defense'}><p>Special Defense: <span className="stat-value">{entry.special_defense}</span></p></div>
-							<div className="stat-entry" key={'speed'}><p>Speed: <span className="stat-value">{entry.speed}</span></p></div>
-							<div className="stat-entry" key={'average'}><p>Average Stat: <span className="stat-value">{entry.average_stat}</span></p></div>
-							<div className="stat-entry" key={'total'}><p>Total Stats: <span className="stat-value">{entry.total_stats}</span></p></div>
-						</div>
+
+					<div className="stats-section" key={`${formatKeyText(entry.name)}-stats-section`}>
+						<h2 key={`${formatKeyText(entry.name)}-stats-h2`}>Stats</h2>
+						<table className='statsTable' key={`${formatKeyText(entry.name)}-stats-table`}>
+							<tbody key={`${formatKeyText(entry.name)}-stats-tbody`}>
+								{
+									[
+										{ name: 'Attack', lookupValue: 'attack'}, 
+										{ name: 'Defense', lookupValue: 'defense'}, 
+										{ name: 'Special Attack', lookupValue: 'special_attack'}, 
+										{ name: 'Special Defense', lookupValue: 'special_defense'}, 
+										{ name: 'Speed', lookupValue: 'speed'}, 
+										{ name: 'Total', lookupValue: 'total_stats', bold: true}, 
+										{ name: 'Average', lookupValue: 'average_stat', bold: true},
+									].map(stat => (
+										<tr key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-row`}>
+											<td key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-label`}>
+												{stat.bold ? <strong>{stat.name}</strong> : stat.name}
+											</td>
+											<td key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-value`}>
+												{stat.bold ? <strong>{entry[stat.lookupValue]}</strong> : entry[stat.lookupValue]}
+											</td>
+										</tr>
+									))
+								}
+							</tbody>
+						</table>
 					</div>
-					<div className="moves-section" key={"moves-section"}>
-						<h2 key={'h2'}>Moves</h2>
+
+					<div className="moves-section" key={`${formatKeyText(entry.name)}-moves-section`}>
+						<h2 key={`${formatKeyText(entry.name)}-moves-section-h2`}>Moves</h2>
 						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
-							<div key={`${methodObtained.replace(/\s/g, '-').toLowerCase()}-moves`}>
-								<h3 key={'h3'}>{methodObtained}</h3>
-								<table key={'table'}>
-									<thead key={'table-heading'}>
-										<tr key={'table-heading-row'}>
-											<th key={'move'}>Move</th>
-											{/* https://reactjs.org/docs/conditional-rendering.html */}
-											{(methodObtained === 'Level up') ? <th key={'level-obtained'}>Level Obtained</th> : null}
-											<th key={'type'}>Type</th>
-											<th key={'category'}>Category</th>
-											<th key={'power'}>Power</th>
-											<th key={'accuracy'}>Accuracy</th>
-											<th key={'pp'}>PP</th>
-											<th key={'effect'}>Effect</th>
+							<div key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves`}>
+								<h3 key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-h3`}>{methodObtained}</h3>
+								<table key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-table`}>
+									<thead key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-thead`}>
+										<tr key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-thead-tr`}>
+											{
+												['Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
+													.map(heading => (
+														heading !== 'Level Obtained' || methodObtained === 'Level up' ?
+															<th key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-th-${formatKeyText(heading)}`}>
+																{heading}
+															</th>
+															: null
+													))
+											}
 										</tr>
 									</thead>
-									<tbody key={'table-body'}>
+									<tbody key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-tbody`}>
 										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
 											<tr 
-												key={`${move.move_id.replace(/\s/g, '-').toLowerCase()}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : move.method_obtained_id.replace(/\s/g, '-').toLowerCase()}-entry`}
+												key={`${formatKeyText(entry.name)}-${formatKeyText(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatKeyText(methodObtained)}-moves-tr`}
 											>
-												<td key={`move-id`}>{move.move_id}</td>
+												<td key={formatMoveTDKey(entry)(move)(methodObtained)('move-id')}>
+													{move.move_id}
+												</td>
 												{/* IF level up, create level_obtained <td>. Ternary is React's only in-line IF statement option */}
 												{(methodObtained === 'Level up') ?
-													<td key={`level-obtained`}>{move.level_obtained_id}</td> 
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('level-obtained')}>
+														{move.level_obtained_id}
+													</td> 
 													: null
 												}
 												{entryMovesInfo.filter(moveInfo => moveInfo.id === move.move_id).map(moveInfo => (
 													<>
-													<td key={`type`}>{moveInfo.type_id}</td>
-													<td key={`category`}>{moveInfo.category_id}</td>
-													<td key={`power`}>{moveInfo.power}</td>
-													<td key={`accuracy`}>{moveInfo.accuracy}</td>
-													<td key={`pp`}>{moveInfo.pp}</td>
-													<td key={`effect`}>{moveInfo.effect}</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('type')}>
+														{moveInfo.type_id}
+													</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('category')}>
+														{moveInfo.category_id}
+													</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('power')}>
+														{moveInfo.power}
+													</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('accuracy')}>
+														{moveInfo.accuracy}
+													</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('pp')}>
+														{moveInfo.pp}
+													</td>
+													<td key={formatMoveTDKey(entry)(move)(methodObtained)('effect')}>
+														{moveInfo.effect}
+													</td>
 													</>
 												))}
 											</tr>
