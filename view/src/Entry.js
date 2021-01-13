@@ -6,11 +6,7 @@ import React, { useEffect, useState } from 'react';
 export default function Entry ({ match }) {
 	// const { pokedex_id } = match.params;
 	const [entry, setEntry] = useState([]);
-
-	// TODO: Need to create entryMoves, setEntryMoves in state
 	const [entryMoves, setEntryMoves] = useState([]);
-
-	// TODO: 
 	const [entryMovesInfo, setEntryMovesInfo] = useState([]);
 
 	const getEntry = async () => {
@@ -58,71 +54,81 @@ export default function Entry ({ match }) {
 		getEntryMovesInfo();
 	}, []);
 
-	const formatKeyText = (subkey) => {
-		// Return formatted value for inclusion in React key values
+	const formatString = (subkey) => {
 		return `${subkey.replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').toLowerCase()}`;
 	};
 
 
-// TODO: Change this to composeKey function; make it universal, let it accept any input (so, pass each input.property in the function call directly
+	// TODO: Change this to composeKey function; make it universal, let it accept any input (so, pass each input.property in the function call directly
 	const formatMoveTDKey = (entry) => {
 		return (move) => {
 			return (methodObtained) => {
 				return (datatype) => {
-					return `${formatKeyText(entry.name)}-${formatKeyText(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatKeyText(methodObtained)}-moves-td-${datatype}`;
+					return `${formatString(entry.name)}-${formatString(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatString(methodObtained)}-moves-td-${datatype}`;
 				}
 			}
 		}
 	};
+	
+	const composeKey = (substring) => {
+		function composer (nextSubstring) {
+			if (!nextSubstring) {
+				return formatString(substring);
+			} else {
+				substring = `${substring}-${nextSubstring}`;
+				return composer;
+			}
+		}
+		return composer;
+	}
+	
+	console.log(composeKey('deoxys (attack forme)')('moves')('ice cream')('banana')('pizza parade')());
 
-	// const formatSubkeyForMoveData = ({ name }, { move_id, level_obtained_id}, methodObtained) => {
-	// 	return `${formatSubkey(entry.name)}-${formatSubkey(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatSubkey(methodObtained)}-moves-tr`;
-	// }
-
-
+	
+	
 	return (
-		<div className="pokedex-entry" key={'pokedex-entries'}>
+		<div className="pokedex-entry" key={composeKey('pokedex')('entries')()}>
 			{entry.map(entry => (
-				<div key={`${formatKeyText(entry.name)}-pokedex-entry`}>
-					<h1 className="entry-name" key={`${formatKeyText(entry.name)}-entry-name`}>
+				<div key={`${formatString(entry.name)}-pokedex-entry`}>
+					<h1 className="entry-name" key={`${formatString(entry.name)}-entry-name`}>
 						{entry.name}
 					</h1>
-					<h3 className="entry-number" key={`${formatKeyText(entry.name)}-entry-number`}>
+					<h3 className="entry-number" key={`${formatString(entry.name)}-entry-number`}>
 						{`No. ${entry.pokedex_id}`}
 					</h3>
 
-					<div className="bio-section" key={`${formatKeyText(entry.name)}-bio-section`}>
-						<h2 key={`${formatKeyText(entry.name)}-bio-h2`}>
+					<div className="bio-section" key={`${formatString(entry.name)}-bio-section`}>
+						<h2 key={`${formatString(entry.name)}-bio-h2`}>
 							Bio
 						</h2>
-						<div className="bio-values" key={`${formatKeyText(entry.name)}-bio-values`}>
-							<div className="bio-entry" key={`${formatKeyText(entry.name)}-region`}>
-								<p key={`${formatKeyText(entry.name)}-region-p`}>
-									Region: <span className="bio-value" key={`${formatKeyText(entry.name)}-region-span`}>
+						<div className="bio-values" key={`${formatString(entry.name)}-bio-values`}>
+							<div className="bio-entry" key={`${formatString(entry.name)}-region`}>
+								<p key={`${formatString(entry.name)}-region-p`}>
+									Region: <span className="bio-value" key={`${formatString(entry.name)}-region-span`}>
 										{entry.region_id}
 									</span>
 								</p>
 							</div>
-							<div className="bio-entry" key={`${formatKeyText(entry.name)}-types`}>
-								<p key={`${formatKeyText(entry.name)}-types-p`}>
-									<span className="bio-value type" key={`${formatKeyText(entry.name)}-primary-type`}>
+							<div className="bio-entry" key={`${formatString(entry.name)}-types`}>
+								<p key={`${formatString(entry.name)}-types-p`}>
+									<span className="bio-value type" key={`${formatString(entry.name)}-primary-type`}>
 										{entry.primary_type_id}
 									</span> 
-									<span className="bio-value type" key={`${formatKeyText(entry.name)}-secondary-type`}>
+									<span className="bio-value type" key={`${formatString(entry.name)}-secondary-type`}>
 										{entry.secondary_type_id}
 									</span>
 								</p>
 							</div>
-							<div className="biography" key={`${formatKeyText(entry.name)}-biography`}>
-								<p key={`${formatKeyText(entry.name)}-biography-p`}>TODO: INSERT BIO HERE.</p>
+							<div className="biography" key={`${formatString(entry.name)}-biography`}>
+								<p key={`${formatString(entry.name)}-biography-p`}>TODO: INSERT BIO HERE.</p>
 							</div>
 						</div>
 					</div>
 
-					<div className="stats-section" key={`${formatKeyText(entry.name)}-stats-section`}>
-						<h2 key={`${formatKeyText(entry.name)}-stats-h2`}>Stats</h2>
-						<table className='statsTable' key={`${formatKeyText(entry.name)}-stats-table`}>
-							<tbody key={`${formatKeyText(entry.name)}-stats-tbody`}>
+					<div className="stats-section" key={`${formatString(entry.name)}-stats-section`}>
+						<h2 key={`${formatString(entry.name)}-stats-h2`}>Stats</h2>
+						<table className='statsTable' key={`${formatString(entry.name)}-stats-table`}>
+							<tbody key={`${formatString(entry.name)}-stats-tbody`}>
 								{
 									[
 										{ name: 'Attack', lookupValue: 'attack'}, 
@@ -133,11 +139,11 @@ export default function Entry ({ match }) {
 										{ name: 'Total', lookupValue: 'total_stats', bold: true}, 
 										{ name: 'Average', lookupValue: 'average_stat', bold: true},
 									].map(stat => (
-										<tr key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-row`}>
-											<td key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-label`}>
+										<tr key={`${formatString(entry.name)}-${formatString(stat.name)}-row`}>
+											<td key={`${formatString(entry.name)}-${formatString(stat.name)}-label`}>
 												{stat.bold ? <strong>{stat.name}</strong> : stat.name}
 											</td>
-											<td key={`${formatKeyText(entry.name)}-${formatKeyText(stat.name)}-value`}>
+											<td key={`${formatString(entry.name)}-${formatString(stat.name)}-value`}>
 												{stat.bold ? <strong>{entry[stat.lookupValue]}</strong> : entry[stat.lookupValue]}
 											</td>
 										</tr>
@@ -147,19 +153,19 @@ export default function Entry ({ match }) {
 						</table>
 					</div>
 
-					<div className="moves-section" key={`${formatKeyText(entry.name)}-moves-section`}>
-						<h2 key={`${formatKeyText(entry.name)}-moves-section-h2`}>Moves</h2>
+					<div className="moves-section" key={`${formatString(entry.name)}-moves-section`}>
+						<h2 key={`${formatString(entry.name)}-moves-section-h2`}>Moves</h2>
 						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
-							<div key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves`}>
-								<h3 key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-h3`}>{methodObtained}</h3>
-								<table key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-table`}>
-									<thead key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-thead`}>
-										<tr key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-thead-tr`}>
+							<div key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves`}>
+								<h3 key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-h3`}>{methodObtained}</h3>
+								<table key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-table`}>
+									<thead key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-thead`}>
+										<tr key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-thead-tr`}>
 											{
 												['Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
 													.map(heading => (
 														heading !== 'Level Obtained' || methodObtained === 'Level up' ?
-															<th key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-th-${formatKeyText(heading)}`}>
+															<th key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-th-${formatString(heading)}`}>
 																{heading}
 															</th>
 															: null
@@ -167,10 +173,10 @@ export default function Entry ({ match }) {
 											}
 										</tr>
 									</thead>
-									<tbody key={`${formatKeyText(entry.name)}-${formatKeyText(methodObtained)}-moves-tbody`}>
+									<tbody key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-tbody`}>
 										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
 											<tr 
-												key={`${formatKeyText(entry.name)}-${formatKeyText(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatKeyText(methodObtained)}-moves-tr`}
+												key={`${formatString(entry.name)}-${formatString(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatString(methodObtained)}-moves-tr`}
 											>
 												<td key={formatMoveTDKey(entry)(move)(methodObtained)('move-id')}>
 													{move.move_id}
