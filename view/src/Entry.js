@@ -82,114 +82,100 @@ export default function Entry ({ match }) {
 		return composer;
 	}
 	
-	console.log(composeKey('deoxys (attack forme)')('moves')('ice cream')('banana')('pizza parade')());
-
-	
-	
 	return (
 		<div className="pokedex-entry" key={composeKey('pokedex')('entries')()}>
 			{entry.map(entry => (
-				<div key={`${formatString(entry.name)}-pokedex-entry`}>
-					<h1 className="entry-name" key={`${formatString(entry.name)}-entry-name`}>
-						{entry.name}
-					</h1>
-					<h3 className="entry-number" key={`${formatString(entry.name)}-entry-number`}>
-						{`No. ${entry.pokedex_id}`}
-					</h3>
-
-					<div className="bio-section" key={`${formatString(entry.name)}-bio-section`}>
-						<h2 key={`${formatString(entry.name)}-bio-h2`}>
-							Bio
-						</h2>
-						<div className="bio-values" key={`${formatString(entry.name)}-bio-values`}>
-							<div className="bio-entry" key={`${formatString(entry.name)}-region`}>
-								<p key={`${formatString(entry.name)}-region-p`}>
-									Region: <span className="bio-value" key={`${formatString(entry.name)}-region-span`}>
-										{entry.region_id}
-									</span>
+				<div key={composeKey(entry.name)('pokedex')('entry')()}>
+					<h1 className="entry-name" key={composeKey(entry.name)('entry')('name')()}>{entry.name}</h1>
+					<h3 className="entry-number" key={composeKey(entry.name)('entry')('number')()}>{`No. ${entry.pokedex_id}`}</h3>
+					<div className="bio-section" key={composeKey(entry.name)('bio')('section')()}>
+						<h2 key={composeKey(entry.name)('bio')('h2')()}>Bio</h2>
+						<div className="bio-values" key={composeKey(entry.name)('bio')('entries')()}>
+							<div className="bio-entry" key={composeKey(entry.name)('region')('div')()}>
+								<p key={composeKey(entry.name)('region')('p')()}>
+									Region:
+									<span className="bio-value" key={composeKey(entry.name)('region')('span')()}> {entry.region_id}</span>
 								</p>
 							</div>
-							<div className="bio-entry" key={`${formatString(entry.name)}-types`}>
-								<p key={`${formatString(entry.name)}-types-p`}>
-									<span className="bio-value type" key={`${formatString(entry.name)}-primary-type`}>
-										{entry.primary_type_id}
-									</span> 
-									<span className="bio-value type" key={`${formatString(entry.name)}-secondary-type`}>
-										{entry.secondary_type_id}
-									</span>
+							<div className="bio-entry" key={composeKey(entry.name)('types')()}>
+								<p key={composeKey(entry.name)('types')('p')()}>
+									{[{ value: entry.primary_type_id, lookupValue: 'primary-type' },
+										{ value: entry.secondary_type_id, lookupValue: 'secondary-type' }]
+											.map(type => (
+												<span key={composeKey(entry.name)(type.lookupValue)()}>{type.value}</span>
+									))}
 								</p>
 							</div>
-							<div className="biography" key={`${formatString(entry.name)}-biography`}>
-								<p key={`${formatString(entry.name)}-biography-p`}>TODO: INSERT BIO HERE.</p>
+							<div className="biography" key={composeKey(entry.name)('biography')()}>
+								<p key={composeKey(entry.name)('biography')('p')()}>TODO: INSERT BIO HERE.</p>
 							</div>
 						</div>
 					</div>
-
-					<div className="stats-section" key={`${formatString(entry.name)}-stats-section`}>
-						<h2 key={`${formatString(entry.name)}-stats-h2`}>Stats</h2>
-						<table className='statsTable' key={`${formatString(entry.name)}-stats-table`}>
-							<tbody key={`${formatString(entry.name)}-stats-tbody`}>
-								{
-									[
-										{ name: 'Attack', lookupValue: 'attack'}, 
-										{ name: 'Defense', lookupValue: 'defense'}, 
-										{ name: 'Special Attack', lookupValue: 'special_attack'}, 
-										{ name: 'Special Defense', lookupValue: 'special_defense'}, 
-										{ name: 'Speed', lookupValue: 'speed'}, 
-										{ name: 'Total', lookupValue: 'total_stats', bold: true}, 
-										{ name: 'Average', lookupValue: 'average_stat', bold: true},
-									].map(stat => (
-										<tr key={`${formatString(entry.name)}-${formatString(stat.name)}-row`}>
-											<td key={`${formatString(entry.name)}-${formatString(stat.name)}-label`}>
-												{stat.bold ? <strong>{stat.name}</strong> : stat.name}
-											</td>
-											<td key={`${formatString(entry.name)}-${formatString(stat.name)}-value`}>
-												{stat.bold ? <strong>{entry[stat.lookupValue]}</strong> : entry[stat.lookupValue]}
-											</td>
-										</tr>
-									))
-								}
+					<div className="stats-section" key={composeKey(entry.name)('stats')('section')()}>
+						<h2 key={composeKey(entry.name)('stats')('h2')()}>Stats</h2>
+						<table className='statsTable' key={composeKey(entry.name)('stats')('table')()}>
+							<tbody key={composeKey(entry.name)('stats')('tbody')()}>
+								{[{ name: 'Attack', lookupValue: 'attack'},
+									{ name: 'Defense', lookupValue: 'defense'},
+									{ name: 'Special Attack', lookupValue: 'special_attack'},
+									{ name: 'Special Defense', lookupValue: 'special_defense'},
+									{ name: 'Speed', lookupValue: 'speed'},
+									{ name: 'Total', lookupValue: 'total_stats', bold: true},
+									{ name: 'Average', lookupValue: 'average_stat', bold: true}]
+										.map(stat => (
+											<tr key={composeKey(entry.name)(stat.name)('tr')()}>
+												<td key={composeKey(entry.name)(stat.name)('tr')('td')('label')()}>
+													{stat.bold ? 
+														<strong key={composeKey(entry.name)(stat.name)('tr')('strong')('label')()}>{stat.name}</strong> 
+														: stat.name
+													}
+												</td>
+												<td key={composeKey(entry.name)(stat.name)('tr')('td')('value')()}>
+													{stat.bold ? 
+														<strong key={composeKey(entry.name)(stat.name)('tr')('strong')('value')()}>{entry[stat.lookupValue]}</strong>
+														: entry[stat.lookupValue]
+													}
+												</td>
+											</tr>
+								))}
 							</tbody>
 						</table>
 					</div>
-
-					<div className="moves-section" key={`${formatString(entry.name)}-moves-section`}>
-						<h2 key={`${formatString(entry.name)}-moves-section-h2`}>Moves</h2>
+					<div className="moves-section" key={composeKey(entry.name)('moves')('section')()}>
+						<h2 key={composeKey(entry.name)('moves')('section')('h2')()}>Moves</h2>
 						{Array.from(new Set(entryMoves.map(move => move.method_obtained_id))).map(methodObtained => (
-							<div key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves`}>
-								<h3 key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-h3`}>{methodObtained}</h3>
-								<table key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-table`}>
-									<thead key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-thead`}>
-										<tr key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-thead-tr`}>
-											{
-												['Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
+							<div key={composeKey(entry.name)(methodObtained)('moves')()}>
+								<h3 key={composeKey(entry.name)(methodObtained)('moves')('h3')()}>{methodObtained}</h3>
+								<table key={composeKey(entry.name)(methodObtained)('moves')('table')()}>
+									<thead key={composeKey(entry.name)(methodObtained)('moves')('thead')()}>
+										<tr key={composeKey(entry.name)(methodObtained)('moves')('thead')('tr')()}>
+											{['Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
 													.map(heading => (
-														heading !== 'Level Obtained' || methodObtained === 'Level up' ?
-															<th key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-th-${formatString(heading)}`}>
-																{heading}
-															</th>
+														(heading !== 'Level Obtained') || (methodObtained === 'Level up') ?
+															<th key={composeKey(entry.name)(methodObtained)('moves')('th')(heading)()}>{heading}</th>
 															: null
-													))
-											}
+											))}
 										</tr>
 									</thead>
-									<tbody key={`${formatString(entry.name)}-${formatString(methodObtained)}-moves-tbody`}>
+									<tbody key={composeKey(entry.name)(methodObtained)('moves')('tbody')()}>
+
+{/* TODO: Switch to composeKey for keys below: */}
+{/* TODO: This is supposedly where the keys error is */}
+
 										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
-											<tr 
-												key={`${formatString(entry.name)}-${formatString(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatString(methodObtained)}-moves-tr`}
-											>
-												<td key={formatMoveTDKey(entry)(move)(methodObtained)('move-id')}>
-													{move.move_id}
-												</td>
-												{/* IF level up, create level_obtained <td>. Ternary is React's only in-line IF statement option */}
+											<tr key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('tr')()}>
+												<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('move-id')()}>{move.move_id}</td>
 												{(methodObtained === 'Level up') ?
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('level-obtained')}>
-														{move.level_obtained_id}
-													</td> 
+													<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('level-obtained')()}>{move.level_obtained_id}</td> 
 													: null
 												}
+
+{/* NOTE: The error would be above here... it would list the following .map() in the stack trace if it was there */}
+{/* TODO: DID NOT FINISH KEYS BELOW HERE YET */}
+
 												{entryMovesInfo.filter(moveInfo => moveInfo.id === move.move_id).map(moveInfo => (
 													<>
+													{/* TODO: This is all redundant. Can do a map within a map (but that's O(N^2)... */}
 													<td key={formatMoveTDKey(entry)(move)(methodObtained)('type')}>
 														{moveInfo.type_id}
 													</td>
