@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+const composeKey = require('./composekey.js').default;
+
 export default function Search () {
 	
 	const [pokemon, setPokemon] = useState([]);
@@ -48,17 +50,22 @@ export default function Search () {
 				<tr>
 					{['Name', 'Region', 'Primary Type', 'Secondary Type', 'Attack', 'Defense', 'Special Attack', 'Special Defense', 'Speed', 'Total', 'Average']
 						.map(caption => (
-							<td><strong>{caption}</strong></td>
+							<td key={composeKey(caption)('td')()}>
+								<strong key={composeKey(caption)('strong')()}>
+									{caption}
+								</strong>
+							</td>
 					))}
 				</tr>
 			</thead>
 			<tbody>
 				{pokemon.map(pokemon => (
-					<tr>
-						{['name', 'region_id', 'primary_type_id', 'secondary_type_id', 'attack', 'defense', 'special_attack', 'special_defense', 'speed', 'total_stats', 'average_stat'].map(attribute => (
-							<td>
-								{pokemon[attribute]}
-							</td>
+					<tr key={composeKey(pokemon.name)('tr')()}>
+						{['name', 'region_id', 'primary_type_id', 'secondary_type_id', 'attack', 'defense', 'special_attack', 'special_defense', 'speed', 'total_stats', 'average_stat']
+							.map(attribute => (
+								<td key={composeKey(pokemon.name)(attribute)('td')()}>
+									{pokemon[attribute]}
+								</td>
 						))}
 					</tr>
 				))}
@@ -69,15 +76,27 @@ export default function Search () {
 		<table>
 			<thead>
 				<tr>
-					{
-						['Move', ]
-							.map(caption => (
-								<td><strong>{caption}</strong></td>
+					{['Move', 'Generation', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
+						.map(caption => (
+							<td key={composeKey(caption)('td')()}>
+								<strong key={composeKey(caption)('strong')()}>
+									{caption}
+								</strong>
+							</td>
 					))}
 				</tr>
 			</thead>
 			<tbody>
-				{}
+				{moves.map(move => (
+					<tr key={composeKey(move.id)('tr')()}>
+						{['id', 'generation_id', 'type_id', 'category_id', 'power', 'accuracy', 'pp', 'effect']
+							.map(attribute => (
+								<td key={composeKey(move.id)(attribute)('td')()}>
+									{move[attribute]}
+								</td>
+						))}
+					</tr>
+				))}
 			</tbody>
 		</table>
 		</>

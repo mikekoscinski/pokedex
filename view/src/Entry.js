@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+const composeKey = require('./composekey.js').default;
+
 // Should I use pokedex_id or just window.location.pathname? The latter works fine right now. The former introduces React missing dependency errors. (See: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook). CONCLUSION: Will use window.location for now
 
 export default function Entry ({ match }) {
@@ -52,22 +54,6 @@ export default function Entry ({ match }) {
 	useEffect(() => {
 		getEntryMovesInfo();
 	}, []);
-
-	const formatString = (subkey) => {
-		return `${subkey.replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').toLowerCase()}`;
-	};
-	
-	const composeKey = (substring) => {
-		function composer (nextSubstring) {
-			if (!nextSubstring) {
-				return formatString(substring);
-			} else {
-				substring = `${substring}-${nextSubstring}`;
-				return composer;
-			}
-		}
-		return composer;
-	}
 	
 	return (
 		<div className="pokedex-entry" key={composeKey('pokedex')('entries')()}>
