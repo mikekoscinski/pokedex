@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 // Should I use pokedex_id or just window.location.pathname? The latter works fine right now. The former introduces React missing dependency errors. (See: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook). CONCLUSION: Will use window.location for now
 
-// TODO: Need to retrieve data using multiple queries for the entry page. What other data do I need?
 export default function Entry ({ match }) {
 	// const { pokedex_id } = match.params;
 	const [entry, setEntry] = useState([]);
