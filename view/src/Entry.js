@@ -41,7 +41,7 @@ export default function Entry ({ match }) {
 		}
 	}
 
-	// React recommends separating hooks by concern, hence separate useEffect calls. Source: https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
+	// Separate hooks by concern. https://reactjs.org/docs/hooks-effect.html#tip-use-multiple-effects-to-separate-concerns
 	useEffect(() => {
 		getEntry();
 	}, []);
@@ -56,18 +56,6 @@ export default function Entry ({ match }) {
 
 	const formatString = (subkey) => {
 		return `${subkey.replace(/\s/g, '-').replace(/\(/g, '').replace(/\)/g, '').toLowerCase()}`;
-	};
-
-
-	// TODO: Change this to composeKey function; make it universal, let it accept any input (so, pass each input.property in the function call directly
-	const formatMoveTDKey = (entry) => {
-		return (move) => {
-			return (methodObtained) => {
-				return (datatype) => {
-					return `${formatString(entry.name)}-${formatString(move.move_id)}-${move.level_obtained_id ? `level-${move.level_obtained_id}` : formatString(methodObtained)}-moves-td-${datatype}`;
-				}
-			}
-		}
 	};
 	
 	const composeKey = (substring) => {
@@ -99,8 +87,10 @@ export default function Entry ({ match }) {
 							</div>
 							<div className="bio-entry" key={composeKey(entry.name)('types')()}>
 								<p key={composeKey(entry.name)('types')('p')()}>
-									{[{ value: entry.primary_type_id, lookupValue: 'primary-type' },
-										{ value: entry.secondary_type_id, lookupValue: 'secondary-type' }]
+									{	[
+											{ value: entry.primary_type_id, lookupValue: 'primary-type' },
+											{ value: entry.secondary_type_id, lookupValue: 'secondary-type' }
+										]
 											.map(type => (
 												<span key={composeKey(entry.name)(type.lookupValue)()}>{type.value}</span>
 									))}
@@ -115,13 +105,15 @@ export default function Entry ({ match }) {
 						<h2 key={composeKey(entry.name)('stats')('h2')()}>Stats</h2>
 						<table className='statsTable' key={composeKey(entry.name)('stats')('table')()}>
 							<tbody key={composeKey(entry.name)('stats')('tbody')()}>
-								{[{ name: 'Attack', lookupValue: 'attack'},
-									{ name: 'Defense', lookupValue: 'defense'},
-									{ name: 'Special Attack', lookupValue: 'special_attack'},
-									{ name: 'Special Defense', lookupValue: 'special_defense'},
-									{ name: 'Speed', lookupValue: 'speed'},
-									{ name: 'Total', lookupValue: 'total_stats', bold: true},
-									{ name: 'Average', lookupValue: 'average_stat', bold: true}]
+								{	[
+										{ name: 'Attack', lookupValue: 'attack'},
+										{ name: 'Defense', lookupValue: 'defense'},
+										{ name: 'Special Attack', lookupValue: 'special_attack'},
+										{ name: 'Special Defense', lookupValue: 'special_defense'},
+										{ name: 'Speed', lookupValue: 'speed'},
+										{ name: 'Total', lookupValue: 'total_stats', bold: true},
+										{ name: 'Average', lookupValue: 'average_stat', bold: true}
+									]
 										.map(stat => (
 											<tr key={composeKey(entry.name)(stat.name)('tr')()}>
 												<td key={composeKey(entry.name)(stat.name)('tr')('td')('label')()}>
@@ -149,7 +141,9 @@ export default function Entry ({ match }) {
 								<table key={composeKey(entry.name)(methodObtained)('moves')('table')()}>
 									<thead key={composeKey(entry.name)(methodObtained)('moves')('thead')()}>
 										<tr key={composeKey(entry.name)(methodObtained)('moves')('thead')('tr')()}>
-											{['Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
+											{	[
+													'Move', 'Level Obtained', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect'
+												]
 													.map(heading => (
 														(heading !== 'Level Obtained') || (methodObtained === 'Level up') ?
 															<th key={composeKey(entry.name)(methodObtained)('moves')('th')(heading)()}>{heading}</th>
@@ -158,44 +152,29 @@ export default function Entry ({ match }) {
 										</tr>
 									</thead>
 									<tbody key={composeKey(entry.name)(methodObtained)('moves')('tbody')()}>
-
-{/* TODO: Switch to composeKey for keys below: */}
-{/* TODO: This is supposedly where the keys error is */}
-
-										{entryMoves.filter(move => move.method_obtained_id === methodObtained).map(move => (
-											<tr key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('tr')()}>
-												<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('move-id')()}>{move.move_id}</td>
-												{(methodObtained === 'Level up') ?
-													<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('level-obtained')()}>{move.level_obtained_id}</td> 
-													: null
-												}
-
-{/* NOTE: The error would be above here... it would list the following .map() in the stack trace if it was there */}
-{/* TODO: DID NOT FINISH KEYS BELOW HERE YET */}
-
-												{entryMovesInfo.filter(moveInfo => moveInfo.id === move.move_id).map(moveInfo => (
-													<>
-													{/* TODO: This is all redundant. Can do a map within a map (but that's O(N^2)... */}
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('type')}>
-														{moveInfo.type_id}
-													</td>
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('category')}>
-														{moveInfo.category_id}
-													</td>
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('power')}>
-														{moveInfo.power}
-													</td>
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('accuracy')}>
-														{moveInfo.accuracy}
-													</td>
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('pp')}>
-														{moveInfo.pp}
-													</td>
-													<td key={formatMoveTDKey(entry)(move)(methodObtained)('effect')}>
-														{moveInfo.effect}
-													</td>
-													</>
-												))}
+										{entryMoves.filter(move => move.method_obtained_id === methodObtained)
+											.map(move => (
+												<tr key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('tr')()}>
+													<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('move-id')()}>{move.move_id}</td>
+													{(methodObtained === 'Level up') ?
+														<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('level-obtained')()}>{move.level_obtained_id}</td> 
+														: null
+													}
+													{entryMovesInfo.filter(moveInfo => moveInfo.id === move.move_id).map(moveInfo => (
+														[
+															{value: 'type', lookupValue: 'type_id'},
+															{value: 'category', lookupValue: 'category_id'},
+															{value: 'power', lookupValue: 'power'},
+															{value: 'accuracy', lookupValue: 'accuracy'},
+															{value: 'pp', lookupValue: 'pp'},
+															{value: 'effect', lookupValue: 'effect'}
+														]
+															.map(moveAttribute => (
+																<td key={composeKey(entry.name)(move.move_id)(move.level_obtained_id || methodObtained)('td')(moveAttribute.value)()}>
+																	{moveInfo[moveAttribute.lookupValue]}
+																</td>
+															))))
+													}
 											</tr>
 										))}
 									</tbody>
