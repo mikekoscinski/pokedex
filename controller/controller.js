@@ -54,9 +54,18 @@ router.get('/moves', async (req, res) => {
 	}
 });
 
-router.get('/search', async (req, res) => {
+router.get('/search/pokemon', async (req, res) => {
 	try {
-		const { rows } = await model.getSearchData();
+		const { rows } = await model.getPokemonSearchData();
+		res.send(rows);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
+
+router.get('/search/moves', async (req, res) => {
+	try {
+		const { rows } = await model.getMovesSearchData();
 		res.send(rows);
 	} catch (error) {
 		console.error(error.message);

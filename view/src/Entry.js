@@ -111,20 +111,24 @@ export default function Entry ({ match }) {
 										{ name: 'Special Defense', lookupValue: 'special_defense'},
 										{ name: 'Speed', lookupValue: 'speed'},
 										{ name: 'Total', lookupValue: 'total_stats', bold: true},
-										{ name: 'Average', lookupValue: 'average_stat', bold: true}
+										{ name: 'Average', lookupValue: 'average_stat', italic: true }
 									]
 										.map(stat => (
 											<tr key={composeKey(entry.name)(stat.name)('tr')()}>
 												<td key={composeKey(entry.name)(stat.name)('tr')('td')('label')()}>
 													{stat.bold ? 
 														<strong key={composeKey(entry.name)(stat.name)('tr')('strong')('label')()}>{stat.name}</strong> 
-														: stat.name
+															: stat.italic ? 
+																<i key={composeKey(entry.name)(stat.name)('tr')('i')('label')()}>{stat.name}</i>
+																: stat.name
 													}
 												</td>
 												<td key={composeKey(entry.name)(stat.name)('tr')('td')('value')()}>
 													{stat.bold ? 
 														<strong key={composeKey(entry.name)(stat.name)('tr')('strong')('value')()}>{entry[stat.lookupValue]}</strong>
-														: entry[stat.lookupValue]
+															: stat.italic? 
+																<i key={composeKey(entry.name)(stat.name)('tr')('i')('value')()}>{entry[stat.lookupValue]}</i>
+																: entry[stat.lookupValue]
 													}
 												</td>
 											</tr>
