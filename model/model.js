@@ -39,8 +39,13 @@ module.exports = {
 		return data;
 	},
 	
-	getSearchData: async function () {
-		const data = await pool.query('SELECT pokedex_id, name, primary_type_id, secondary_type_id, hp, attack, defense, special_attack, special_defense, speed, total_stats, average_stat FROM "Pokemon"');
+	getPokemonSearchData: async function () {
+		const data = await pool.query('SELECT pokedex_id, region_id, name, primary_type_id, secondary_type_id, hp, attack, defense, special_attack, special_defense, speed, total_stats, average_stat FROM "Pokemon"');
+		return data;
+	},
+
+	getMovesSearchData: async function () {
+		const data = await pool.query('SELECT * FROM "Move"');
 		return data;
 	},
 	
