@@ -3,7 +3,6 @@ const composeKey = require('./composekey.js').default;
 
 export default function PokemonTable () {
 	const [pokemon, setPokemon] = useState([]);
-	
 	const [sortedField, setSortedField] = useState(null);
 	
 	const getPokemon = async () => {
@@ -49,7 +48,10 @@ export default function PokemonTable () {
 					<tr>
 						{tableProperties
 							.map(tableProperty => (
-								<th key={composeKey(tableProperty.displayValue)('th')()} onClick={() => setSortedField(tableProperty.lookupValue)}>
+								<th 
+									key={composeKey(tableProperty.displayValue)('th')()} 
+									onClick={() => setSortedField(tableProperty.lookupValue)}
+								>
 									{tableProperty.displayValue}
 								</th>
 						))}
@@ -60,7 +62,7 @@ export default function PokemonTable () {
 						<tr key={composeKey(pokemon.name)('tr')()}>
 							{tableProperties
 								.map(tableProperty => (
-									<td key={composeKey(pokemon.name)(tableProperty.lookupValue)('td')()}>
+									<td key={composeKey(pokemon.name)(tableProperty.displayValue)('td')()}>
 										{pokemon[tableProperty.lookupValue]}
 									</td>
 							))}
