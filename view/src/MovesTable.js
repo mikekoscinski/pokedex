@@ -28,11 +28,9 @@ export default function MovesTable () {
 				<tr>
 					{['Move', 'Generation', 'Type', 'Category', 'Power', 'Accuracy', 'PP', 'Effect']
 						.map(caption => (
-							<td key={composeKey(caption)('td')()}>
-								<strong key={composeKey(caption)('strong')()}>
-									{caption}
-								</strong>
-							</td>
+							<th key={composeKey(caption)('td')()}>
+								{caption}
+							</th>
 					))}
 				</tr>
 			</thead>
