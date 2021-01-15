@@ -18,6 +18,7 @@ export default function Router () {
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
 				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
 				<Route exact path="/search" component={Search} key={'search'} />
+				<Route exact path="/search/moves" component={Search} key={'search'} />
 				<Route exact path="/teams" component={Teams} key={'teams'} />
 				<Route exact path="/myaccount" component={MyAccount} key={'myaccount'} />
 				<Route component={NotFound} key={'notfound'} />
