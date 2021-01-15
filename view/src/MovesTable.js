@@ -7,27 +7,6 @@ export default function MovesTable () {
 	const [moves, setMoves] = useState([]);
 	const [sortedField, setSortedField] = useState(null);
 	
-	const getMoves = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/search/moves');
-			const jsonData = await response.json();
-			setMoves(jsonData);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
-	
-	useEffect(() => {
-		getMoves();
-	}, []);
-	
-	let sortedMoves = [...moves];
-	if (sortedField !== null) {
-		sortedMoves.sort((a, b) => {
-			
-		})
-	}
-	
 	const tableProperties = [
 		{ displayValue: 'Move', lookupValue: 'id' },
 		{ displayValue: 'Generation', lookupValue: 'generation_id' },
@@ -38,6 +17,27 @@ export default function MovesTable () {
 		{ displayValue: 'PP', lookupValue: 'pp' },
 		{ displayValue: 'Effect', lookupValue: 'effect' },
 	];
+	
+	const getMoves = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/search/moves');
+			const jsonData = await response.json();
+			setMoves(jsonData);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	
+	let sortedMoves = [...moves];
+	if (sortedField !== null) {
+		sortedMoves.sort((a, b) => {
+			
+		})
+	}
+	
+	useEffect(() => {
+		getMoves();
+	}, []);
 	
 	return (
 		<>

@@ -1,30 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 const composeKey = require('./composekey.js').default;
 
 export default function PokemonTable () {
 	const [pokemon, setPokemon] = useState([]);
-	const [sortedField, setSortedField] = useState(null);
-	
-	const getPokemon = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/search/pokemon');
-			const jsonData = await response.json();
-			setPokemon(jsonData);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
-	
-	useEffect(() => {
-		getPokemon();
-	}, []);
-	
-	let sortedPokemon = [...pokemon];
-	if (sortedField !== null) {
-		sortedPokemon.sort((a, b) => {
-			
-		})
-	}
+	const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 	
 	const tableProperties = [
 		{ displayValue: 'Name', lookupValue: 'name' },
@@ -39,6 +18,41 @@ export default function PokemonTable () {
 		{ displayValue: 'Total', lookupValue: 'total_stats' },
 		{ displayValue: 'Average', lookupValue: 'average_stat' }
 	];
+
+	const getPokemon = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/search/pokemon');
+			const jsonData = await response.json();
+			setPokemon(jsonData);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	
+	
+	
+	
+	let sortedPokemon = [...pokemon];
+	
+	const requestSort = (key) => {
+		let direction = 'ascending';
+		if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+			direction = 'descending';
+		}
+		setSortConfig({ key, direction });
+	}
+	
+	if (sortConfig.key !== null) {
+		sortedPokemon.sort((a, b) => {
+			if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
+			if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'descending' ? 1 : -1
+			return 0;
+		})
+	}
+	
+	useEffect(() => {
+		getPokemon();
+	}, []);
 	
 	return (
 		<>
@@ -50,7 +64,7 @@ export default function PokemonTable () {
 							.map(tableProperty => (
 								<th 
 									key={composeKey(tableProperty.displayValue)('th')()} 
-									onClick={() => setSortedField(tableProperty.lookupValue)}
+									onClick={() => requestSort(tableProperty.lookupValue)}
 								>
 									{tableProperty.displayValue}
 								</th>
