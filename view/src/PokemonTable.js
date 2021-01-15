@@ -4,6 +4,8 @@ const composeKey = require('./composekey.js').default;
 export default function PokemonTable () {
 	const [pokemon, setPokemon] = useState([]);
 	
+	const [sortedField, setSortedField] = useState(null);
+	
 	const getPokemon = async () => {
 		try {
 			const response = await fetch('http://localhost:5000/search/pokemon');
@@ -26,11 +28,9 @@ export default function PokemonTable () {
 						<tr>
 							{['Name', 'Region', 'Primary Type', 'Secondary Type', 'Attack', 'Defense', 'Special Attack', 'Special Defense', 'Speed', 'Total', 'Average']
 								.map(caption => (
-									<td key={composeKey(caption)('td')()}>
-										<strong key={composeKey(caption)('strong')()}>
-											{caption}
-										</strong>
-									</td>
+									<th key={composeKey(caption)('th')()}>
+										{caption}
+									</th>
 							))}
 						</tr>
 					</thead>
