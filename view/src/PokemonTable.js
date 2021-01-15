@@ -20,33 +20,54 @@ export default function PokemonTable () {
 		getPokemon();
 	}, []);
 	
+	let sortedPokemon = [...pokemon];
+	if (sortedField !== null) {
+		sortedPokemon.sort((a, b) => {
+			
+		})
+	}
+	
+	const tableProperties = [
+		{ displayValue: 'Name', lookupValue: 'name' },
+		{ displayValue: 'Region', lookupValue: 'region_id' },
+		{ displayValue: 'Primary Type', lookupValue: 'primary_type_id' },
+		{ displayValue: 'Secondary Type', lookupValue: 'secondary_type_id' },
+		{ displayValue: 'Attack', lookupValue: 'attack' },
+		{ displayValue: 'Defense', lookupValue: 'defense' },
+		{ displayValue: 'Special Attack', lookupValue: 'special_attack' },
+		{ displayValue: 'Special Defense', lookupValue: 'special_defense' },
+		{ displayValue: 'Speed', lookupValue: 'speed' },
+		{ displayValue: 'Total', lookupValue: 'total_stats' },
+		{ displayValue: 'Average', lookupValue: 'average_stat' }
+	];
+	
 	return (
 		<>
 		<h2>Pokemon Table</h2>
-				<table>
-					<thead>
-						<tr>
-							{['Name', 'Region', 'Primary Type', 'Secondary Type', 'Attack', 'Defense', 'Special Attack', 'Special Defense', 'Speed', 'Total', 'Average']
-								.map(caption => (
-									<th key={composeKey(caption)('th')()}>
-										{caption}
-									</th>
+			<table>
+				<thead>
+					<tr>
+						{tableProperties
+							.map(tableProperty => (
+								<th key={composeKey(tableProperty.displayValue)('th')()} onClick={() => setSortedField(tableProperty.lookupValue)}>
+									{tableProperty.displayValue}
+								</th>
+						))}
+					</tr>
+				</thead>
+				<tbody>
+					{pokemon.map(pokemon => (
+						<tr key={composeKey(pokemon.name)('tr')()}>
+							{tableProperties
+								.map(tableProperty => (
+									<td key={composeKey(pokemon.name)(tableProperty.lookupValue)('td')()}>
+										{pokemon[tableProperty.lookupValue]}
+									</td>
 							))}
 						</tr>
-					</thead>
-					<tbody>
-						{pokemon.map(pokemon => (
-							<tr key={composeKey(pokemon.name)('tr')()}>
-								{['name', 'region_id', 'primary_type_id', 'secondary_type_id', 'attack', 'defense', 'special_attack', 'special_defense', 'speed', 'total_stats', 'average_stat']
-									.map(attribute => (
-										<td key={composeKey(pokemon.name)(attribute)('td')()}>
-											{pokemon[attribute]}
-										</td>
-								))}
-							</tr>
-						))}
-					</tbody>
-		</table>
+					))}
+				</tbody>
+			</table>
 		</>
 	)
 }
