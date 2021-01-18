@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 const composeKey = require('./composekey.js').default;
 
 export default function PokemonTable () {
 	const [pokemon, setPokemon] = useState([]);
-	const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 	
 	const tableProperties = [
 		{ displayValue: 'Name', lookupValue: 'name' },
@@ -28,28 +27,7 @@ export default function PokemonTable () {
 			console.error(error.message);
 		}
 	}
-	
-	
-	
-	
-	let sortedPokemon = [...pokemon];
-	
-	const requestSort = (key) => {
-		let direction = 'ascending';
-		if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-			direction = 'descending';
-		}
-		setSortConfig({ key, direction });
-	}
-	
-	if (sortConfig.key !== null) {
-		sortedPokemon.sort((a, b) => {
-			if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ascending' ? -1 : 1;
-			if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'descending' ? 1 : -1
-			return 0;
-		})
-	}
-	
+
 	useEffect(() => {
 		getPokemon();
 	}, []);
@@ -64,7 +42,7 @@ export default function PokemonTable () {
 							.map(tableProperty => (
 								<th 
 									key={composeKey(tableProperty.displayValue)('th')()} 
-									onClick={() => requestSort(tableProperty.lookupValue)}
+									onClick={() => console.log(tableProperty.displayValue)}
 								>
 									{tableProperty.displayValue}
 								</th>
