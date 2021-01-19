@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 // Modules:
 const composeKey = require('./composekey.js').default;
 
-export default function MovesTable () {
-	const [moves, setMoves] = useState([]);
-	const [sortedField, setSortedField] = useState(null);
+export default function MovesTable (props) {
+	const { moves } = props;
 	
 	const tableProperties = [
 		{ displayValue: 'Move', lookupValue: 'id' },
@@ -18,26 +17,11 @@ export default function MovesTable () {
 		{ displayValue: 'Effect', lookupValue: 'effect' },
 	];
 	
-	const getMoves = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/search/moves');
-			const jsonData = await response.json();
-			setMoves(jsonData);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
 	
-	let sortedMoves = [...moves];
-	if (sortedField !== null) {
-		sortedMoves.sort((a, b) => {
-			
-		})
-	}
 	
-	useEffect(() => {
-		getMoves();
-	}, []);
+	
+	
+	
 	
 	return (
 		<>
@@ -49,7 +33,7 @@ export default function MovesTable () {
 						.map(tableProperty => (
 							<th 
 								key={composeKey(tableProperty.displayValue)('td')()}
-								onClick={() => setSortedField(tableProperty.lookupValue)}
+								onClick={() => console.log(tableProperty.lookupValue)}
 							>
 								{tableProperty.displayValue}
 							</th>

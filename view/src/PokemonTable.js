@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
-const composeKey = require('./composekey.js').default;
 
-export default function PokemonTable () {
-	const [pokemon, setPokemon] = useState([]);
-	const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+// Utility:
+const composeKey = require('./composekey.js').default;
+const useSortableData = require('./usesortabledata.js').default;
+
+export default function PokemonTable (props) {
+	const { data: pokemon, requestSort, sortConfig } = useSortableData(props.pokemon);
 	
 	const tableProperties = [
 		{ displayValue: 'Name', lookupValue: 'name' },
@@ -19,45 +21,6 @@ export default function PokemonTable () {
 		{ displayValue: 'Total', lookupValue: 'total_stats' },
 		{ displayValue: 'Average', lookupValue: 'average_stat' }
 	];
-
-	const getPokemon = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/search/pokemon');
-			const jsonData = await response.json();
-			setPokemon(jsonData);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
-
-	useEffect(() => {
-		getPokemon();
-	}, []);
-	
-	
-	
-	useMemo(() => {
-		let sortedPokemon = [...pokemon];
-		
-		if (sortConfig) {
-			sortedPokemon.sort((a, b) => {
-				if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ASC' ? -1 : 1;
-				if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'DESC' ? 1 : -1;
-				return 0;
-			});
-		}
-		return sortedPokemon;
-	}, [pokemon, sortConfig]);
-	
-	const requestSort = (key) => {
-		let direction = 'ASC';
-		if (sortConfig.key === key && sortConfig.direction === 'ASC') {
-			direction = 'DESC';
-		}
-		setSortConfig({ key, direction });
-	}
-	
-	
 	
 	return (
 		<>
