@@ -1,47 +1,20 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components:
 import PokemonTable from './PokemonTable';
 import MovesTable from './MovesTable';
 
+// Utility:
+const useSortableData = require('./usesortabledata.js').default;
 
 ////////////////////////////////////////////////
 
-const useSortableData = (items, config = null) => {
-	const [sortConfig, setSortConfig] = useState(config);
-	
-	const sortedItems = useMemo(() => {
-		let sortableItems = [...items];
-		
-		if (sortConfig) {
-			sortableItems.sort((a, b) => {
-				if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ASC' ? -1 : 1;
-				if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ASC' ? 1 : -1;
-				return 0;
-			});
-		}
-		return sortableItems;
-	}, [items, sortConfig]);
-	
-	const requestSort = (key) => {
-		let direction = 'ASC';
-		if (
-			sortConfig &&
-			sortConfig.key === key &&
-			sortConfig.direction === 'ASC'
-		) {
-			direction = 'DESC';
-		}
-		setSortConfig({ key, direction });
-	}
-	return { items: sortedItems, requestSort, sortConfig };
-}
 
 // THE SAMPLE SORTABLE TABLE COMPONENT
 // https://www.smashingmagazine.com/2020/03/sortable-tables-react/
 function ProductTable (props) {
-	const { items, requestSort, sortConfig } = useSortableData(props.products);
+	const { data, requestSort, sortConfig } = useSortableData(props.products);
 	
 	const getClassNamesFor = (name) => {
 		if (!sortConfig) return;
@@ -83,7 +56,7 @@ function ProductTable (props) {
 				</tr>
 			</thead>
 			<tbody>
-				{items.map(product => (
+				{data.map(product => (
 					<tr key={product.id}>
 						<td>{product.name}</td>
 						<td>{product.price}</td>
@@ -100,6 +73,37 @@ function ProductTable (props) {
 
 
 export default function Search () {
+	const [pokemon, setPokemon] = useState([]);
+	const [moves, setMoves] = useState([]);
+	
+	const getPokemon = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/search/pokemon');
+			const jsonData = await response.json();
+			setPokemon(jsonData);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	
+	const getMoves = async () => {
+		try {
+			const response = await fetch('http://localhost:5000/search/moves');
+			const jsonData = await response.json();
+			setMoves(jsonData);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	
+	useEffect(() => {
+		getPokemon();
+	}, []);
+	
+	useEffect(() => {
+		getMoves();
+	}, []);
+	
 	return (
 		<>
 		<h1>Search</h1>
@@ -109,7 +113,7 @@ export default function Search () {
 			<a href="/search/moves" className="table-link"><button>Moves</button></a>
 		</div>
 		<h2>Sample Table</h2>
-		<ProductTable 
+		<ProductTable
 			products={[
 					{ id: 1, name: "Cheese", price: 4.9, stock: 20 },
           { id: 2, name: "Milk", price: 1.9, stock: 32 },
@@ -123,8 +127,12 @@ export default function Search () {
 		<hr></hr>
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/search" component={PokemonTable} key={'pokemon-table'} />
-				<Route exact path="/search/moves" component={MovesTable} key={'moves-table'} />
+				<Route exact path="/search">
+					<PokemonTable pokemon={pokemon} />
+				</Route> 
+				<Route exact path="/search/moves">
+					<MovesTable moves={moves} />
+				</Route> 
 			</Switch>
 		</BrowserRouter>
 		</>
