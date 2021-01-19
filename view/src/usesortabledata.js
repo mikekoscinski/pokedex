@@ -10,6 +10,7 @@ export default function useSortableData (data, config = null) {
 			sortableData.sort((a, b) => {
 				if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'ASC' ? -1 : 1;
 				if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'ASC' ? 1 : -1;
+				if (b[sortConfig.key] === null) return -1; // NOTE: handle sort when secondary_type = null
 				return 0;
 			});
 		}
