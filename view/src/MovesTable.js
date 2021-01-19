@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-// Modules:
+// Utility:
 const composeKey = require('./composekey.js').default;
+const useSortableData = require('./usesortabledata.js').default;
 
 export default function MovesTable (props) {
-	const { moves } = props;
+	const { data: moves, requestSort, sortConfig } = useSortableData(props.moves);
 	
 	const tableProperties = [
 		{ displayValue: 'Move', lookupValue: 'id' },
@@ -17,11 +18,10 @@ export default function MovesTable (props) {
 		{ displayValue: 'Effect', lookupValue: 'effect' },
 	];
 	
-	
-	
-	
-	
-	
+	const getClassNamesFor = (name) => {
+		if (!sortConfig) return;
+		return sortConfig.key === name ? sortConfig.direction : undefined;
+	};
 	
 	return (
 		<>
@@ -33,7 +33,8 @@ export default function MovesTable (props) {
 						.map(tableProperty => (
 							<th 
 								key={composeKey(tableProperty.displayValue)('td')()}
-								onClick={() => console.log(tableProperty.lookupValue)}
+								onClick={() => requestSort(tableProperty.lookupValue)}
+								className={getClassNamesFor(tableProperty.lookupValue)}
 							>
 								{tableProperty.displayValue}
 							</th>

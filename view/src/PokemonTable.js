@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React from "react";
 
 // Utility:
 const composeKey = require('./composekey.js').default;
@@ -23,36 +23,42 @@ export default function PokemonTable (props) {
 		{ displayValue: 'Average', lookupValue: 'average_stat' }
 	];
 	
+	const getClassNamesFor = (name) => {
+		if (!sortConfig) return;
+		return sortConfig.key === name ? sortConfig.direction : undefined;
+	};
+	
 	return (
 		<>
 		<h2>Pokemon Table</h2>
-			<table>
-				<thead>
-					<tr>
+		<table>
+			<thead>
+				<tr>
+					{tableProperties
+						.map(tableProperty => (
+							<th 
+								key={composeKey(tableProperty.displayValue)('th')()} 
+								onClick={() => requestSort(tableProperty.lookupValue)}
+								className={getClassNamesFor(tableProperty.lookupValue)}
+							>
+								{tableProperty.displayValue}
+							</th>
+					))}
+				</tr>
+			</thead>
+			<tbody>
+				{pokemon.map(pokemon => (
+					<tr key={composeKey(pokemon.name)('tr')()}>
 						{tableProperties
 							.map(tableProperty => (
-								<th 
-									key={composeKey(tableProperty.displayValue)('th')()} 
-									onClick={() => requestSort(tableProperty.lookupValue)}
-								>
-									{tableProperty.displayValue}
-								</th>
+								<td key={composeKey(pokemon.name)(tableProperty.displayValue)('td')()}>
+									{pokemon[tableProperty.lookupValue]}
+								</td>
 						))}
 					</tr>
-				</thead>
-				<tbody>
-					{pokemon.map(pokemon => (
-						<tr key={composeKey(pokemon.name)('tr')()}>
-							{tableProperties
-								.map(tableProperty => (
-									<td key={composeKey(pokemon.name)(tableProperty.displayValue)('td')()}>
-										{pokemon[tableProperty.lookupValue]}
-									</td>
-							))}
-						</tr>
-					))}
-				</tbody>
-			</table>
+				))}
+			</tbody>
+		</table>
 		</>
 	)
 }

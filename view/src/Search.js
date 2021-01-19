@@ -16,6 +16,7 @@ const useSortableData = require('./usesortabledata.js').default;
 function ProductTable (props) {
 	const { data, requestSort, sortConfig } = useSortableData(props.products);
 	
+	// TODO: Add this to other tables
 	const getClassNamesFor = (name) => {
 		if (!sortConfig) return;
 		return sortConfig.key === name ? sortConfig.direction : undefined;
@@ -30,7 +31,7 @@ function ProductTable (props) {
 						<button 
 							type="button"
 							onClick={() => requestSort('name')}
-							// className={getClassNamesFor('name')}
+							className={getClassNamesFor('name')}
 						>
 							Name
 						</button>
@@ -39,7 +40,7 @@ function ProductTable (props) {
 						<button 
 							type="button"
 							onClick={() => requestSort('price')}
-							// className={getClassNamesFor('price')}
+							className={getClassNamesFor('price')}
 						>
 							Price
 						</button>
@@ -48,7 +49,7 @@ function ProductTable (props) {
 						<button 
 							type="button"
 							onClick={() => requestSort('stock')}
-							// className={getClassNamesFor('stock')}
+							className={getClassNamesFor('stock')}
 						>
 							In Stock
 						</button>
