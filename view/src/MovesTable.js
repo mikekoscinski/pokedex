@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-// Modules:
+// Utility:
 const composeKey = require('./composekey.js').default;
+const useSortableData = require('./usesortabledata.js').default;
 
-export default function MovesTable () {
-	const [moves, setMoves] = useState([]);
-	const [sortedField, setSortedField] = useState(null);
+export default function MovesTable (props) {
+	const { data: moves, requestSort, sortConfig } = useSortableData(props.moves);
 	
 	const tableProperties = [
 		{ displayValue: 'Move', lookupValue: 'id' },
@@ -18,26 +18,10 @@ export default function MovesTable () {
 		{ displayValue: 'Effect', lookupValue: 'effect' },
 	];
 	
-	const getMoves = async () => {
-		try {
-			const response = await fetch('http://localhost:5000/search/moves');
-			const jsonData = await response.json();
-			setMoves(jsonData);
-		} catch (error) {
-			console.error(error.message);
-		}
-	}
-	
-	let sortedMoves = [...moves];
-	if (sortedField !== null) {
-		sortedMoves.sort((a, b) => {
-			
-		})
-	}
-	
-	useEffect(() => {
-		getMoves();
-	}, []);
+	const getClassNamesFor = (name) => {
+		if (!sortConfig) return;
+		return sortConfig.key === name ? sortConfig.direction : undefined;
+	};
 	
 	return (
 		<>
@@ -49,7 +33,8 @@ export default function MovesTable () {
 						.map(tableProperty => (
 							<th 
 								key={composeKey(tableProperty.displayValue)('td')()}
-								onClick={() => setSortedField(tableProperty.lookupValue)}
+								onClick={() => requestSort(tableProperty.lookupValue)}
+								className={getClassNamesFor(tableProperty.lookupValue)}
 							>
 								{tableProperty.displayValue}
 							</th>
