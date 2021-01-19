@@ -13,6 +13,7 @@ export default function PokemonTable (props) {
 		{ displayValue: 'Region', lookupValue: 'region_id' },
 		{ displayValue: 'Primary Type', lookupValue: 'primary_type_id' },
 		{ displayValue: 'Secondary Type', lookupValue: 'secondary_type_id' },
+		{ displayValue: 'HP', lookupValue: 'hp' },
 		{ displayValue: 'Attack', lookupValue: 'attack' },
 		{ displayValue: 'Defense', lookupValue: 'defense' },
 		{ displayValue: 'Special Attack', lookupValue: 'special_attack' },
