@@ -77,7 +77,7 @@ export default function Entry ({ match }) {
 											{ value: entry.secondary_type_id, lookupValue: 'secondary-type' }
 										]
 											.map(type => (
-												<span key={composeKey(entry.name)(type.lookupValue)()}>{type.value}</span>
+												<span key={composeKey(entry.name)(type.lookupValue)()}>{type.value} </span>
 									))}
 								</p>
 							</div>
