@@ -51,8 +51,17 @@ export default function PokemonTable (props) {
 					<tr key={composeKey(pokemon.name)('tr')()}>
 						{tableProperties
 							.map(tableProperty => (
-								<td key={composeKey(pokemon.name)(tableProperty.displayValue)('td')()}>
-									{pokemon[tableProperty.lookupValue]}
+								<td 
+									key={composeKey(pokemon.name)(tableProperty.displayValue)('td')()}
+								>
+									{tableProperty.lookupValue === 'name' ? 
+										<a 
+											href={`/pokemon/${pokemon.pokedex_id}`}
+											key={composeKey(pokemon.name)(tableProperty.displayValue)('a')()}
+										>
+											{pokemon[tableProperty.lookupValue]}
+										</a>
+										: pokemon[tableProperty.lookupValue]}
 								</td>
 						))}
 					</tr>
