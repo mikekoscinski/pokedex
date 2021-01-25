@@ -11,7 +11,7 @@ const pool = new Pool({
 
 // Functions called in controller.js to retrieve data
 module.exports = {
-	// TODO: Matching React component named Login; need to match
+	// TODO: Matching React component named Signin; need to match
 	getHomepageData: async function () {
 		// TODO: Update data once page's utility is finalized
 		const data = 'Welcome to the Pokédex.';
