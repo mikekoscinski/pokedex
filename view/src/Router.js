@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components:
 import Signin from './Signin';
+import Signup from './Signup';
 import EntryList from './EntryList';
 import Entry from './Entry';
 import Search from './Search';
@@ -14,7 +15,8 @@ export default function Router () {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={Signin} key={'signin'} />
+				<Route exact path="/signin" component={Signin} key={'signin'} />
+				<Route exact path="/signup" component={Signup} key={'signup'} />
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
 				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
 				<Route exact path="/search" component={Search} key={'search'} />
