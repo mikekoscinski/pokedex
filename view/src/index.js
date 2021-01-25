@@ -4,7 +4,7 @@
 // import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // // Components:
-// import Login from './Login';
+// import Signin from './Signin';
 // import EntryList from './EntryList';
 // import Entry from './Entry';
 // import Search from './Search';
@@ -13,7 +13,7 @@
 // import NotFound from './NotFound';
 
 // export {
-//   Login, 
+//   Signin, 
 //   EntryList,
 //   Entry,
 //   Search,
