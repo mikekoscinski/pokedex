@@ -16,6 +16,8 @@ const controller = require('./controller/controller.js');
 
 // Routes
 app.use('/', controller);
+app.use('/signin', controller);
+app.use('/signup', controller);
 app.use('/pokemon', controller);
 app.use('/pokemon/:pokedex_id', controller);
 app.use('/pokemon/:pokedex_id/moves', controller);
@@ -23,8 +25,7 @@ app.use('/moves', controller);
 app.use('/search/pokemon', controller);
 app.use('/search/moves', controller);
 
-// TODO: Add routes for search table data here
-
+// TODO:
 app.use('/teams', controller);
 app.use('/account', controller);
 
