@@ -2,6 +2,7 @@ import React from 'react'; // Must import React, even if not calling anything fr
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components:
+import Home from './Home';
 import Signin from './Signin';
 import Signup from './Signup';
 import EntryList from './EntryList';
@@ -15,6 +16,7 @@ export default function Router () {
 	return (
 		<BrowserRouter>
 			<Switch>
+				<Route exact path="/" component={Home} key={'home'} />
 				<Route exact path="/signin" component={Signin} key={'signin'} />
 				<Route exact path="/signup" component={Signup} key={'signup'} />
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
