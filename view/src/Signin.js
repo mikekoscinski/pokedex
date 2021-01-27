@@ -7,11 +7,11 @@ export default function Signin () {
 		<form action="/signin" method="POST">
 			<div>
 				<label for="name">Username</label>
-				<input type="text" id="username" name="username" required />
+				<input type="text" id="username" name="username" autocomplete="on" required />
 			</div>
 			<div>
 				<label for="name">Password</label>
-				<input type="text" id="password" name="password" required />
+				<input type="text" id="password" name="password" autocomplete="on" required />
 			</div>
 			<button>Sign in</button>
 		</form>
