@@ -20,9 +20,20 @@ router.get('/', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
 	try {
-		console.log('Request received');
-		console.log(req.body);
-		res.send(req.body);
+		const { username, email, password } = req.body;
+		
+		const isUsernameTaken = await model.isUsernameTaken(username);
+		console.log(`Is username taken? ${JSON.stringify(isUsernameTaken)}`);
+		console.log(`Username: ${isUsernameTaken.username}`);
+		
+		console.log(`username: ${req.body.username}, email: ${email}, password: ${password}`);
+		
+		// res.send(req.body);
+		
+		// TODO: Should I be writing a pg query to INSERT this data into user table once I encrypt the password w/ bcrypt?
+		
+		const newUser = await model.insertUserData(username, email, password);
+		res.json(newUser);
 		
 		
 	} catch (error) {
