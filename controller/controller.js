@@ -7,13 +7,6 @@ const router = express.Router();
 const model = require('../model/model.js');
 const bcrypt = require('bcrypt');
 
-const app = express();
-app.use(express.urlencoded({ extended: false })); // forms accessible to POST via req.body
-
-
-// TODO: REMOVE THIS
-const users = [];
-
 router.get('/', async (req, res) => {
 	try {
 		const { rows } = await model.getHomepageData();
@@ -23,49 +16,21 @@ router.get('/', async (req, res) => {
 	}
 });
 
-/*
-router.get('/signin', async (req, res) => {
+
+
+router.post('/signup', async (req, res) => {
 	try {
+		console.log('Request received');
+		console.log(req.body);
+		res.send(req.body);
+		
 		
 	} catch (error) {
 		console.error(error.message);
 	}
 });
 
-router.get('/signup', async (req, res) => {
-	try {
-		
-	} catch (error) {
-		console.error(error.message);
-	}
-});
-*/
 
-router.post('/signup', async (req, res) => {
-	try {
-		res.send('Signup');
-	} catch (error) {
-		console.error(error.message);
-	}
-});
-
-/* FOR not sure which video this was for - I think WDS
-router.post('/signup', async (req, res) => {
-	try {
-		const hashedPassword = await bcrypt.hash(req.body.password, 10); // property after 'req.body' corresponds to 'name' field in Signup.js
-		users.push({
-			id: Date.now().toString(), // would be automatically generated in a DB
-			username: req.body.name,
-			email: req.body.email,
-			password: hashedPassword 
-		});
-		// res.redirect('/signin');
-	} catch (error) {
-		console.error(error.message);
-	}
-	console.log(users);
-});
-*/
 
 router.get('/pokemon', async (req, res) => {
 	try {
