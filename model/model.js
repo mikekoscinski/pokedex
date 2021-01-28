@@ -18,6 +18,22 @@ module.exports = {
 		return data;
 	},
 	
+
+
+	isUsernameTaken: async function (username) {
+		const data = await pool.query('SELECT username FROM "User" WHERE username = $1', [username]);
+		return data;
+	},
+
+
+	insertUserData: async function (username, email, hashedPassword) {
+		const data = await pool.query('INSERT INTO "User" (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
+	},
+	
+
+
+
+	
 	getIndexData: async function () {
 		const data = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
 		return data;
@@ -25,7 +41,6 @@ module.exports = {
 	
 	getEntryData: async function (pokedex_id) {
 		const data = await pool.query('SELECT * FROM "Pokemon" WHERE pokedex_id = $1', [pokedex_id]);
-		const movesData = await pool.query('SELECT move_id, method_obtained_id, level_obtained_id FROM "PokemonMove" WHERE pokedex_id = $1', [pokedex_id]);		
 		return data;
 	},
 
