@@ -22,6 +22,8 @@ router.post('/signup', async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
 		
+		// TODO: How can I tell if the username is taken? Do the same for email. Also need to enforce password rules.
+		
 		const isUsernameTaken = await model.isUsernameTaken(username);
 		console.log(`Is username taken? ${JSON.stringify(isUsernameTaken)}`);
 		console.log(`Username: ${isUsernameTaken.username}`);
