@@ -23,22 +23,19 @@ router.post('/signup', async (req, res) => {
 		const { username, email } = req.body;
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		
-		// TODO: Set max lengths for password, username
-		
 		// TODO: How can I tell if the username is taken? Do the same for email. Also need to enforce password rules.
-		const isUsernameTaken = await model.isUsernameTaken(username);
-		console.log(`Is username taken? ${JSON.stringify(isUsernameTaken)}`);
+		// Currently, this doesn't inform the user if their desired 'username' is taken. Need to indicate that somehow.
 		
-		const newUser = await model.insertUserData(username, email, hashedPassword);
-		// res.json('User created');
+		const { rows } = await model.isUsernameTaken(username);
+		// if (rows.length === 0) return res.send(200);
 		
+		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
 		
-		// TODO: This just sends a response back to the front-end... I probably need to redirect within the front-end
-		// res.redirect('/pokemon');
-		
-		// TODO: What should I be sending? Must be more comprehensive than this.
-		res.end();
-		
+		// TODO: How to improve this? Should I be sending something more comprehensive? I believe I should be handling different cases based on status code within the front-end. Is that correct?
+		res.sendStatus(200);
+		// res.sendStatus(403);
+		// res.sendStatus(404);
+		// res.sendStatus(500);
 		
 	} catch (error) {
 		console.error(error.message);
