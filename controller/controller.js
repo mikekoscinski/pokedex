@@ -16,26 +16,28 @@ router.get('/', async (req, res) => {
 	}
 });
 
-
+// TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
 router.post('/signup', async (req, res) => {
 	try {
-		const { username, email, password } = req.body;
+		const { username, email } = req.body;
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		
+		// TODO: Set max lengths for password, username
 		
 		// TODO: How can I tell if the username is taken? Do the same for email. Also need to enforce password rules.
-		
 		const isUsernameTaken = await model.isUsernameTaken(username);
 		console.log(`Is username taken? ${JSON.stringify(isUsernameTaken)}`);
-		console.log(`Username: ${isUsernameTaken.username}`);
 		
-		console.log(`username: ${req.body.username}, email: ${email}, password: ${password}`);
+		const newUser = await model.insertUserData(username, email, hashedPassword);
+		// res.json('User created');
 		
-		// res.send(req.body);
 		
-		// TODO: Should I be writing a pg query to INSERT this data into user table once I encrypt the password w/ bcrypt?
+		// TODO: This just sends a response back to the front-end... I probably need to redirect within the front-end
+		// res.redirect('/pokemon');
 		
-		const newUser = await model.insertUserData(username, email, password);
-		res.json(newUser);
+		// TODO: What should I be sending? Must be more comprehensive than this.
+		res.end();
 		
 		
 	} catch (error) {
