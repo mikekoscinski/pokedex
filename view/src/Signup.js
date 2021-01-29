@@ -13,13 +13,24 @@ export default function Signup () {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
-			});
-			console.log(`Got response ${response.status}`);
-			console.log(response);
+			}).then(res => {
+					console.log(res);
+					// if (res.status === 200) return window.location.replace('/pokemon');
+					// if (res.status === 400) 
+				}
+			);
+			
+			// console.log(`Got response ${response.status}`);
+			// console.log(response);
+			
+			
+			
 		} catch (error) {
 			console.error(error.message);
 		}
 	};
+	
+	// TODO: Enforce rules for form inputs. Set min/max length for username, password; enforce strong passwords; etc.
 	
 	return (
 		<>
