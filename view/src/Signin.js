@@ -1,10 +1,21 @@
 import React, { useEffect, useState } from "react";
 
 export default function Signin () {
+	
+	const onFormSubmit = async (event) => {
+		event.preventDefault();
+		try {
+			console.log('TODO');
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	
 	return (
 		<>
 		<h1>Sign in</h1>
-		<form action="/signin" method="POST">
+		{/* <form action="/signin" method="POST"> */}
+		<form className='signin' onSubmit={onFormSubmit}>
 			<div>
 				<label for="name">Username</label>
 				<input type="text" id="username" name="username" autocomplete="on" required />
@@ -13,7 +24,9 @@ export default function Signin () {
 				<label for="name">Password</label>
 				<input type="text" id="password" name="password" autocomplete="on" required />
 			</div>
-			<button>Sign in</button>
+			<button type="submit">
+				Sign in
+			</button>
 		</form>
 		<a href="/signup">Sign up</a>
 		</>
