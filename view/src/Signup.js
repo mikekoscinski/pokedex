@@ -5,31 +5,37 @@ export default function Signup () {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
+	// const isValidPassword = (string) => {
+		// TODO: Regex validation to check password
+	// }
+	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const data = { username, email, password };
+			let data = { username, email, password };
 			const response = await fetch('http://localhost:5000/signup', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
-			})
+			}).then(res => res.json()).then(json => console.log(json));
+			
+			// TODO: Previously had the alerts working. Now dealing w/ 'Unexpected end of JSON input' error. Unresolved.
+			
+			// .then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err.message))
+			// console.log(response)
+			// TODO: This worked earlier
+			// await response.json().then(res => res.error ? alert(res.error) : alert(res.message))
+			
 			
 			/* if (response.ok) return window.location.replace('/')
 			NOTE: Can't call res.redirect server-side because initial client request was made using AJAX, which explicitly prohibits modifying the URL in-transit. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
 			*/
-			
-			console.log(response)
-			console.log(response.ok)
-			// console.log(await response.json()) // this works too
-			await response.json().then(res => console.log(`User named ${res.username} was created`))
-			
 		} catch (error) {
 			console.error(error.message);
 		}
 	};
 	
-	// TODO: Enforce rules for form inputs. Set min/max length for username, password; enforce strong passwords; etc.
+	// TODO: Enforce password rules for form input
 	
 	return (
 		<>
@@ -77,6 +83,11 @@ export default function Signup () {
 					onChange={event => setPassword(event.target.value)}
 					required 
 				/>
+			</div>
+			<div>
+				<i>
+					Password must be 12-100 characters and use at least one uppercase letter, one number, and one symbol.
+				</i>
 			</div>
 			<button type="submit">
 				Sign up

@@ -20,11 +20,11 @@ module.exports = {
 	
 
 
-	isUsernameTaken: async function (username) {
-		const data = await pool.query('SELECT username FROM "User" WHERE username = $1', [username]);
+	getDuplicateKeyValue: async function (key, value) {
+		const data = await pool.query(`SELECT ${key} FROM "User" WHERE ${key} = $1`, [value]);
 		return data;
 	},
-
+	
 
 	insertUserData: async function (username, email, hashedPassword) {
 		const data = await pool.query('INSERT INTO "User" (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);

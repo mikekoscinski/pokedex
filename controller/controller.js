@@ -18,34 +18,31 @@ router.get('/', async (req, res) => {
 
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
+// TODO: Should breakout checkDuplicate(username), checkDuplicate(password) as separate middleware
+
+
+
 router.post('/signup', async (req, res) => {
 	try {
-		console.log('Headers', req.headers);
-		console.log('Body', req.body);
-		
 		const { username, email } = req.body;
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		
-		// TODO: How can I tell if the username is taken? Do the same for email. Also need to enforce password rules.
-		// Currently, this doesn't inform the user if their desired 'username' is taken. Need to indicate that somehow.
+		const isUnique = async (key, value) => (await model.getDuplicateKeyValue(key, value)).rows.length === 0;
+		const isUniqueUsername = await isUnique('username', username)
+		const isUniqueEmail = await isUnique('email', email)
 		
-		const { rows } = await model.isUsernameTaken(username);
-		// if (rows.length === 0) return res.send(200);
+		if (!isUniqueUsername) {
+			console.log('Error: username')
+			return res.status(204).send(JSON.stringify({ error: 'Error: Username already taken. Please choose a unique username.' }))
+		} else if (!isUniqueEmail) {
+			console.log('Error: email')
+			return res.status(204).send(JSON.stringify({ error: 'Error: Email already taken. Please choose a unique email.' }))
+		} else {
+			console.log('Success.')
+			const insertNewUser = await model.insertUserData(username, email, hashedPassword);
+			return res.status(201).send(JSON.stringify({ message: 'Success. User created.' }))
+		}
 		
-		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
-		
-		// TODO: Am I going to use this for anything? Or should I just send status code back?
-		res.json({ username: username });
-		
-		// res.send({
-		// 	username: username,
-		// 	email: email
-		// });
-		
-		// res.sendStatus(200);
-		// res.sendStatus(403);
-		// res.sendStatus(404);
-		// res.sendStatus(500);
 		
 	} catch (error) {
 		console.error(error.message);
