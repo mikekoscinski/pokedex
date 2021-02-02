@@ -13,17 +13,16 @@ export default function Signup () {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
-			}).then(res => {
-					console.log(res);
-					// if (res.status === 200) return window.location.replace('/pokemon');
-					// if (res.status === 400) 
-				}
-			);
+			})
 			
-			// console.log(`Got response ${response.status}`);
-			// console.log(response);
+			/* if (response.ok) return window.location.replace('/')
+			NOTE: Can't call res.redirect server-side because initial client request was made using AJAX, which explicitly prohibits modifying the URL in-transit. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+			*/
 			
-			
+			console.log(response)
+			console.log(response.ok)
+			// console.log(await response.json()) // this works too
+			await response.json().then(res => console.log(`User named ${res.username} was created`))
 			
 		} catch (error) {
 			console.error(error.message);
