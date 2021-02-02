@@ -20,6 +20,9 @@ router.get('/', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
 	try {
+		console.log('Headers', req.headers);
+		console.log('Body', req.body);
+		
 		const { username, email } = req.body;
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 		
@@ -31,8 +34,15 @@ router.post('/signup', async (req, res) => {
 		
 		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
 		
-		// TODO: How to improve this? Should I be sending something more comprehensive? I believe I should be handling different cases based on status code within the front-end. Is that correct?
-		res.sendStatus(200);
+		// TODO: Am I going to use this for anything? Or should I just send status code back?
+		res.json({ username: username });
+		
+		// res.send({
+		// 	username: username,
+		// 	email: email
+		// });
+		
+		// res.sendStatus(200);
 		// res.sendStatus(403);
 		// res.sendStatus(404);
 		// res.sendStatus(500);
