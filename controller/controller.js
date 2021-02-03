@@ -32,15 +32,15 @@ router.post('/signup', async (req, res) => {
 		const isUniqueEmail = await isUnique('email', email)
 		
 		if (!isUniqueUsername) {
-			console.log('Error: username')
-			return res.status(204).send(JSON.stringify({ error: 'Error: Username already taken. Please choose a unique username.' }))
+			const response = JSON.stringify({ error: 'Error: This username is already taken. Please choose a unique username.' })
+			return res.send(response)
 		} else if (!isUniqueEmail) {
-			console.log('Error: email')
-			return res.status(204).send(JSON.stringify({ error: 'Error: Email already taken. Please choose a unique email.' }))
+			const response = JSON.stringify({ error: 'Error: This email is already taken. Please choose a unique email.' })
+			return res.send(response)
 		} else {
-			console.log('Success.')
 			const insertNewUser = await model.insertUserData(username, email, hashedPassword);
-			return res.status(201).send(JSON.stringify({ message: 'Success. User created.' }))
+			const response = JSON.stringify({ message: 'Success. User created.' })
+			return res.send(response)
 		}
 		
 		
