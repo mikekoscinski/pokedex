@@ -1,39 +1,45 @@
 import React, { useState } from "react";
 
+const passwordIsValid = (password) => {
+	if (
+		password.length >= 12
+		&& password.length <= 100
+		&& password.match(/^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+])(?=.*\d).*$/g)
+	) return true
+	return false
+}
+
 export default function Signup () {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// const isValidPassword = (string) => {
-		// TODO: Regex validation to check password
-	// }
-	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
-		try {
-			let data = { username, email, password };
-			
-			fetch('http://localhost:5000/signup', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data)
-			})
-				.then(res => res.json())
-				.then(data => {
-					if (!data.error) {
-						alert('Account successfully created.')
-						return window.location.replace('/')
-						// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
-					}
-					return alert(data.error)
-			})
-		} catch (error) {
-			console.error(error.message);
+		if (!passwordIsValid(password)) {
+			return alert('Password is invalid. Please try again. Password must be 12-100 characters and use at least one uppercase letter, one number, and one symbol.')
+		} else {
+			try {
+				let data = { username, email, password };
+				fetch('http://localhost:5000/signup', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(data)
+				})
+					.then(res => res.json())
+					.then(data => {
+						if (!data.error) {
+							alert('Account successfully created.')
+							return window.location.replace('/')
+							// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+						}
+						return alert(data.error)
+				})
+			} catch (error) {
+				console.error(error.message);
+			}
 		}
 	};
-	
-	// TODO: Enforce password rules for form input
 	
 	return (
 		<>
