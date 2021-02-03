@@ -20,30 +20,35 @@ router.get('/', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
 	try {
-		const { username, email } = req.body;
-		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+		const { username, email, password } = req.body;
 		
+		const passwordIsValid = (password) => {
+			if (
+				password.length >= 12
+				&& password.length <= 100
+				&& password.match(/^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+])(?=.*\d).*$/g)
+			) return true
+			return false
+		}
 		const isUnique = async (key, value) => (await model.getDuplicateKeyValue(key, value)).rows.length === 0;
 		const isUniqueUsername = await isUnique('username', username)
 		const isUniqueEmail = await isUnique('email', email)
 		
-		if (!isUniqueUsername) {
-			const response = JSON.stringify({ error: 'Error: This username is already taken. Please choose a unique username.' })
-			return res.send(response)
-		} else if (!isUniqueEmail) {
-			const response = JSON.stringify({ error: 'Error: This email is already taken. Please choose a unique email.' })
-			return res.send(response)
-		} else {
-			const insertNewUser = await model.insertUserData(username, email, hashedPassword);
-			const response = JSON.stringify({ message: 'Success. User created.' })
-			return res.send(response)
-		}
+		// Input validation:
+		if (!isUniqueUsername) return res.send({ error: 'Error: This username is already taken. Please try another.' })
+		if (!isUniqueEmail) return res.send({ error: 'Error: This email is already taken. Please try another.' })
+		if (!passwordIsValid(password)) return res.send({ error: 'Error: Invalid password. Please try again.' })
+		
+		// Hash only after all validation checks run successfully
+		const hashedPassword = await bcrypt.hash(password, 10);
+		
+		// Insert new user and return 'success' response
+		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
+		return res.send({ message: 'Success: User successfully created.' })
 	} catch (error) {
 		console.error(error.message);
 	}
 });
-
-
 
 router.get('/pokemon', async (req, res) => {
 	try {
