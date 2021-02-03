@@ -20,13 +20,14 @@ export default function Signup () {
 				body: JSON.stringify(data)
 			})
 				.then(res => res.json())
-				.then(data => console.log(data))
-			
-			
-			
-			/* if (response.ok) return window.location.replace('/')
-			NOTE: Can't call res.redirect server-side because initial client request was made using AJAX, which explicitly prohibits modifying the URL in-transit. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
-			*/
+				.then(data => {
+					if (!data.error) {
+						alert('Account successfully created.')
+						return window.location.replace('/')
+						// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+					}
+					return alert(data.error)
+			})
 		} catch (error) {
 			console.error(error.message);
 		}
