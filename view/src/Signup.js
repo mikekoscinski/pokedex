@@ -13,18 +13,15 @@ export default function Signup () {
 		event.preventDefault();
 		try {
 			let data = { username, email, password };
-			const response = await fetch('http://localhost:5000/signup', {
+			
+			fetch('http://localhost:5000/signup', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
-			}).then(res => res.json()).then(json => console.log(json));
+			})
+				.then(res => res.json())
+				.then(data => console.log(data))
 			
-			// TODO: Previously had the alerts working. Now dealing w/ 'Unexpected end of JSON input' error. Unresolved.
-			
-			// .then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err.message))
-			// console.log(response)
-			// TODO: This worked earlier
-			// await response.json().then(res => res.error ? alert(res.error) : alert(res.message))
 			
 			
 			/* if (response.ok) return window.location.replace('/')
