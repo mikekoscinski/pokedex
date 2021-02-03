@@ -18,10 +18,6 @@ router.get('/', async (req, res) => {
 
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
-// TODO: Should breakout checkDuplicate(username), checkDuplicate(password) as separate middleware
-
-
-
 router.post('/signup', async (req, res) => {
 	try {
 		const { username, email } = req.body;
@@ -42,8 +38,6 @@ router.post('/signup', async (req, res) => {
 			const response = JSON.stringify({ message: 'Success. User created.' })
 			return res.send(response)
 		}
-		
-		
 	} catch (error) {
 		console.error(error.message);
 	}
