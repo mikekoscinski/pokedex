@@ -17,11 +17,11 @@ export default function Signin () {
 		{/* <form action="/signin" method="POST"> */}
 		<form className='signin' onSubmit={onFormSubmit}>
 			<div>
-				<label for="name">Username</label>
+				<label htmlFor="name">Username</label>
 				<input type="text" id="username" name="username" autocomplete="on" required />
 			</div>
 			<div>
-				<label for="name">Password</label>
+				<label htmlFor="name">Password</label>
 				<input type="text" id="password" name="password" autocomplete="on" required />
 			</div>
 			<button type="submit">

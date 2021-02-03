@@ -41,7 +41,7 @@ export default function Signup () {
 		{/* <form action="/signup" method="POST"> TODO: This was causing the POST error */}
 		<form className='signup' onSubmit={onFormSubmit} >
 			<div>
-				<label for="username">
+				<label htmlFor="username">
 					Username
 				</label>
 				<input 
@@ -55,7 +55,7 @@ export default function Signup () {
 				/>
 			</div>
 			<div>
-				<label for="email">
+				<label htmlFor="email">
 					Email
 				</label>
 				<input 
@@ -69,7 +69,7 @@ export default function Signup () {
 				/>
 			</div>
 			<div>
-				<label for="password">
+				<label htmlFor="password">
 					Password
 				</label>
 				<input 
