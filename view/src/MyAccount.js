@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+// TODO: Add hooks once needed -- import React, { useEffect, useState } from "react";
 
 export default function MyAccount () {
 	return (
