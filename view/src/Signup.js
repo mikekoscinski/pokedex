@@ -8,7 +8,7 @@ export default function Signup () {
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			let data = { username, email, password };
+			const data = { username, email, password };
 			fetch('http://localhost:5000/signup', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },

@@ -18,6 +18,14 @@ router.get('/', async (req, res) => {
 
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
+router.post('/signin', async (req, res) => {
+	try {
+		
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
 router.post('/signup', async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
@@ -39,7 +47,7 @@ router.post('/signup', async (req, res) => {
 		if (!isUniqueEmail) return res.send({ error: 'Error: This email is already taken. Please try another.' })
 		if (!passwordIsValid(password)) return res.send({ error: 'Error: Invalid password. Please try again.' })
 		
-		// Hash only after all validation checks run successfully
+		// Hash only after all validation checks pass
 		const hashedPassword = await bcrypt.hash(password, 10);
 		
 		// Insert new user and return 'success' response
