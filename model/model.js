@@ -18,7 +18,12 @@ module.exports = {
 		return data;
 	},
 	
-
+	
+	getAccountCredentials: async function (email) {
+		const data = await pool.query('SELECT email, password FROM "User" WHERE email = $1', [email])
+		return data
+	},
+	
 
 	getDuplicateKeyValue: async function (key, value) {
 		const data = await pool.query(`SELECT ${key} FROM "User" WHERE ${key} = $1`, [value]);

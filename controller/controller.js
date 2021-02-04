@@ -16,15 +16,32 @@ router.get('/', async (req, res) => {
 	}
 });
 
+
+
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
 router.post('/signin', async (req, res) => {
 	try {
+		const { email, password } = req.body
+		const { rows } = await model.getAccountCredentials(email)
 		
+		if (rows.length === 0) return res.status(400).send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
+		
+		try {
+			if (await bcrypt.compare(password, rows[0].password)) {
+				return res.send({ message: 'Success', email: email, password: password })
+			}
+			return res.send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
+		} catch (error) {
+			console.error(error.message)
+		}
 	} catch (error) {
 		console.error(error.message)
 	}
 })
+
+
+
 
 router.post('/signup', async (req, res) => {
 	try {
