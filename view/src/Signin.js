@@ -1,13 +1,15 @@
-import React from "react"; // TODO: add , { useState } once needed
+import React, { useState } from "react"; // TODO: add , { useState } once needed
 
-export default function Signin () {
+export default function Signin () {	
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			console.log('TODO');
+			const data = { email, password }
 			
-			// const data = { email, password }
+			
 			
 			
 		} catch (error) {
@@ -20,12 +22,32 @@ export default function Signin () {
 		<h1>Sign in</h1>
 		<form className='signin' onSubmit={onFormSubmit}>
 			<div>
-				<label htmlFor="email">Email</label>
-				<input type="email" id="email" name="email" autoComplete="on" required />
+				<label htmlFor="email">
+					Email
+				</label>
+				<input 
+					type="email" 
+					id="email" 
+					name="email" 
+					autoComplete="on" 
+					value={email}
+					onChange={event => setEmail(event.target.value)}
+					required 
+				/>
 			</div>
 			<div>
-				<label htmlFor="password">Password</label>
-				<input type="password" id="password" name="password" autoComplete="on" required />
+				<label htmlFor="password">
+					Password
+				</label>
+				<input 
+					type="password" 
+					id="password" 
+					name="password" 
+					autoComplete="on" 
+					value={password}
+					onChange={event => setPassword(event.target.value)}
+					required 
+				/>
 			</div>
 			<button type="submit">
 				Sign in
