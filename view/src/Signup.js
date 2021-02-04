@@ -31,7 +31,6 @@ export default function Signup () {
 	return (
 		<>
 		<h1>Sign up</h1>
-		{/* <form action="/signup" method="POST"> TODO: This was causing the POST error */}
 		<form className='signup' onSubmit={onFormSubmit} >
 			<div>
 				<label htmlFor="username">
