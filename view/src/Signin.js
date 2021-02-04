@@ -6,6 +6,10 @@ export default function Signin () {
 		event.preventDefault();
 		try {
 			console.log('TODO');
+			
+			// const data = { email, password }
+			
+			
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -14,15 +18,14 @@ export default function Signin () {
 	return (
 		<>
 		<h1>Sign in</h1>
-		{/* <form action="/signin" method="POST"> */}
 		<form className='signin' onSubmit={onFormSubmit}>
 			<div>
-				<label htmlFor="name">Username</label>
-				<input type="text" id="username" name="username" autocomplete="on" required />
+				<label htmlFor="email">Email</label>
+				<input type="email" id="email" name="email" autoComplete="on" required />
 			</div>
 			<div>
-				<label htmlFor="name">Password</label>
-				<input type="text" id="password" name="password" autocomplete="on" required />
+				<label htmlFor="password">Password</label>
+				<input type="password" id="password" name="password" autoComplete="on" required />
 			</div>
 			<button type="submit">
 				Sign in
