@@ -2,10 +2,13 @@
 
 // NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, data returned must be named 'rows'.
 
+require('dotenv').config()
+
 const express = require('express');
 const router = express.Router();
 const model = require('../model/model.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res) => {
 	try {
@@ -16,20 +19,42 @@ router.get('/', async (req, res) => {
 	}
 });
 
+function authenticateToken (req, res, next) {
+	const authHeader = req.headers['authorization']
+	// If we have authHeader, then return the TOKEN from authHeader (authHeader looks like: 'Bearer TOKEN'). Otherwise return undefined.
+	const token = authHeader && authHeader.split(' ')[1]
+	if (token === null) return res.sendStatus(401)
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+		if (error) return res.sendStatus(403)
+		// Now we know we have a valid token
+		req.user = user
+		next()
+	})
+}
 
 
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
 
 router.post('/signin', async (req, res) => {
 	try {
-		const { email, password } = req.body
-		const { rows } = await model.getAccountCredentials(email)
+		const { email, password } = req.body;
+		const { rows } = await model.getAccountCredentials(email);
 		
-		if (rows.length === 0) return res.status(400).send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
+		if (rows.length === 0) return res.status(400).send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' });
 		
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				return res.send({ message: 'Success', email: email, password: password })
+				const user = { credential: email };
+				const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+				return res.send({ message: 'Success', accessToken: accessToken });
+				/* TODO: Need to store accessToken on client; send back to server to be compared when making *NEW* requests anywhere else where functionality should be behind a log-in
+				
+				This will end up looking something like:
+				
+				*client sends token in request*
+				on server: if (!user) return res.status(403).send('Log in to view.')
+				
+				*/
 			}
 			return res.send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
 		} catch (error) {
@@ -39,7 +64,6 @@ router.post('/signin', async (req, res) => {
 		console.error(error.message)
 	}
 })
-
 
 
 
