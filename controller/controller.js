@@ -1,6 +1,6 @@
 // res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
 
-// NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, data returned must be named 'rows'.
+// NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, { rows } destructuring.
 
 require('dotenv').config()
 
@@ -19,11 +19,18 @@ router.get('/', async (req, res) => {
 	}
 });
 
+
+
+
 function authenticateToken (req, res, next) {
 	const authHeader = req.headers['authorization']
 	// If we have authHeader, then return the TOKEN from authHeader (authHeader looks like: 'Bearer TOKEN'). Otherwise return undefined.
 	const token = authHeader && authHeader.split(' ')[1]
+	
+	// Check that they have a token
 	if (token === null) return res.sendStatus(401)
+	
+	// They have a token - now confirm it's verified
 	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
 		if (error) return res.sendStatus(403)
 		// Now we know we have a valid token
@@ -32,29 +39,39 @@ function authenticateToken (req, res, next) {
 	})
 }
 
+function generateAccessToken (user) {
+	// TODO: Update 15s to 10m
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+}
+
 
 // TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
+
+// TODO: Add accessToken +/ refreshToken to localStorage
 
 router.post('/signin', async (req, res) => {
 	try {
 		const { email, password } = req.body;
 		const { rows } = await model.getAccountCredentials(email);
-		
+
 		if (rows.length === 0) return res.status(400).send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' });
 		
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				const user = { credential: email };
-				const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-				return res.send({ message: 'Success', accessToken: accessToken });
-				/* TODO: Need to store accessToken on client; send back to server to be compared when making *NEW* requests anywhere else where functionality should be behind a log-in
+				// This user is fed into Fn authenticateToken()
+				const user = { credential: email }
+				const accessToken = generateAccessToken(user)
+				// Manually handle expiration of RefreshToken
+				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
 				
-				This will end up looking something like:
+				// TODO: Add refreshToken to DB
 				
-				*client sends token in request*
-				on server: if (!user) return res.status(403).send('Log in to view.')
 				
-				*/
+				return res.send({ 
+					message: 'Success', 
+					accessToken: accessToken, 
+					refreshToken: refreshToken 
+				})
 			}
 			return res.send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
 		} catch (error) {
@@ -64,6 +81,11 @@ router.post('/signin', async (req, res) => {
 		console.error(error.message)
 	}
 })
+
+
+
+
+
 
 
 

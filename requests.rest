@@ -1,0 +1,12 @@
+POST http://localhost:5000/signin/
+Content-Type: application/json
+
+{
+	"email": "a@a",
+	"password": "a"
+}
+
+###
+
+GET http://localhost:5000/pokemon
+Authorization: Bearer
