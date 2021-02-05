@@ -18,26 +18,19 @@ module.exports = {
 		return data;
 	},
 	
-	
 	getAccountCredentials: async function (email) {
 		const data = await pool.query('SELECT email, password FROM "User" WHERE email = $1', [email])
 		return data
 	},
 	
-
 	getDuplicateKeyValue: async function (key, value) {
 		const data = await pool.query(`SELECT ${key} FROM "User" WHERE ${key} = $1`, [value]);
 		return data;
 	},
 	
-
 	insertUserData: async function (username, email, hashedPassword) {
 		const data = await pool.query('INSERT INTO "User" (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
 	},
-	
-
-
-
 	
 	getIndexData: async function () {
 		const data = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
