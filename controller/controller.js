@@ -6,9 +6,14 @@ require('dotenv').config()
 
 const express = require('express');
 const router = express.Router();
-const model = require('../model/model.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+// Modules:
+const model = require('../model/model.js');
+const auth = require('./auth')
+// TODO: auth.authenticateToken(), auth.generateAccessToken()
+
 
 router.get('/', async (req, res) => {
 	try {
@@ -19,54 +24,26 @@ router.get('/', async (req, res) => {
 	}
 });
 
-
-
-
-function authenticateToken (req, res, next) {
-	const authHeader = req.headers['authorization']
-	// If we have authHeader, then return the TOKEN from authHeader (authHeader looks like: 'Bearer TOKEN'). Otherwise return undefined.
-	const token = authHeader && authHeader.split(' ')[1]
-	
-	// Check that they have a token
-	if (token === null) return res.sendStatus(401)
-	
-	// They have a token - now confirm it's verified
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-		if (error) return res.sendStatus(403)
-		// Now we know we have a valid token
-		req.user = user
-		next()
-	})
-}
-
-function generateAccessToken (user) {
-	// TODO: Update 15s to 10m
-	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
-}
-
-
-// TODO: in router.post('/signin'), need to update last_login with NOW() when user authenticates a new session
-
-// TODO: Add accessToken +/ refreshToken to localStorage
+///////////////////////////
+///////// SIGN IN /////////
+///////////////////////////
 
 router.post('/signin', async (req, res) => {
 	try {
 		const { email, password } = req.body;
 		const { rows } = await model.getAccountCredentials(email);
 
-		if (rows.length === 0) return res.status(400).send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' });
+		if (rows.length === 0) return res.status(400).send({ 
+			error: 'The email and password you entered did not match our records. Please double-check and try again.' 
+		});
 		
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				// This user is fed into Fn authenticateToken()
 				const user = { credential: email }
-				const accessToken = generateAccessToken(user)
-				// Manually handle expiration of RefreshToken
-				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+				const accessToken = auth.generateAccessToken(user)
+				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually handle refresh expiration
 				
 				// TODO: Add refreshToken to DB
-				
-				
 				return res.send({ 
 					message: 'Success', 
 					accessToken: accessToken, 
@@ -83,10 +60,9 @@ router.post('/signin', async (req, res) => {
 })
 
 
-
-
-
-
+///////////////////////////
+///////// SIGN UP /////////
+///////////////////////////
 
 
 router.post('/signup', async (req, res) => {
@@ -120,6 +96,45 @@ router.post('/signup', async (req, res) => {
 		console.error(error.message);
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 router.get('/pokemon', async (req, res) => {
 	try {
