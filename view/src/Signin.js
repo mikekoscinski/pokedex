@@ -16,7 +16,11 @@ export default function Signin () {
 				body: JSON.stringify(data)
 			})
 				.then(res => res.json())
-				.then(json => console.log(json))
+				.then(json => {
+					console.log(json)
+					localStorage.setItem('accessToken', json.accessToken)
+					localStorage.setItem('refreshToken', json.refreshToken)
+			})
 			
 		} catch (error) {
 			console.error(error.message);
