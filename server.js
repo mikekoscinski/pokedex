@@ -18,6 +18,10 @@ const controller = require('./controller/controller.js');
 app.use('/', controller);
 app.use('/signin', controller);
 app.use('/signup', controller);
+
+// TODO: 
+app.use('/auth', controller);
+
 app.use('/pokemon', controller);
 app.use('/pokemon/:pokedex_id', controller);
 app.use('/pokemon/:pokedex_id/moves', controller);
