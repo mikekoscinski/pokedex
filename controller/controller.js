@@ -12,8 +12,6 @@ const jwt = require('jsonwebtoken');
 // Modules:
 const model = require('../model/model.js');
 const auth = require('./auth')
-// TODO: auth.authenticateToken(), auth.generateAccessToken()
-
 
 router.get('/', async (req, res) => {
 	try {
@@ -28,9 +26,34 @@ router.get('/', async (req, res) => {
 ///////// SIGN IN /////////
 ///////////////////////////
 
+// TODO: I am receiving the refreshToken here. I need to compare, return accessValid or accessInvalid. This should be reused across everything. I think this should probably be middleware instead of a route?
+
+
+const getTokenFromHeader = (req) => {
+	if (
+		req.headers.authorization 
+		&& req.headers.authorization.split(' ')[0] === 'Bearer'
+	) return req.headers.authorization.split(' ')[1];
+}
+
+router.get('/auth', async (req, res) => {
+	try {
+		console.log(getTokenFromHeader(req))
+		
+		
+		
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
+
+
 router.post('/signin', async (req, res) => {
 	try {
-		const { email, password } = req.body;
+		const email = req.body.email.toString()
+		const password = req.body.password.toString()
+		
 		const { rows } = await model.getAccountCredentials(email);
 
 		if (rows.length === 0) return res.status(400).send({ 
@@ -41,7 +64,7 @@ router.post('/signin', async (req, res) => {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { credential: email }
 				const accessToken = auth.generateAccessToken(user)
-				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually handle refresh expiration
+				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually expire
 				
 				// TODO: Add refreshToken to DB
 				return res.send({ 
@@ -67,7 +90,9 @@ router.post('/signin', async (req, res) => {
 
 router.post('/signup', async (req, res) => {
 	try {
-		const { username, email, password } = req.body;
+		const username = req.body.username.toString()
+		const email = req.body.email.toString()
+		const password = req.body.password.toString()
 		
 		const passwordIsValid = (password) => {
 			if (
@@ -148,7 +173,7 @@ router.get('/pokemon', async (req, res) => {
 router.get('/pokemon/:pokedex_id', async (req, res) => {
 	try {
 		// pokedex_id (the variable specified in get request URL after colon) is sole object property in req.params
-		const { pokedex_id } = req.params;
+		const pokedex_id = req.params.pokedex_id.toString();
 		const { rows } = await model.getEntryData(pokedex_id);
 		res.send(rows);
 	} catch (error) {
@@ -158,7 +183,7 @@ router.get('/pokemon/:pokedex_id', async (req, res) => {
 
 router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
 	try {
-		const { pokedex_id } = req.params;
+		const pokedex_id = req.params.pokedex_id.toString();
 		const { rows } = await model.getEntryMovesData(pokedex_id);
 		res.send(rows);
 	} catch (error) {

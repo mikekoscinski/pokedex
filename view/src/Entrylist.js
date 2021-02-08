@@ -4,6 +4,17 @@ import { Link } from 'react-router-dom';
 export default function EntryList () {
 	const [entries, setEntries] = useState([]);
 	
+	fetch('http://localhost:5000/auth', {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${localStorage.getItem('refreshToken')}`
+		}
+	})
+		.then(res => res.json())
+		.then(data => console.log(data))
+		.catch(error => console.log(error))
+	
+	
 	const getEntries = async () => {
 		try {
 			const response = await fetch('http://localhost:5000/pokemon');
