@@ -2,8 +2,8 @@
 
 // NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, { rows } destructuring.
 
+// Libraries:
 require('dotenv').config()
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -11,7 +11,33 @@ const jwt = require('jsonwebtoken');
 
 // Modules:
 const model = require('../model/model.js');
-const auth = require('./auth')
+
+// Middleware:
+const authenticateToken = (req, res, next) => {
+	const authHeader = req.headers['authorization']
+	// return TOKEN from authHeader (authHeader = `Bearer ${TOKEN}`) || undefined.
+	const token = authHeader && authHeader.split(' ')[1]
+	// Check for token
+	if (token === null) return res.sendStatus(401)
+	// They have a token - now confirm it's verified
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+		if (error) return res.sendStatus(403)
+		// Now we know we have a valid token
+		req.user = user
+		next()
+	})
+}
+
+const generateAccessToken = (user) => {
+	// TODO: Update 15s to 10m
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+}
+
+
+
+
+
+// Routes:
 
 router.get('/', async (req, res) => {
 	try {
@@ -36,12 +62,12 @@ const getTokenFromHeader = (req) => {
 	) return req.headers.authorization.split(' ')[1];
 }
 
-router.get('/auth', async (req, res) => {
+// TODO:
+router.post('/auth', async (req, res) => {
 	try {
-		console.log(getTokenFromHeader(req))
-		
-		
-		
+		const refreshToken = await getTokenFromHeader(req);
+		console.log('one');
+		res.send({ response: 'sending' })
 	} catch (error) {
 		console.error(error.message)
 	}
@@ -53,24 +79,27 @@ router.post('/signin', async (req, res) => {
 	try {
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
-		
 		const { rows } = await model.getAccountCredentials(email);
-
 		if (rows.length === 0) return res.status(400).send({ 
 			error: 'The email and password you entered did not match our records. Please double-check and try again.' 
 		});
-		
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { credential: email }
-				const accessToken = auth.generateAccessToken(user)
+				const accessToken = generateAccessToken(user)
 				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually expire
+				// TODO: Save refreshToken as httpOnly cookie -- NOT in localStorage.
+				const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
+				await model.insertRefreshToken(hashedRefreshToken)
 				
-				// res.append('Set-Cookie', `refreshToken=${refreshToken}; HttpOnly`)
-				// res.cookie('refreshToken', refreshToken, { withCredentials: true, credentials: 'include', httpOnly: true })
-				
-				// TODO: Add refreshToken to DB
-				await model.insertRefreshToken(refreshToken)
+				// TODO:
+				// Get this working with httpOnly: false first
+				// TODO: On client side: "How to include cookies in HTTP request?"
+				// This error hasn't shown up in most tutorials because they all use Postman. They aren't sending actual fetch requests from a client.
+				res.cookie('token', 'secret token', { httpOnly: false })
+				// https://github.com/outmoded/discuss/issues/545
+				// on client: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
+				// on client: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
 				
 				return res.send({ 
 					message: 'Success', 
@@ -78,7 +107,9 @@ router.post('/signin', async (req, res) => {
 					refreshToken: refreshToken 
 				})
 			}
-			return res.send({ error: 'The email and password you entered did not match our records. Please double-check and try again.' })
+			return res.send({ 
+				error: 'The email and password you entered did not match our records. Please double-check and try again.' 
+			})
 		} catch (error) {
 			console.error(error.message)
 		}
@@ -126,41 +157,6 @@ router.post('/signup', async (req, res) => {
 		console.error(error.message);
 	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
