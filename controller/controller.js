@@ -66,7 +66,12 @@ router.post('/signin', async (req, res) => {
 				const accessToken = auth.generateAccessToken(user)
 				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually expire
 				
+				// res.append('Set-Cookie', `refreshToken=${refreshToken}; HttpOnly`)
+				// res.cookie('refreshToken', refreshToken, { withCredentials: true, credentials: 'include', httpOnly: true })
+				
 				// TODO: Add refreshToken to DB
+				await model.insertRefreshToken(refreshToken)
+				
 				return res.send({ 
 					message: 'Success', 
 					accessToken: accessToken, 
