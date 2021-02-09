@@ -32,6 +32,10 @@ module.exports = {
 		const data = await pool.query('INSERT INTO "User" (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
 	},
 	
+	insertRefreshToken: async function (refreshToken) {
+		const data = await pool.query('INSERT INTO "RefreshToken" (token_id) VALUES ($1)', [refreshToken]);
+	},
+	
 	getIndexData: async function () {
 		const data = await pool.query('SELECT pokedex_id, name FROM "Pokemon"');
 		return data;
