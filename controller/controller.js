@@ -1,4 +1,4 @@
-// res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
+// NOTE: res.send() sets content type to text/HTML; client will treat it as text. res.json() sets content type to application/JSON; client treats response string as valid JSON object
 
 // NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, { rows } destructuring.
 
@@ -13,18 +13,26 @@ const jwt = require('jsonwebtoken');
 const model = require('../model/model.js');
 
 // Middleware:
-const authenticateToken = (req, res, next) => {
+const authenticateToken = async (req, res, next) => {	
 	const authHeader = req.headers['authorization']
-	// return TOKEN from authHeader (authHeader = `Bearer ${TOKEN}`) || undefined.
-	const token = authHeader && authHeader.split(' ')[1]
-	// Check for token
-	if (token === null) return res.sendStatus(401)
-	// They have a token - now confirm it's verified
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+	const clientToken = authHeader && authHeader.split(' ')[1]
+	
+	if (clientToken === null) return res.sendStatus(401)
+	
+	/*
+	// TODO: This isn't getting used right now. Would need it if I encrypt token client-side
+	// Do we have a record of this token?
+	const { rows } = await model.getRefreshToken(clientToken)
+	console.log(rows.length)
+	*/
+	
+	// They have a token - now verify it (make sure you're using the correct TOKEN_SECRET)
+	jwt.verify(clientToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+		console.log(error)
 		if (error) return res.sendStatus(403)
-		// Now we know we have a valid token
-		req.user = user
-		next()
+		// Once verified, add user to the request, proceed to next middleware
+		req.user = user;
+		return next();
 	})
 }
 
@@ -34,35 +42,19 @@ const generateAccessToken = (user) => {
 }
 
 
-
-
-
-// Routes:
-
-router.get('/', async (req, res) => {
-	try {
-		const { rows } = await model.getHomepageData();
-		res.send(rows);
-	} catch (error) {
-		console.error(error.message);
-	}
-});
-
-///////////////////////////
-///////// SIGN IN /////////
-///////////////////////////
-
-// TODO: I am receiving the refreshToken here. I need to compare, return accessValid or accessInvalid. This should be reused across everything. I think this should probably be middleware instead of a route?
-
+////////////////////////////////////
+// AUTH TOKENS
+////////////////////////////////////
 
 const getTokenFromHeader = (req) => {
+	// TODO: I am receiving the refreshToken here. I need to compare, return accessValid or accessInvalid. This should be reused across everything. I think this should probably be middleware instead of a route?
 	if (
 		req.headers.authorization 
 		&& req.headers.authorization.split(' ')[0] === 'Bearer'
 	) return req.headers.authorization.split(' ')[1];
 }
 
-// TODO:
+// TODO: This doesn't currently do anything. Do I need this? Can I turn this into middleware?
 router.post('/auth', async (req, res) => {
 	try {
 		const refreshToken = await getTokenFromHeader(req);
@@ -73,7 +65,18 @@ router.post('/auth', async (req, res) => {
 	}
 })
 
+////////////////////////////////////
+////////////////////////////////////
 
+// Routes:
+router.get('/', async (req, res) => {
+	try {
+		const { rows } = await model.getHomepageData();
+		res.send(rows);
+	} catch (error) {
+		console.error(error.message);
+	}
+});
 
 router.post('/signin', async (req, res) => {
 	try {
@@ -90,21 +93,27 @@ router.post('/signin', async (req, res) => {
 				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually expire
 				// TODO: Save refreshToken as httpOnly cookie -- NOT in localStorage.
 				const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
-				await model.insertRefreshToken(hashedRefreshToken)
+				// Store the plaintext server-side...
+				await model.insertRefreshToken(email, refreshToken)
+				
+				// TODO: Need to add logic that checks for token on current machine before creating a new token. This can be achieved server-side; always send token with client requests; check if token is in request; if so then redirect. Basically, redirect from sign-in page if client already has token
 				
 				// TODO:
 				// Get this working with httpOnly: false first
 				// TODO: On client side: "How to include cookies in HTTP request?"
 				// This error hasn't shown up in most tutorials because they all use Postman. They aren't sending actual fetch requests from a client.
-				res.cookie('token', 'secret token', { httpOnly: false })
+				res.cookie('token', 'secret', { httpOnly: false })
 				// https://github.com/outmoded/discuss/issues/545
 				// on client: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
 				// on client: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
 				
+				// ... Send encrypted to client
 				return res.send({ 
 					message: 'Success', 
 					accessToken: accessToken, 
-					refreshToken: refreshToken 
+					refreshToken: refreshToken,
+					// email: email
+					// TODO: Sending email probably a bad idea though. Easy to impersonate - literally just edit localStorage
 				})
 			}
 			return res.send({ 
@@ -117,12 +126,6 @@ router.post('/signin', async (req, res) => {
 		console.error(error.message)
 	}
 })
-
-
-///////////////////////////
-///////// SIGN UP /////////
-///////////////////////////
-
 
 router.post('/signup', async (req, res) => {
 	try {
@@ -143,16 +146,24 @@ router.post('/signup', async (req, res) => {
 		const isUniqueEmail = await isUnique('email', email)
 		
 		// Input validation:
-		if (!isUniqueUsername) return res.send({ error: 'Error: This username is already taken. Please try another.' })
-		if (!isUniqueEmail) return res.send({ error: 'Error: This email is already taken. Please try another.' })
-		if (!passwordIsValid(password)) return res.send({ error: 'Error: Invalid password. Please try again.' })
+		if (!isUniqueUsername) return res.send({ 
+			error: 'Error: This username is already taken. Please try another.' 
+		})
+		if (!isUniqueEmail) return res.send({ 
+			error: 'Error: This email is already taken. Please try another.' 
+		})
+		if (!passwordIsValid(password)) return res.send({ 
+			error: 'Error: Invalid password. Please try again.' 
+		})
 		
 		// Hash only after all validation checks pass
 		const hashedPassword = await bcrypt.hash(password, 10);
 		
 		// Insert new user and return 'success' response
 		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
-		return res.send({ message: 'Success: User successfully created.' })
+		return res.send({ 
+			message: 'Success: User successfully created.' 
+		})
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -161,8 +172,9 @@ router.post('/signup', async (req, res) => {
 
 
 
-
-router.get('/pokemon', async (req, res) => {
+// TODO: Using authenticateToken middleware -- this is 1st test case. Once passes must be implemented on all restricted routes
+router.get('/pokemon', authenticateToken, async (req, res) => {
+	console.log(req.user)
 	try {
 		const { rows } = await model.getIndexData();
 		res.send(rows);
