@@ -4,6 +4,10 @@ export default function Signin () {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
+	// If VALID accessToken, redirect
+	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	
+	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -22,10 +26,9 @@ export default function Signin () {
 				.then(res => res.json())
 				.then(json => {
 					console.log(json)
-					localStorage.setItem('refreshToken', json.refreshToken)
 					localStorage.setItem('accessToken', json.accessToken)
+					// localStorage.setItem('refreshToken', json.refreshToken)
 			})
-			
 		} catch (error) {
 			console.error(error.message);
 		}
