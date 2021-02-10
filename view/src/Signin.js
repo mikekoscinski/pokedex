@@ -12,7 +12,9 @@ export default function Signin () {
 			
 			fetch('http://localhost:5000/signin', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: { 
+					'Content-Type': 'application/json' 
+				},
 				withCredentials: true,
 				credentials: 'same-origin',
 				body: JSON.stringify(data)

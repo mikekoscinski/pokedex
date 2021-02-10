@@ -18,9 +18,18 @@ export default function EntryList () {
 		try {
 			// TODO: Should my refreshToken be sent here as a Header?
 			// E.g.: headers: { 'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` }
-			const response = await fetch('http://localhost:5000/pokemon');
-			const jsonData = await response.json();
-			setEntries(jsonData);
+			
+			fetch('http://localhost:5000/pokemon', {
+				method: 'GET',
+				headers: { 
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+				.then(res => res.json())
+				.then(json => setEntries(json))
+			
+			
 		} catch (error) {
 			console.error(error.message);
 		}

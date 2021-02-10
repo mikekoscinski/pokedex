@@ -32,8 +32,13 @@ module.exports = {
 		const data = await pool.query('INSERT INTO "User" (username, email, password) VALUES ($1, $2, $3)', [username, email, hashedPassword]);
 	},
 	
-	insertRefreshToken: async function (refreshToken) {
-		const data = await pool.query('INSERT INTO "RefreshToken" (token_id) VALUES ($1)', [refreshToken]);
+	insertRefreshToken: async function (email, refreshToken) {
+		const data = await pool.query('INSERT INTO "RefreshToken" (email, refresh_token) VALUES ($1, $2)', [email, refreshToken]);
+	},
+	
+	getRefreshToken: async function (refreshToken) {
+		const data = await pool.query('SELECT refresh_token FROM "RefreshToken" WHERE refresh_token = $1', [refreshToken]);
+		return data;
 	},
 	
 	getIndexData: async function () {
