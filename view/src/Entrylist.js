@@ -4,21 +4,9 @@ import { Link } from 'react-router-dom';
 export default function EntryList () {
 	const [entries, setEntries] = useState([]);
 	
-	/*
-	fetch('http://localhost:5000/auth', {
-		method: 'POST',
-		headers: { 'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` }
-	})
-	.then(res => console.log(res))
-	// .then(data => console.log(data))
-	.catch(error => console.log(error))
-	*/
-	
 	const getEntries = async () => {
 		try {
-			// TODO: Should my refreshToken be sent here as a Header?
-			// E.g.: headers: { 'Authorization': `Bearer ${localStorage.getItem('refreshToken')}` }
-			
+			// TODO: To improve security, retrieve accessToken for Authorization header from httpOnly cookie instead of localStorage
 			fetch('http://localhost:5000/pokemon', {
 				method: 'GET',
 				headers: { 
@@ -26,10 +14,12 @@ export default function EntryList () {
 					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
 				}
 			})
-				.then(res => res.json())
-				.then(json => setEntries(json))
-			
-			
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				res.json()
+			})
+			// .then(json => setEntries(json))
+			.then(json => console.log(json))
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -48,12 +38,17 @@ export default function EntryList () {
 				</tr>
 			</thead>
 			<tbody>
-				{entries.map(entry => (
+				{entries ? entries.map(entry => (
 					<tr key={`${entry.pokedex_id}-${entry.name}`} name={entry.name} pokedex_id={entry.pokedex_id}>
 						<td>{entry.pokedex_id}</td>
 						<td><Link to={`/pokemon/${entry.pokedex_id}`}>{entry.name}</Link></td>
 					</tr>
-				))}
+				)) 
+				: 
+				<tr>
+					<td>Error</td>
+				</tr>
+				}
 			</tbody>
 		</table>
 	)

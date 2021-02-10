@@ -13,60 +13,57 @@ const jwt = require('jsonwebtoken');
 const model = require('../model/model.js');
 
 // Middleware:
-const authenticateToken = async (req, res, next) => {	
-	const authHeader = req.headers['authorization']
-	const clientToken = authHeader && authHeader.split(' ')[1]
-	
-	if (clientToken === null) return res.sendStatus(401)
-	
-	/*
-	// TODO: This isn't getting used right now. Would need it if I encrypt token client-side
-	// Do we have a record of this token?
-	const { rows } = await model.getRefreshToken(clientToken)
-	console.log(rows.length)
-	*/
-	
-	// They have a token - now verify it (make sure you're using the correct TOKEN_SECRET)
-	jwt.verify(clientToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
-		console.log(error)
-		if (error) return res.sendStatus(403)
-		// Once verified, add user to the request, proceed to next middleware
-		req.user = user;
-		return next();
-	})
-}
-
-const generateAccessToken = (user) => {
-	// TODO: Update 15s to 10m
-	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
-}
-
-
-////////////////////////////////////
-// AUTH TOKENS
-////////////////////////////////////
-
 const getTokenFromHeader = (req) => {
-	// TODO: I am receiving the refreshToken here. I need to compare, return accessValid or accessInvalid. This should be reused across everything. I think this should probably be middleware instead of a route?
 	if (
 		req.headers.authorization 
 		&& req.headers.authorization.split(' ')[0] === 'Bearer'
 	) return req.headers.authorization.split(' ')[1];
 }
 
-// TODO: This doesn't currently do anything. Do I need this? Can I turn this into middleware?
-router.post('/auth', async (req, res) => {
+const authenticateToken = async (req, res, next) => {	
+	const clientToken = getTokenFromHeader(req)
+	if (clientToken === null) return res.sendStatus(401)
+	// They have a token - now verify it (make sure you're using the correct TOKEN_SECRET)
+	jwt.verify(clientToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+		// NOTE: can't redirect an AJAX request - AJAX explicitly prohibits altering client URL (fetch is an interface for AJAX requests)
+		if (error) return res.sendStatus(403)
+		// Once verified, append user to the request, proceed to next middleware
+		req.user = user;
+		return next();
+	})
+}
+
+const generateAccessToken = (user) => {
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
+}
+
+/* For creating new accessTokens. Not currently used. Saved for future splitting of auth and app servers
+router.post('/token', async (req, res) => {
 	try {
 		const refreshToken = await getTokenFromHeader(req);
-		console.log('one');
-		res.send({ response: 'sending' })
+		if (refreshToken === null) return res.sendStatus(401)
+		const tokenRecordDoesExist = await model.getRefreshToken(refreshToken)
+		if (!tokenRecordDoesExist) return res.sendStatus(403)
+		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
+			if (error) return res.sendStatus(403)
+			const accessToken = generateAccessToken({ credential: user.credential })
+			res.json({ accessToken: accessToken })
+		})
 	} catch (error) {
 		console.error(error.message)
 	}
 })
+*/
 
-////////////////////////////////////
-////////////////////////////////////
+router.delete('/signout', (req, res) => {
+	// TODO: Delete refresh token from database
+	
+	
+	res.sendStatus(204)
+})
+
+
+
 
 // Routes:
 router.get('/', async (req, res) => {
@@ -80,6 +77,8 @@ router.get('/', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
 	try {
+		// TODO: Do we already have a valid accessToken? If so, redirect to /pokemon
+		
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
 		const { rows } = await model.getAccountCredentials(email);
@@ -89,29 +88,20 @@ router.post('/signin', async (req, res) => {
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { credential: email }
+				
 				const accessToken = generateAccessToken(user)
-				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) // Manually expire
+				// Manually expire refresh tokens (vs. hardcoded expiration for accessTokens)
+				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) 
+				
 				// TODO: Save refreshToken as httpOnly cookie -- NOT in localStorage.
 				const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
 				// Store the plaintext server-side...
 				await model.insertRefreshToken(email, refreshToken)
 				
-				// TODO: Need to add logic that checks for token on current machine before creating a new token. This can be achieved server-side; always send token with client requests; check if token is in request; if so then redirect. Basically, redirect from sign-in page if client already has token
-				
-				// TODO:
-				// Get this working with httpOnly: false first
-				// TODO: On client side: "How to include cookies in HTTP request?"
-				// This error hasn't shown up in most tutorials because they all use Postman. They aren't sending actual fetch requests from a client.
-				res.cookie('token', 'secret', { httpOnly: false })
-				// https://github.com/outmoded/discuss/issues/545
-				// on client: https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
-				// on client: https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials
-				
-				// ... Send encrypted to client
 				return res.send({ 
 					message: 'Success', 
-					accessToken: accessToken, 
-					refreshToken: refreshToken,
+					accessToken: accessToken 
+					// refreshToken: refreshToken,
 					// email: email
 					// TODO: Sending email probably a bad idea though. Easy to impersonate - literally just edit localStorage
 				})
@@ -175,6 +165,12 @@ router.post('/signup', async (req, res) => {
 // TODO: Using authenticateToken middleware -- this is 1st test case. Once passes must be implemented on all restricted routes
 router.get('/pokemon', authenticateToken, async (req, res) => {
 	console.log(req.user)
+	
+	// TODO: if (!user) return res.redirect('/signin')
+	// or is this already handled by authenticateToken?
+	
+	// if (!user) return res.redirect(403, '/') YES it is handled in authenticateToken now
+	
 	try {
 		const { rows } = await model.getIndexData();
 		res.send(rows);
@@ -183,7 +179,7 @@ router.get('/pokemon', authenticateToken, async (req, res) => {
 	}
 });
 
-router.get('/pokemon/:pokedex_id', async (req, res) => {
+router.get('/pokemon/:pokedex_id', authenticateToken, async (req, res) => {
 	try {
 		// pokedex_id (the variable specified in get request URL after colon) is sole object property in req.params
 		const pokedex_id = req.params.pokedex_id.toString();
