@@ -21,8 +21,11 @@ export default function Router () {
 				<Route exact path="/signup" component={Signup} key={'signup'} />
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
 				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
+				
+				{/* TODO: This should be optimized. This runs duplicate Network requests every time the user changes the page  */}
 				<Route exact path="/search" component={Search} key={'search'} />
 				<Route exact path="/search/moves" component={Search} key={'search'} />
+				
 				<Route exact path="/teams" component={Teams} key={'teams'} />
 				<Route exact path="/myaccount" component={MyAccount} key={'myaccount'} />
 				<Route component={NotFound} key={'notfound'} />

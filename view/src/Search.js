@@ -9,6 +9,8 @@ export default function Search () {
 	const [pokemon, setPokemon] = useState([]);
 	const [moves, setMoves] = useState([]);
 	
+	// TODO: Update these two fetch requests; add Authorization header to eachs
+	
 	const getPokemon = async () => {
 		try {
 			const response = await fetch('http://localhost:5000/search/pokemon');
@@ -44,6 +46,7 @@ export default function Search () {
 			<a href="/search" className="table-link"><button>Pokemon</button></a>
 			<a href="/search/moves" className="table-link"><button>Moves</button></a>
 		</div>
+		{/* TODO: This should be optimized. This runs duplicate Network requests every time the user changes the page  */}
 		<BrowserRouter>
 			<Switch>
 				<Route exact path="/search">

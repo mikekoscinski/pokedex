@@ -187,7 +187,6 @@ router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
 	}
 });
 
-// TODO: Implement authenticateToken
 router.get('/moves', async (req, res) => {
 	try {
 		const { rows } = await model.getEntryMovesInfo();
