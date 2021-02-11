@@ -9,14 +9,30 @@ export default function Entry ({ match }) {
 	const [entry, setEntry] = useState([]);
 	const [entryMoves, setEntryMoves] = useState([]);
 	const [entryMovesInfo, setEntryMovesInfo] = useState([]);
+	// NOTE: We're making 3 separate fetch requests here. If only one returns !res.ok, we will redirect to '/', regardless of whether or not the other two requests succeed. Is this an unwanted side-effect?
 
 	const getEntry = async () => {
 		try {
 			// const response = await fetch(`http://localhost:5000/pokemon/${pokedex_id}`);
-			const response = await fetch(`http://localhost:5000${window.location.pathname}`);
 			// When I make the fetch request using window.location.pathname, useEffect has no missing dependencies - because window.location.pathname is globally available. However, using match.params.pokedex_id introduces missing React dependencies.
-			const jsonData = await response.json();
-			setEntry(jsonData);
+			
+			// Original code:
+			// const response = await fetch(`http://localhost:5000${window.location.pathname}`);
+			// const jsonData = await response.json();
+			// setEntry(jsonData);
+			
+			fetch(`http://localhost:5000${window.location.pathname}`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				return res.json()
+			})
+			.then(json => setEntry(json))
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -24,9 +40,24 @@ export default function Entry ({ match }) {
 
 	const getEntryMoves = async () => {
 		try {
+			/* Original code:
 			const response = await fetch(`http://localhost:5000${window.location.pathname}/moves`);
 			const jsonData = await response.json();
 			setEntryMoves(jsonData);
+			*/
+			
+			fetch(`http://localhost:5000${window.location.pathname}/moves`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				return res.json()
+			})
+			.then(json => setEntryMoves(json))
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -34,9 +65,24 @@ export default function Entry ({ match }) {
 
 	const getEntryMovesInfo = async () => {
 		try {
+			/* Original code:
 			const response = await fetch('http://localhost:5000/moves');
 			const jsonData = await response.json();
 			setEntryMovesInfo(jsonData);
+			*/
+			
+			fetch(`http://localhost:5000/moves`, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				return res.json()
+			})
+			.then(json => setEntryMovesInfo(json))
 		} catch (error) {
 			console.error(error.message);
 		}
