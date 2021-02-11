@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const composeKey = require('./composekey.js').default;
 
-// Should I use pokedex_id or just window.location.pathname? The latter works fine right now. The former introduces React missing dependency errors. (See: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook). CONCLUSION: Will use window.location for now
+// Should I interpolate pokedex_id as a URL variable, or just window.location.pathname? The latter works fine right now. The former introduces React missing dependency errors. (See: https://stackoverflow.com/questions/55840294/how-to-fix-missing-dependency-warning-when-using-useeffect-react-hook). CONCLUSION: Will use window.location for now
 
 export default function Entry ({ match }) {
 	// const { pokedex_id } = match.params;
@@ -13,14 +13,6 @@ export default function Entry ({ match }) {
 
 	const getEntry = async () => {
 		try {
-			// const response = await fetch(`http://localhost:5000/pokemon/${pokedex_id}`);
-			// When I make the fetch request using window.location.pathname, useEffect has no missing dependencies - because window.location.pathname is globally available. However, using match.params.pokedex_id introduces missing React dependencies.
-			
-			// Original code:
-			// const response = await fetch(`http://localhost:5000${window.location.pathname}`);
-			// const jsonData = await response.json();
-			// setEntry(jsonData);
-			
 			fetch(`http://localhost:5000${window.location.pathname}`, {
 				method: 'GET',
 				headers: {
@@ -40,12 +32,6 @@ export default function Entry ({ match }) {
 
 	const getEntryMoves = async () => {
 		try {
-			/* Original code:
-			const response = await fetch(`http://localhost:5000${window.location.pathname}/moves`);
-			const jsonData = await response.json();
-			setEntryMoves(jsonData);
-			*/
-			
 			fetch(`http://localhost:5000${window.location.pathname}/moves`, {
 				method: 'GET',
 				headers: {
@@ -65,12 +51,6 @@ export default function Entry ({ match }) {
 
 	const getEntryMovesInfo = async () => {
 		try {
-			/* Original code:
-			const response = await fetch('http://localhost:5000/moves');
-			const jsonData = await response.json();
-			setEntryMovesInfo(jsonData);
-			*/
-			
 			fetch(`http://localhost:5000/moves`, {
 				method: 'GET',
 				headers: {
