@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 // TODO: Add once needed -- import React, { useEffect, useState } from "react";
 
-
-
 export default function Teams () {
 	
 	const [teams, setTeams] = useState([])
