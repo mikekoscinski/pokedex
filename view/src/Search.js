@@ -8,14 +8,21 @@ import MovesTable from './MovesTable';
 export default function Search () {
 	const [pokemon, setPokemon] = useState([]);
 	const [moves, setMoves] = useState([]);
-	
-	// TODO: Update these two fetch requests; add Authorization header to eachs
-	
+		
 	const getPokemon = async () => {
 		try {
-			const response = await fetch('http://localhost:5000/search/pokemon');
-			const jsonData = await response.json();
-			setPokemon(jsonData);
+			fetch('http://localhost:5000/search/pokemon', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				return res.json()
+			})
+			.then(json => setPokemon(json))
 		} catch (error) {
 			console.error(error.message);
 		}
@@ -23,9 +30,18 @@ export default function Search () {
 	
 	const getMoves = async () => {
 		try {
-			const response = await fetch('http://localhost:5000/search/moves');
-			const jsonData = await response.json();
-			setMoves(jsonData);
+			fetch('http://localhost:5000/search/moves', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				}
+			})
+			.then(res => {
+				if (!res.ok) return window.location.replace('/')
+				return res.json()
+			})
+			.then(json => setMoves(json))
 		} catch (error) {
 			console.error(error.message);
 		}
