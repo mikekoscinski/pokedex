@@ -56,6 +56,8 @@ router.post('/token', async (req, res) => {
 */
 
 // Routes:
+
+// TODO: On '/' should NOT show Navmenu; only signin/out options
 router.get('/', async (req, res) => {
 	try {
 		const { rows } = await model.getHomepageData();
@@ -207,9 +209,11 @@ router.get('/search/moves', authenticateToken, async (req, res) => {
 // TODO: Implement authenticateToken
 router.get('/teams/', authenticateToken, async (req, res) => {
 	try {
+		
 		// TODO: 'rows' currently undefined; need to define what i want to retrieve in DB
 		const { rows } = await model.getTeamData();
 		console.log(rows)
+		
 		res.send([{ pokemon1: 'Gyrados', pokemon2: 'Golem', pokemon3: 'Arcanine' }])
 		// res.send(rows); 
 		// TODO: Update to teamData.data once PSQL table + query finalized
