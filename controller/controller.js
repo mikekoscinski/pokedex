@@ -166,7 +166,6 @@ router.get('/pokemon', authenticateToken, async (req, res) => {
 	}
 });
 
-// TODO: Confirm authenticateToken works - check edge cases too (Castform, Deoxys)
 router.get('/pokemon/:pokedex_id', authenticateToken, async (req, res) => {
 	try {
 		// :pokedex_id is sole object property in req.params
