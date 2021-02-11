@@ -88,15 +88,15 @@ router.post('/signin', async (req, res) => {
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { credential: email }
-				
 				const accessToken = generateAccessToken(user)
-				// Manually expire refresh tokens (vs. hardcoded expiration for accessTokens)
-				const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) 
 				
+				// TODO: Refresh tokens not currently used. Save for eventual splitting of auth & app servers
+				// Manually expire refresh tokens (vs. hardcoded expiration for accessTokens)
+				// const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) 
 				// TODO: Save refreshToken as httpOnly cookie -- NOT in localStorage.
-				const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
-				// Store the plaintext server-side...
-				await model.insertRefreshToken(email, refreshToken)
+				// const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
+				// Store plaintext server-side
+				// await model.insertRefreshToken(email, refreshToken)
 				
 				return res.send({ 
 					message: 'Success', 
@@ -148,8 +148,6 @@ router.post('/signup', async (req, res) => {
 		
 		// Hash only after all validation checks pass
 		const hashedPassword = await bcrypt.hash(password, 10);
-		
-		// Insert new user and return 'success' response
 		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
 		return res.send({ 
 			message: 'Success: User successfully created.' 
@@ -161,19 +159,13 @@ router.post('/signup', async (req, res) => {
 
 
 
-
 // TODO: Using authenticateToken middleware -- this is 1st test case. Once passes must be implemented on all restricted routes
 router.get('/pokemon', authenticateToken, async (req, res) => {
-	console.log(req.user)
-	
-	// TODO: if (!user) return res.redirect('/signin')
-	// or is this already handled by authenticateToken?
-	
-	// if (!user) return res.redirect(403, '/') YES it is handled in authenticateToken now
-	
 	try {
 		const { rows } = await model.getIndexData();
 		res.send(rows);
+		// TODO: Confirmed the data is being retrieved. But it's not getting interpreted correctly client-side (entries is undefined, so can't use map...)
+		// As expected, silly error; needed to RETURN res.json() (those darn implicit returns with arrow functions trip me up every time!)
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -181,7 +173,7 @@ router.get('/pokemon', authenticateToken, async (req, res) => {
 
 router.get('/pokemon/:pokedex_id', authenticateToken, async (req, res) => {
 	try {
-		// pokedex_id (the variable specified in get request URL after colon) is sole object property in req.params
+		// :pokedex_id is sole object property in req.params
 		const pokedex_id = req.params.pokedex_id.toString();
 		const { rows } = await model.getEntryData(pokedex_id);
 		res.send(rows);

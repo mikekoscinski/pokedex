@@ -16,10 +16,9 @@ export default function EntryList () {
 			})
 			.then(res => {
 				if (!res.ok) return window.location.replace('/')
-				res.json()
+				return res.json()
 			})
-			// .then(json => setEntries(json))
-			.then(json => console.log(json))
+			.then(json => setEntries(json))
 		} catch (error) {
 			console.error(error.message);
 		}
