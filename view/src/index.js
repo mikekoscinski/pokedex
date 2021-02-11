@@ -9,7 +9,7 @@
 // import Entry from './Entry';
 // import Search from './Search';
 // import Teams from './Teams';
-// import MyAccount from './MyAccount';
+// import Account from './Account';
 // import NotFound from './NotFound';
 
 // export {
@@ -18,7 +18,7 @@
 //   Entry,
 //   Search,
 //   Teams,
-//   MyAccount,
+//   Account,
 //   NotFound
 // }
 
