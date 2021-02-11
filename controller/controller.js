@@ -157,20 +157,16 @@ router.post('/signup', async (req, res) => {
 	}
 });
 
-
-
-// TODO: Using authenticateToken middleware -- this is 1st test case. Once passes must be implemented on all restricted routes
 router.get('/pokemon', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getIndexData();
 		res.send(rows);
-		// TODO: Confirmed the data is being retrieved. But it's not getting interpreted correctly client-side (entries is undefined, so can't use map...)
-		// As expected, silly error; needed to RETURN res.json() (those darn implicit returns with arrow functions trip me up every time!)
 	} catch (error) {
 		console.error(error.message);
 	}
 });
 
+// TODO: Confirm authenticateToken works - check edge cases too (Castform, Deoxys)
 router.get('/pokemon/:pokedex_id', authenticateToken, async (req, res) => {
 	try {
 		// :pokedex_id is sole object property in req.params
@@ -192,6 +188,7 @@ router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
 	}
 });
 
+// TODO: Implement authenticateToken
 router.get('/moves', async (req, res) => {
 	try {
 		const { rows } = await model.getEntryMovesInfo();
@@ -201,6 +198,7 @@ router.get('/moves', async (req, res) => {
 	}
 });
 
+// TODO: Implement authenticateToken
 router.get('/search/pokemon', async (req, res) => {
 	try {
 		const { rows } = await model.getPokemonSearchData();
@@ -210,6 +208,7 @@ router.get('/search/pokemon', async (req, res) => {
 	}
 });
 
+// TODO: Implement authenticateToken
 router.get('/search/moves', async (req, res) => {
 	try {
 		const { rows } = await model.getMovesSearchData();
@@ -219,6 +218,7 @@ router.get('/search/moves', async (req, res) => {
 	}
 });
 
+// TODO: Implement authenticateToken
 router.get('/teams', async (req, res) => {
 	try {
 		const { rows } = await model.getTeamData();
@@ -229,6 +229,7 @@ router.get('/teams', async (req, res) => {
 	}
 });
 
+// TODO: Implement authenticateToken
 router.get('/account', async (req, res) => {
 	try {
 		const { rows } = await model.getAccountData();
