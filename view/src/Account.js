@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-// TODO: Remove duplicate form id's
 // TODO: Handle POST (or PUT?) requests for form submits. Ideally, have one function that handles everything
+// TODO: Handle no accessToken case - redirect to '/'
 
 const onFormSubmit = async (event) => {
 	event.preventDefault()
@@ -23,6 +23,13 @@ export default function Account () {
 	const [newPassword, setNewPassword] = useState('')
 	// TODO: Will need to add server-side password validation when formSubmit is of type password
 	
+	/* TODO: Should I write :user_id into the /account route on controller.js?
+	fetch('http://localhost:5000/account', {
+	
+	})
+	.then()
+	.then()
+	*/
 	
 	return (
 		<>
