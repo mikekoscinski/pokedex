@@ -177,7 +177,7 @@ router.get('/pokemon/:pokedex_id', authenticateToken, async (req, res) => {
 	}
 });
 
-router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
+router.get('/pokemon/:pokedex_id/moves', authenticateToken, async (req, res) => {
 	try {
 		const pokedex_id = req.params.pokedex_id.toString();
 		const { rows } = await model.getEntryMovesData(pokedex_id);
@@ -187,7 +187,7 @@ router.get('/pokemon/:pokedex_id/moves', async (req, res) => {
 	}
 });
 
-router.get('/moves', async (req, res) => {
+router.get('/moves', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getEntryMovesInfo();
 		res.send(rows);
@@ -197,7 +197,7 @@ router.get('/moves', async (req, res) => {
 });
 
 // TODO: Implement authenticateToken
-router.get('/search/pokemon', async (req, res) => {
+router.get('/search/pokemon', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getPokemonSearchData();
 		res.send(rows);
@@ -207,7 +207,7 @@ router.get('/search/pokemon', async (req, res) => {
 });
 
 // TODO: Implement authenticateToken
-router.get('/search/moves', async (req, res) => {
+router.get('/search/moves', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getMovesSearchData();
 		res.send(rows);
@@ -217,7 +217,7 @@ router.get('/search/moves', async (req, res) => {
 });
 
 // TODO: Implement authenticateToken
-router.get('/teams', async (req, res) => {
+router.get('/teams', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getTeamData();
 		res.send(rows); 
@@ -228,7 +228,7 @@ router.get('/teams', async (req, res) => {
 });
 
 // TODO: Implement authenticateToken
-router.get('/account', async (req, res) => {
+router.get('/account', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getAccountData();
 		res.send(rows); 
