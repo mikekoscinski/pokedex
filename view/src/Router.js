@@ -9,7 +9,7 @@ import EntryList from './EntryList';
 import Entry from './Entry';
 import Search from './Search';
 import Teams from './Teams';
-import MyAccount from './MyAccount';
+import Account from './Account';
 import NotFound from './NotFound';
 
 export default function Router () {
@@ -27,7 +27,7 @@ export default function Router () {
 				<Route exact path="/search/moves" component={Search} key={'search'} />
 				
 				<Route exact path="/teams" component={Teams} key={'teams'} />
-				<Route exact path="/myaccount" component={MyAccount} key={'myaccount'} />
+				<Route exact path="/account" component={Account} key={'account'} />
 				<Route component={NotFound} key={'notfound'} />
 			</Switch>
 		</BrowserRouter>
