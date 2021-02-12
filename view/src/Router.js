@@ -1,24 +1,21 @@
+// TODO: RENAME POST-AUTH
+
 import React from 'react'; // Must import React, even if not calling anything from React, because using JSX
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components:
-import Home from './Home';
-import Signin from './Signin';
-import Signup from './Signup';
 import EntryList from './EntryList';
 import Entry from './Entry';
 import Search from './Search';
 import Teams from './Teams';
 import Account from './Account';
 import NotFound from './NotFound';
+import Navmenu from './Navmenu';
 
 export default function Router () {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={Home} key={'home'} />
-				<Route exact path="/signin" component={Signin} key={'signin'} />
-				<Route exact path="/signup" component={Signup} key={'signup'} />
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
 				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
 				
@@ -30,6 +27,7 @@ export default function Router () {
 				<Route exact path="/account" component={Account} key={'account'} />
 				<Route component={NotFound} key={'notfound'} />
 			</Switch>
+			<Navmenu />
 		</BrowserRouter>
 	)
 }
