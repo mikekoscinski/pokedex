@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 // TODO: Handle POST (or PUT?) requests for form submits. Ideally, have one function that handles everything
-// TODO: Handle no accessToken case - redirect to '/'
 
 const onFormSubmit = async (event) => {
 	event.preventDefault()
@@ -25,10 +24,6 @@ export default function Account () {
 	
 	// TODO: Eventually need to check if token is valid:
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
-	
-	
-	// TODO: Could fetch username and fill it in... while doing that I could do token validation
-	
 	
 	return (
 		<>
