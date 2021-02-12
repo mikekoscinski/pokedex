@@ -37,6 +37,8 @@ const generateAccessToken = (user) => {
 	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
 }
 
+
+// TODO: Consider deleting this since it won't be used for now
 /* For creating new accessTokens. Not currently used. Saved for future splitting of auth and app servers
 router.post('/token', async (req, res) => {
 	try {
@@ -69,8 +71,6 @@ router.get('/', async (req, res) => {
 
 router.post('/signin', async (req, res) => {
 	try {
-		// TODO: Do we already have a valid accessToken? If so, redirect to /pokemon
-		
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
 		const { rows } = await model.getAccountCredentials(email);
@@ -82,6 +82,7 @@ router.post('/signin', async (req, res) => {
 				const user = { credential: email }
 				const accessToken = generateAccessToken(user)
 				
+				// TODO: Delete this if it won't be used.
 				// TODO: Refresh tokens not currently used. Save for eventual splitting of auth & app servers
 				// Manually expire refresh tokens (vs. hardcoded expiration for accessTokens)
 				// const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) 
@@ -109,7 +110,7 @@ router.post('/signin', async (req, res) => {
 	}
 })
 
-router.post('/signup', authenticateToken, async (req, res) => {
+router.post('/signup', async (req, res) => {
 	try {
 		const username = req.body.username.toString()
 		const email = req.body.email.toString()
@@ -209,10 +210,8 @@ router.get('/search/moves', authenticateToken, async (req, res) => {
 // TODO: Implement authenticateToken
 router.get('/teams/', authenticateToken, async (req, res) => {
 	try {
-		
 		// TODO: 'rows' currently undefined; need to define what i want to retrieve in DB
 		const { rows } = await model.getTeamData();
-		console.log(rows)
 		
 		res.send([{ pokemon1: 'Gyrados', pokemon2: 'Golem', pokemon3: 'Arcanine' }])
 		// res.send(rows); 
@@ -233,9 +232,7 @@ router.get('/account', authenticateToken, async (req, res) => {
 	}
 });
 
-// TODO: UPDATE for signout button on Navmenu.js
 router.delete('/signout', (req, res) => {
-	// TODO: Delete refresh token from database
 	res.sendStatus(204)
 })
 

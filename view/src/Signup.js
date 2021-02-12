@@ -5,7 +5,7 @@ export default function Signup () {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// TODO: Need to check if token is valid:
+	// TODO: Eventually need to check if token is valid:
 	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
 	
 	const onFormSubmit = async (event) => {
