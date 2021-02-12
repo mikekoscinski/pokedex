@@ -7,8 +7,6 @@ import Signin from './Signin'
 import Signup from './Signup'
 import Router from './Router';
 
-// TODO: Router.js basically is AuthenticatedRoutes... I just need to remove the routes that should only be exposed pre-auth
-
 export default function App () {
 	return (
 		<BrowserRouter>

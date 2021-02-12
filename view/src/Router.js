@@ -1,5 +1,3 @@
-// TODO: RENAME POST-AUTH
-
 import React from 'react'; // Must import React, even if not calling anything from React, because using JSX
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
