@@ -30,11 +30,11 @@ import { render } from 'react-dom';
 // Components:
 import Router from './Router';
 import Navmenu from './Navmenu';
+import App from './App';
 
 render(
   <React.StrictMode>
-    <Router />
-    <Navmenu />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
