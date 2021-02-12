@@ -109,7 +109,7 @@ router.post('/signin', async (req, res) => {
 	}
 })
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', authenticateToken, async (req, res) => {
 	try {
 		const username = req.body.username.toString()
 		const email = req.body.email.toString()
