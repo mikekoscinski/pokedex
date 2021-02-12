@@ -1,6 +1,9 @@
 import React from "react";
 
 export default function Home () {
+	// TODO: Eventually need to check if token is valid:
+	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	
 	return (
 		<>
 		<h1>Welcome to the Pokédex</h1>
