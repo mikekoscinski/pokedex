@@ -1,35 +1,13 @@
-// // TODO: All of my imports should go here, so I can access everything from one place
-
-// import React from 'react'; // Must import React, even if not calling anything from React, because using JSX
-// import { BrowserRouter, Route, Switch } from 'react-router-dom';
-
-// // Components:
-// import Signin from './Signin';
-// import EntryList from './EntryList';
-// import Entry from './Entry';
-// import Search from './Search';
-// import Teams from './Teams';
-// import Account from './Account';
-// import NotFound from './NotFound';
-
-// export {
-//   Signin, 
-//   EntryList,
-//   Entry,
-//   Search,
-//   Teams,
-//   Account,
-//   NotFound
-// }
-
 // NOTE: create-react-app is configured to use src/index.js as entry point. So, that's the first module it reads. Source: https://stackoverflow.com/questions/42438171/wheres-the-connection-between-index-html-and-index-js-in-a-create-react-app-app
+
+// See more here: 
+// https://stackoverflow.com/questions/42438171/wheres-the-connection-between-index-html-and-index-js-in-a-create-react-app-app
+// https://stackoverflow.com/questions/44092341/how-do-index-js-files-work-in-react-component-directories
 
 import React from 'react';
 import { render } from 'react-dom';
 
 // Components:
-import Router from './Router';
-import Navmenu from './Navmenu';
 import App from './App';
 
 render(
