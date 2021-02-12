@@ -23,13 +23,12 @@ export default function Account () {
 	const [newPassword, setNewPassword] = useState('')
 	// TODO: Will need to add server-side password validation when formSubmit is of type password
 	
-	/* TODO: Should I write :user_id into the /account route on controller.js?
-	fetch('http://localhost:5000/account', {
+	// TODO: Eventually need to check if token is valid:
+	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
 	
-	})
-	.then()
-	.then()
-	*/
+	
+	// TODO: Could fetch username and fill it in... while doing that I could do token validation
+	
 	
 	return (
 		<>

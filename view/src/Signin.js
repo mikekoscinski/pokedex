@@ -4,7 +4,7 @@ export default function Signin () {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// TODO: Need to check if token is valid:
+	// TODO: Eventually need to check if token is valid:
 	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
 	
 	const onFormSubmit = async (event) => {
@@ -22,6 +22,7 @@ export default function Signin () {
 			})
 			.then(res => res.json()) // remember: this is an implicit return
 			.then(json => {
+				console.log(json)
 				localStorage.setItem('accessToken', json.accessToken)
 				window.location.replace('/pokemon')
 			})
