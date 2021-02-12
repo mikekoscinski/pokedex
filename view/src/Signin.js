@@ -1,19 +1,16 @@
-import React, { useState } from "react"; // TODO: add , { useState } once needed
+import React, { useState } from "react";
 
 export default function Signin () {	
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// If VALID accessToken, redirect
+	// TODO: Need to check if token is valid:
 	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
-	
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			const data = { email, password }
-			console.log(data)
-			
 			fetch('http://localhost:5000/signin', {
 				method: 'POST',
 				headers: { 
@@ -25,7 +22,6 @@ export default function Signin () {
 			})
 			.then(res => res.json()) // remember: this is an implicit return
 			.then(json => {
-				console.log(json)
 				localStorage.setItem('accessToken', json.accessToken)
 				window.location.replace('/pokemon')
 			})
