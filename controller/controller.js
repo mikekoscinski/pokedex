@@ -37,28 +37,7 @@ const generateAccessToken = (user) => {
 	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
 }
 
-
-// TODO: Consider deleting this since it won't be used for now
-/* For creating new accessTokens. Not currently used. Saved for future splitting of auth and app servers
-router.post('/token', async (req, res) => {
-	try {
-		const refreshToken = await getTokenFromHeader(req);
-		if (refreshToken === null) return res.sendStatus(401)
-		const tokenRecordDoesExist = await model.getRefreshToken(refreshToken)
-		if (!tokenRecordDoesExist) return res.sendStatus(403)
-		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
-			if (error) return res.sendStatus(403)
-			const accessToken = generateAccessToken({ credential: user.credential })
-			res.json({ accessToken: accessToken })
-		})
-	} catch (error) {
-		console.error(error.message)
-	}
-})
-*/
-
 // Routes:
-
 // TODO: On '/' should NOT show Navmenu; only signin/out options
 router.get('/', async (req, res) => {
 	try {
@@ -81,22 +60,9 @@ router.post('/signin', async (req, res) => {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { credential: email }
 				const accessToken = generateAccessToken(user)
-				
-				// TODO: Delete this if it won't be used.
-				// TODO: Refresh tokens not currently used. Save for eventual splitting of auth & app servers
-				// Manually expire refresh tokens (vs. hardcoded expiration for accessTokens)
-				// const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET) 
-				// TODO: Save refreshToken as httpOnly cookie -- NOT in localStorage.
-				// const hashedRefreshToken = await bcrypt.hash(refreshToken, 10)
-				// Store plaintext server-side
-				// await model.insertRefreshToken(email, refreshToken)
-				
 				return res.send({ 
 					message: 'Success', 
 					accessToken: accessToken 
-					// refreshToken: refreshToken,
-					// email: email
-					// TODO: Sending email probably a bad idea though. Easy to impersonate - literally just edit localStorage
 				})
 			}
 			return res.send({ 
