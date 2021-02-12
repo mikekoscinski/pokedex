@@ -23,11 +23,11 @@ export default function Signin () {
 				credentials: 'same-origin',
 				body: JSON.stringify(data)
 			})
-				.then(res => res.json())
-				.then(json => {
-					console.log(json)
-					localStorage.setItem('accessToken', json.accessToken)
-					// localStorage.setItem('refreshToken', json.refreshToken)
+			.then(res => res.json()) // remember: this is an implicit return
+			.then(json => {
+				console.log(json)
+				localStorage.setItem('accessToken', json.accessToken)
+				window.location.replace('/pokemon')
 			})
 		} catch (error) {
 			console.error(error.message);
