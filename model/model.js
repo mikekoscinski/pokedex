@@ -73,7 +73,7 @@ module.exports = {
 	},
 	
 	// TODO: This might not work... maybe need to use the = $1, [valForOne] syntax
-	updateAccountData: async function (column, oldValue, newValue) {
-		const data = await pool.query(`UPDATE "User" SET ${column} = '${newValue}' WHERE ${column} = '${oldValue}'`)
+	updateAccountData: async function (column, newValue, email) {
+		const data = await pool.query(`UPDATE "User" SET ${column} = $1 WHERE email = $2`, [newValue, email])
 	},
 };
