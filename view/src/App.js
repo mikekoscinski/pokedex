@@ -11,10 +11,25 @@ export default function App () {
 	return (
 		<BrowserRouter>
 			<Switch>
-				<Route exact path="/" component={Home} key={'home'} />
-				<Route exact path="/signin" component={Signin} key={'signin'} />
-				<Route exact path="/signup" component={Signup} key={'signup'} />
-				<Route component={Router} key={'router'} />
+				<Route 
+					exact path="/" 
+					component={Home} 
+					key={'home'} 
+				/>
+				<Route 
+					exact path="/signin"
+					component={Signin}
+					key={'signin'}
+				/>
+				<Route 
+					exact path="/signup" 
+					component={Signup} 
+					key={'signup'} 
+				/>
+				<Route 
+					component={Router} 
+					key={'router'} 
+				/>
 			</Switch>
 		</BrowserRouter>
 	)	
