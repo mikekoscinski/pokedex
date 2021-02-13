@@ -11,13 +11,6 @@ const pool = new Pool({
 
 // Functions called in controller.js to retrieve data
 module.exports = {
-	// TODO: Matching React component named Signin; need to match
-	getHomepageData: async function () {
-		// TODO: Update data once page's utility is finalized
-		const data = 'Welcome to the Pokédex.';
-		return data;
-	},
-	
 	getAccountCredentials: async function (email) {
 		const data = await pool.query('SELECT email, password FROM "User" WHERE email = $1', [email])
 		return data
@@ -81,5 +74,9 @@ module.exports = {
 		// TODO: Update query -- will take form of pool.query(${query}). Same as getTeamData() -- pass user_id as a param; destructure it as { userID } in controller.js. E.G. const data = pool.query('SELECT * FROM "User" WHERE user_id = $1', [user_id]);
 		const data = 'Update getAccountData() query in model.js';
 		return data;
+	},
+	
+	updateAccountData: async function (column, oldValue, newValue) {
+		const data = await pool.query(`UPDATE "User" SET ${column} = '${newValue}' WHERE ${column} = '${oldValue}'`)
 	}
 };
