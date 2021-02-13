@@ -7,11 +7,27 @@ export default function Account () {
 	const [currentUsername, setCurrentUsername] = useState('')
 	const [newUsername, setNewUsername] = useState('')
 	
-	const [currentPassword, setCurrentPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
 	
 	// TODO: Eventually need to check if token is valid:
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
+	
+	fetch('http://localhost:5000/account', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+		}
+	})
+	.then(res => {
+		if (!res.ok) return alert ('Error. Could not retrieve data.')
+		return res.json()
+	})
+	.then(json => {
+		setCurrentEmail(json.email)
+		setCurrentUsername(json.username)
+		return
+	})
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault()
@@ -20,7 +36,7 @@ export default function Account () {
 			if (!dataType) return null
 			if (dataType === 'email') return { dataType, currentValue: currentEmail, newValue: newEmail }
 			if (dataType === 'username') return { dataType, currentValue: currentUsername, newValue: newUsername }
-			if (dataType === 'password') return { dataType, currentValue: currentPassword, newValue: newPassword }
+			if (dataType === 'password') return { dataType, newValue: newPassword }
 		}
 		try {
 			const data = formSubmitData()
@@ -57,15 +73,7 @@ export default function Account () {
 			<h3>Update Email</h3>
 			<form className='update-email-form' onSubmit={onFormSubmit}>
 				<div>
-					<label>Current Email</label>
-					<input
-						type="email"
-						id="current-email"
-						name="email"
-						autoComplete="email"
-						value={currentEmail}
-						onChange={event => setCurrentEmail(event.target.value)}
-					/>
+					<label>Current Email: <span>{currentEmail}</span></label>
 				</div>
 				<div>
 					<label>New Email</label>
@@ -86,15 +94,7 @@ export default function Account () {
 			<h3>Update Username</h3>
 			<form className='update-username-form' onSubmit={onFormSubmit}>
 				<div>
-					<label>Current Username</label>
-					<input
-						type="text"
-						id="current-username"
-						name="username"
-						autoComplete="off"
-						value={currentUsername}
-						onChange={event => setCurrentUsername(event.target.value)}
-					/>
+					<label>Current Username: <span>{currentUsername}</span></label>
 				</div>
 				<div>
 					<label>New Username</label>
@@ -114,17 +114,6 @@ export default function Account () {
 		<div className="update-password">
 			<h3>Update Password</h3>
 			<form className='update-password-form' onSubmit={onFormSubmit}>
-				<div>
-					<label>Current Password</label>
-					<input
-						type="password"
-						id="current-password"
-						name="password"
-						autoComplete="password"
-						value={currentPassword}
-						onChange={event => setCurrentPassword(event.target.value)}
-					/>
-				</div>
 				<div>
 					<label>New Password</label>
 					<input
