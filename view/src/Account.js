@@ -27,7 +27,6 @@ export default function Account () {
 		}
 		try {
 			const data = formSubmitData()
-			console.log(data)
 			fetch('http://localhost:5000/account', {
 				method: 'PUT',
 				headers: {
@@ -37,6 +36,7 @@ export default function Account () {
 				body: JSON.stringify(data)
 			})
 			.then(res => {
+				// Invalid access token
 				if (res.status === 403) {
 					// 403 returned by authenticateToken == expired token
 					localStorage.removeItem('accessToken')
@@ -45,7 +45,7 @@ export default function Account () {
 				return res.json()
 			})
 			.then(json => {
-				alert(json.message)
+				return alert(json.message)
 			})
 		} catch (error) {
 			console.error(error.message)

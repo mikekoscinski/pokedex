@@ -166,15 +166,13 @@ router.get('/search/moves', authenticateToken, async (req, res) => {
 	}
 });
 
-// TODO: Implement authenticateToken
 router.get('/teams/', authenticateToken, async (req, res) => {
 	try {
-		// TODO: 'rows' currently undefined; need to define what i want to retrieve in DB
 		const { rows } = await model.getTeamData();
-		
+		// TODO: 'rows' currently undefined; need to define what i want to retrieve in DB
+		// TODO: Need to create table for this data
 		res.send([{ pokemon1: 'Gyrados', pokemon2: 'Golem', pokemon3: 'Arcanine' }])
 		// res.send(rows); 
-		// TODO: Update to teamData.data once PSQL table + query finalized
 	} catch (error) {
 		console.error(error.message);
 	}
@@ -183,19 +181,19 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 router.put('/account', authenticateToken, async (req, res) => {
 	try {
 		// NOTE: dataTypes of email/username/password *currently* match column IDs in PSQL DB. That may change in future iterations of "User" table
-		
 		const email = req.user.email
 		const dataType = req.body.dataType.toString()
 		// null handles password edge case; we don't store password in JWT
 		const currentValue = req.user[dataType] || null
 		const newValueFromUser = req.body.newValue.toString()
-		
 		const { rows } = await model.getAccountData(dataType, currentValue)
 		
-		if (dataType === ('email' || 'username')) {
-			
-			// TODO: Is it available?
-			
+		if (dataType === 'email' || dataType === 'username') {
+			// Check if desired email/username is available
+			const isUserProvidedValueAvailable = await model.getDuplicateKeyValue(dataType, newValueFromUser).then(res => res.rows.length)
+			if (isUserProvidedValueAvailable !== 0) return res.status(400).send({
+				message: `Error: This ${dataType} is already taken. Please choose a unique ${dataType}.`
+			})
 			const updateUserInfo = await model.updateAccountData(dataType, newValueFromUser, email)
 			return res.send({
 				message: `Success: Your ${dataType} has been successfully updated.`
