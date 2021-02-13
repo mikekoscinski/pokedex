@@ -178,6 +178,16 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 	}
 });
 
+router.get('/account', authenticateToken, async (req, res) => {
+	try {
+		res.status(200).send({ 
+			username: req.user.username, email: req.user.email  
+		})
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
 router.put('/account', authenticateToken, async (req, res) => {
 	try {
 		// NOTE: dataTypes of email/username/password *currently* match column IDs in PSQL DB. That may change in future iterations of "User" table
