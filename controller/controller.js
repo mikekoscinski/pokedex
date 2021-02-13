@@ -37,6 +37,16 @@ const generateAccessToken = (user) => {
 	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
 }
 
+// Utility functions:
+const passwordIsValid = (password) => {
+	if (
+		password.length >= 12
+		&& password.length <= 100
+		&& password.match(/^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+])(?=.*\d).*$/g)
+	) return true
+	return false
+}
+
 // Routes:
 router.post('/signin', async (req, res) => {
 	try {
@@ -73,14 +83,6 @@ router.post('/signup', async (req, res) => {
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
 		
-		const passwordIsValid = (password) => {
-			if (
-				password.length >= 12
-				&& password.length <= 100
-				&& password.match(/^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+])(?=.*\d).*$/g)
-			) return true
-			return false
-		}
 		const isUnique = async (key, value) => (await model.getDuplicateKeyValue(key, value)).rows.length === 0;
 		const isUniqueUsername = await isUnique('username', username)
 		const isUniqueEmail = await isUnique('email', email)
@@ -178,40 +180,35 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 	}
 });
 
-// TODO: Implement authenticateToken
 router.put('/account', authenticateToken, async (req, res) => {
 	try {
 		// NOTE: dataTypes of email/username/password *currently* match column IDs in PSQL DB. That may change in future iterations of "User" table
 		
 		// TODO: Can't let them update something that isn't theirs... so, can only let them update their email, their username, etc.
+		// This ^ is solved by taking current value directly from JWT. This means TODO I can delete the 'current value' form input from Account.js (but do this at the end)
+		console.log(req.user)
 		
 		const dataType = req.body.dataType.toString()
-		// 'currentValue' prob needs to be fetched from JWT. There would be two possible values: email or username
-		// 
-		
-		console.log(`email from JWT ${req.user}`)
-		
-		const currentValueFromUser = req.body.currentValue.toString()
+		const currentValue = req.user[dataType]
 		const newValueFromUser = req.body.newValue.toString()
 		
-		console.log(dataType, currentValueFromUser, newValueFromUser)
-		console.log(`dataType: ${dataType}, currentValueFromUser: ${currentValueFromUser}`)
 		
-		const { rows } = await model.getAccountData(dataType, currentValueFromUser)
-		console.log(rows)
+		console.log(`dataType: ${dataType}, value: ${req.user[dataType]}`)
+		
+		
+		const { rows } = await model.getAccountData(dataType, currentValue)
+		// console.log(rows)
 		
 		// TODO: IF Email ck DB first, then update
 		// TODO: IF username ck DB first, then update
 		// TODO: IF password need to check it with regex, then bcrypt, then add
 		
-		// await model.updateAccountData(dataType, currentValueFromUser, newValueFromUser)
+		// TODO: actually update the data -- do this last
+		await model.updateAccountData(dataType, currentValueFromUser, newValueFromUser)
 		
-		
-		
-		
-		// const { rows } = await model.getAccountData();
-		res.send(rows); 
-		// TODO: Update to accountData.data once PSQL table + query finalized
+		// TODO: Need to send a message confirming operation was completed.
+		// E.g. alert(`Your ${dataType} has been successfully updated.`)
+		res.send(rows);
 	} catch (error) {
 		console.error(error.message);
 	}
