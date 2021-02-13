@@ -48,20 +48,20 @@ router.post('/signin', async (req, res) => {
 		const { rows } = await model.getAccountData('email', email);
 		console.log(rows)
 		
-		
 		// TODO: Can get username from { rows } above
+		const username = rows[0].username
+		console.log(`username: ${username}`)
 		
 		if (rows.length === 0) return res.status(400).send({ 
 			error: 'The email and password you entered did not match our records. Please double-check and try again.' 
 		});
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				// TODO: I need to store the username here too.
-				const user = { email: email }
+				const user = { email: email, username: username }
 				const accessToken = generateAccessToken(user)
 				return res.send({ 
 					message: 'Success', 
-					accessToken: accessToken 
+					accessToken: accessToken
 				})
 			}
 			return res.send({ 
@@ -195,6 +195,10 @@ router.put('/account', authenticateToken, async (req, res) => {
 		
 		const dataType = req.body.dataType.toString()
 		// 'currentValue' prob needs to be fetched from JWT. There would be two possible values: email or username
+		// 
+		
+		console.log(`email from JWT ${req.user}`)
+		
 		const currentValueFromUser = req.body.currentValue.toString()
 		const newValueFromUser = req.body.newValue.toString()
 		
