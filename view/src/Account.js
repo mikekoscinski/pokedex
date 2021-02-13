@@ -2,15 +2,6 @@ import React, { useState } from "react";
 
 // TODO: Handle POST (or PUT?) requests for form submits. Ideally, have one function that handles everything
 
-const onFormSubmit = async (event) => {
-	event.preventDefault()
-	try {
-		console.log('Testing... 1, 2, 3!')
-	} catch (error) {
-		console.error(error.message)
-	}
-}
-
 export default function Account () {
 	const [currentEmail, setCurrentEmail] = useState('')
 	const [newEmail, setNewEmail] = useState('')
@@ -24,6 +15,34 @@ export default function Account () {
 	
 	// TODO: Eventually need to check if token is valid:
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
+	
+	const onFormSubmit = async (event) => {
+		event.preventDefault()
+		try {
+			const dataType = event.currentTarget.querySelector('button').getAttribute('data-type')
+			console.log(dataType)
+			
+			const formSubmitData = () => {
+				if (!dataType) return null
+				if (dataType === 'email') return { currentEmail, newEmail }
+				if (dataType === 'username') return { currentUsername, newUsername }
+				if (dataType === 'password') return { currentPassword, newPassword }
+			}
+			console.log(formSubmitData())
+			
+			// const data = () => {
+			//     if (dataType === 'email') return { currentEmail, newEmail }
+			//     if (dataType === 'username') return { currentUsername, newUsername }
+			//     if (dataType === 'password') return { currentPassword, newPassword }
+			// }
+			
+			// const data = { currentEmail, newEmail } || { currentUsername, newUsername } || { currentPassword, newPassword }
+			// console.log(data)
+			
+		} catch (error) {
+			console.error(error.message)
+		}
+	}
 	
 	return (
 		<>
@@ -54,7 +73,7 @@ export default function Account () {
 						onChange={event => setNewEmail(event.target.value)}
 					/>
 				</div>
-				<button type="submit">Update Email</button>
+				<button type="submit" data-type="email">Update Email</button>
 			</form>
 		</div>
 		<br></br>
@@ -83,7 +102,7 @@ export default function Account () {
 						onChange={event => setNewUsername(event.target.value)}
 					/>
 				</div>
-				<button type="submit">Update Username</button>
+				<button type="submit" data-type="username">Update Username</button>
 			</form>
 		</div>
 		<br></br>
@@ -112,7 +131,7 @@ export default function Account () {
 						onChange={event => setNewPassword(event.target.value)}
 					/>
 				</div>
-				<button type="submit">Update Password</button>
+				<button type="submit" data-type="password">Update Password</button>
 			</form>
 		</div>
 		</>
