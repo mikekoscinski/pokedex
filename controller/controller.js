@@ -42,16 +42,8 @@ router.post('/signin', async (req, res) => {
 	try {
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
-		
-		console.log(email, password)
-		
 		const { rows } = await model.getAccountData('email', email);
-		console.log(rows)
-		
-		// TODO: Can get username from { rows } above
 		const username = rows[0].username
-		console.log(`username: ${username}`)
-		
 		if (rows.length === 0) return res.status(400).send({ 
 			error: 'The email and password you entered did not match our records. Please double-check and try again.' 
 		});
