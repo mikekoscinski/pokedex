@@ -188,8 +188,9 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 });
 
 // TODO: Implement authenticateToken
-router.get('/account', authenticateToken, async (req, res) => {
+router.put('/account', authenticateToken, async (req, res) => {
 	try {
+		console.log(req)
 		const { rows } = await model.getAccountData();
 		res.send(rows); 
 		// TODO: Update to accountData.data once PSQL table + query finalized

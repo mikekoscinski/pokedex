@@ -18,26 +18,31 @@ export default function Account () {
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault()
+		const dataType = event.currentTarget.querySelector('button').getAttribute('data-type')
+		const formSubmitData = () => {
+			if (!dataType) return null
+			if (dataType === 'email') return { currentEmail, newEmail }
+			if (dataType === 'username') return { currentUsername, newUsername }
+			if (dataType === 'password') return { currentPassword, newPassword }
+		}
 		try {
-			const dataType = event.currentTarget.querySelector('button').getAttribute('data-type')
-			console.log(dataType)
-			
-			const formSubmitData = () => {
-				if (!dataType) return null
-				if (dataType === 'email') return { currentEmail, newEmail }
-				if (dataType === 'username') return { currentUsername, newUsername }
-				if (dataType === 'password') return { currentPassword, newPassword }
-			}
-			console.log(formSubmitData())
-			
-			// const data = () => {
-			//     if (dataType === 'email') return { currentEmail, newEmail }
-			//     if (dataType === 'username') return { currentUsername, newUsername }
-			//     if (dataType === 'password') return { currentPassword, newPassword }
-			// }
-			
-			// const data = { currentEmail, newEmail } || { currentUsername, newUsername } || { currentPassword, newPassword }
-			// console.log(data)
+			const data = formSubmitData()
+			console.log(data)
+			fetch('http://localhost:5000/account', {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+				},
+				body: JSON.stringify(data)
+			})
+			.then(res => {
+				if (res.status === 403) {
+					// 403 returned by authenticateToken == expired token
+					localStorage.removeItem('accessToken')
+					return window.location.replace('/')
+				}
+			})
 			
 		} catch (error) {
 			console.error(error.message)

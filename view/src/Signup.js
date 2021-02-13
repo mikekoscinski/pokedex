@@ -17,14 +17,14 @@ export default function Signup () {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(data)
 			})
-				.then(res => res.json())
-				.then(data => {
-					if (!data.error) {
-						alert('Account successfully created.')
-						return window.location.replace('/')
-						// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
-					}
-					return alert(data.error)
+			.then(res => res.json())
+			.then(data => {
+				if (!data.error) {
+					alert('Account successfully created.')
+					return window.location.replace('/')
+					// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+				}
+				return alert(data.error)
 			})
 		} catch (error) {
 			console.error(error.message);
