@@ -62,7 +62,7 @@ router.post('/signin', async (req, res) => {
 				const user = { email: email, username: username }
 				const accessToken = generateAccessToken(user)
 				return res.send({ 
-					message: 'Success', 
+					message: 'Success',
 					accessToken: accessToken
 				})
 			}
