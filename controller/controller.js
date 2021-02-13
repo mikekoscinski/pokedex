@@ -38,16 +38,6 @@ const generateAccessToken = (user) => {
 }
 
 // Routes:
-// TODO: On '/' should NOT show Navmenu; only signin/out options
-router.get('/', async (req, res) => {
-	try {
-		const { rows } = await model.getHomepageData();
-		res.send(rows);
-	} catch (error) {
-		console.error(error.message);
-	}
-});
-
 router.post('/signin', async (req, res) => {
 	try {
 		const email = req.body.email.toString()
@@ -58,7 +48,9 @@ router.post('/signin', async (req, res) => {
 		});
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				const user = { credential: email }
+				
+				// TODO: I need to store the username here too.
+				const user = { email: email }
 				const accessToken = generateAccessToken(user)
 				return res.send({ 
 					message: 'Success', 
@@ -190,7 +182,29 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 // TODO: Implement authenticateToken
 router.put('/account', authenticateToken, async (req, res) => {
 	try {
-		console.log(req)
+		
+		// TODO: Can't let them update something that isn't theirs... so, can only let them update their email, their username, etc.
+		
+		// NOTE: dataTypes of email/username/password *currently* match column IDs in PSQL DB. That may change in future iterations of "User" table
+		
+		const dataType = req.body.dataType.toString()
+		// 'currentValue' prob needs to be fetched from JWT. There would be two possible values: email or username
+		const currentValueFromUser = req.body.currentValue.toString()
+		const newValueFromUser = req.body.newValue.toString()
+		console.log(dataType, currentValueFromUser, newValueFromUser)
+		
+		// TODO: IF Email ck DB first, then update
+		// TODO: IF username ck DB first, then update
+		// TODO: IF password need to check it with regex, then bcrypt, then add
+		
+		// Update credentials in DB
+		// need to write new Fn in model updateAccountCredentials
+		// can probably do just one function and pass dataType as param
+		model.updateAccountData(dataType, currentValueFromUser, newValueFromUser)
+		
+		
+		
+		
 		const { rows } = await model.getAccountData();
 		res.send(rows); 
 		// TODO: Update to accountData.data once PSQL table + query finalized

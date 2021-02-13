@@ -21,9 +21,9 @@ export default function Account () {
 		const dataType = event.currentTarget.querySelector('button').getAttribute('data-type')
 		const formSubmitData = () => {
 			if (!dataType) return null
-			if (dataType === 'email') return { currentEmail, newEmail }
-			if (dataType === 'username') return { currentUsername, newUsername }
-			if (dataType === 'password') return { currentPassword, newPassword }
+			if (dataType === 'email') return { dataType, currentValue: currentEmail, newValue: newEmail }
+			if (dataType === 'username') return { dataType, currentValue: currentUsername, newValue: newUsername }
+			if (dataType === 'password') return { dataType, currentValue: currentPassword, newValue: newPassword }
 		}
 		try {
 			const data = formSubmitData()
@@ -42,6 +42,7 @@ export default function Account () {
 					localStorage.removeItem('accessToken')
 					return window.location.replace('/')
 				}
+				
 			})
 			
 		} catch (error) {
