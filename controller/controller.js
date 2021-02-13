@@ -61,6 +61,7 @@ router.post('/signin', async (req, res) => {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const user = { email: email, username: username }
 				const accessToken = generateAccessToken(user)
+				const updateLastLogin = await model.updateLastLoginTime(email)
 				return res.send({ 
 					message: 'Success',
 					accessToken: accessToken

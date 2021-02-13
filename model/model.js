@@ -16,7 +16,9 @@ module.exports = {
 		return data;
 	},
 	
-	// TODO: Update last_login time on Signin
+	updateLastLoginTime: async function (email) {
+		const data = await pool.query('UPDATE "User" SET last_login = NOW() WHERE email = $1', [email])
+	},
 	
 	getDuplicateKeyValue: async function (key, value) {
 		const data = await pool.query(`SELECT ${key} FROM "User" WHERE ${key} = $1`, [value]);
@@ -72,7 +74,6 @@ module.exports = {
 		return data;
 	},
 	
-	// TODO: This might not work... maybe need to use the = $1, [valForOne] syntax
 	updateAccountData: async function (column, newValue, email) {
 		const data = await pool.query(`UPDATE "User" SET ${column} = $1 WHERE email = $2`, [newValue, email])
 	},
