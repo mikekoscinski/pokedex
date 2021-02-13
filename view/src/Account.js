@@ -42,9 +42,11 @@ export default function Account () {
 					localStorage.removeItem('accessToken')
 					return window.location.replace('/')
 				}
-				
+				return res.json()
 			})
-			
+			.then(json => {
+				alert(json.message)
+			})
 		} catch (error) {
 			console.error(error.message)
 		}
@@ -136,6 +138,11 @@ export default function Account () {
 						value={newPassword}
 						onChange={event => setNewPassword(event.target.value)}
 					/>
+				</div>
+				<div>
+					<i>
+						Password must be 12-100 characters and contain at least one uppercase letter, one number, and one symbol.
+					</i>
 				</div>
 				<button type="submit" data-type="password">Update Password</button>
 			</form>

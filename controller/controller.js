@@ -184,31 +184,34 @@ router.put('/account', authenticateToken, async (req, res) => {
 	try {
 		// NOTE: dataTypes of email/username/password *currently* match column IDs in PSQL DB. That may change in future iterations of "User" table
 		
-		// TODO: Can't let them update something that isn't theirs... so, can only let them update their email, their username, etc.
-		// This ^ is solved by taking current value directly from JWT. This means TODO I can delete the 'current value' form input from Account.js (but do this at the end)
-		console.log(req.user)
-		
+		const email = req.user.email
 		const dataType = req.body.dataType.toString()
-		const currentValue = req.user[dataType]
+		// null handles password edge case; we don't store password in JWT
+		const currentValue = req.user[dataType] || null
 		const newValueFromUser = req.body.newValue.toString()
 		
-		
-		console.log(`dataType: ${dataType}, value: ${req.user[dataType]}`)
-		
-		
 		const { rows } = await model.getAccountData(dataType, currentValue)
-		// console.log(rows)
 		
-		// TODO: IF Email ck DB first, then update
-		// TODO: IF username ck DB first, then update
-		// TODO: IF password need to check it with regex, then bcrypt, then add
+		if (dataType === ('email' || 'username')) {
+			
+			// TODO: Is it available?
+			
+			const updateUserInfo = await model.updateAccountData(dataType, newValueFromUser, email)
+			return res.send({
+				message: `Success: Your ${dataType} has been successfully updated.`
+			})
+		}
 		
-		// TODO: actually update the data -- do this last
-		await model.updateAccountData(dataType, currentValueFromUser, newValueFromUser)
-		
-		// TODO: Need to send a message confirming operation was completed.
-		// E.g. alert(`Your ${dataType} has been successfully updated.`)
-		res.send(rows);
+		if (dataType === 'password') {
+			if (!passwordIsValid(newValueFromUser)) return res.send({ 
+			error: 'Error: Invalid password. Please try again.' 
+			})
+			const newHashedPassword = await bcrypt.hash(newValueFromUser, 10)
+			const updatePassword = await model.updateAccountData(dataType, newHashedPassword, email)
+			return res.send({ 
+				message: `Success: Your ${dataType} has been successfully updated.`
+			})
+		}
 	} catch (error) {
 		console.error(error.message);
 	}

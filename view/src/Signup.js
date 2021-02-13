@@ -79,7 +79,7 @@ export default function Signup () {
 			</div>
 			<div>
 				<i>
-					Password must be 12-100 characters and use at least one uppercase letter, one number, and one symbol.
+					Password must be 12-100 characters and contain at least one uppercase letter, one number, and one symbol.
 				</i>
 			</div>
 			<button type="submit">
