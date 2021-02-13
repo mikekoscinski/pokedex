@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-// TODO: Handle POST (or PUT?) requests for form submits. Ideally, have one function that handles everything
-
 export default function Account () {
 	const [currentEmail, setCurrentEmail] = useState('')
 	const [newEmail, setNewEmail] = useState('')
@@ -11,7 +9,6 @@ export default function Account () {
 	
 	const [currentPassword, setCurrentPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
-	// TODO: Will need to add server-side password validation when formSubmit is of type password
 	
 	// TODO: Eventually need to check if token is valid:
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
