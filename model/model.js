@@ -11,10 +11,12 @@ const pool = new Pool({
 
 // Functions called in controller.js to retrieve data
 module.exports = {
-	getAccountCredentials: async function (email) {
-		const data = await pool.query('SELECT email, password FROM "User" WHERE email = $1', [email])
-		return data
+	getAccountData: async function (column, oldValue) {
+		const data = await pool.query(`SELECT * FROM "User" WHERE ${column} = $1`, [oldValue])
+		return data;
 	},
+	
+	// TODO: Update last_login time on Signin
 	
 	getDuplicateKeyValue: async function (key, value) {
 		const data = await pool.query(`SELECT ${key} FROM "User" WHERE ${key} = $1`, [value]);
@@ -70,13 +72,8 @@ module.exports = {
 		return data;
 	},
 	
-	getAccountData: async function () {
-		// TODO: Update query -- will take form of pool.query(${query}). Same as getTeamData() -- pass user_id as a param; destructure it as { userID } in controller.js. E.G. const data = pool.query('SELECT * FROM "User" WHERE user_id = $1', [user_id]);
-		const data = 'Update getAccountData() query in model.js';
-		return data;
-	},
-	
+	// TODO: This might not work... maybe need to use the = $1, [valForOne] syntax
 	updateAccountData: async function (column, oldValue, newValue) {
 		const data = await pool.query(`UPDATE "User" SET ${column} = '${newValue}' WHERE ${column} = '${oldValue}'`)
-	}
+	},
 };
