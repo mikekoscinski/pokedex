@@ -15,7 +15,11 @@ export default function EntryList () {
 				}
 			})
 			.then(res => {
-				if (!res.ok) return window.location.replace('/')
+				if (res.status === 401 /* No token */) return window.location.replace('/')
+				if (res.status === 403 /* Yes token, but invalid */ ) {
+					localStorage.removeItem('accessToken')
+					return window.location.replace('/')
+				}
 				return res.json()
 			})
 			.then(json => setEntries(json))

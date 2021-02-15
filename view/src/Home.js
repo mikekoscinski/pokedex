@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 
-const authenticateTokenOnPublicRoute = require('./checkclientaccesstoken.js').default
+const checkClientAccessToken = require('./checkclientaccesstoken.js').default
 
 export default function Home () {
 	useEffect(() => {
-		authenticateTokenOnPublicRoute(localStorage.getItem('accessToken'))('/')
+		checkClientAccessToken(localStorage.getItem('accessToken'))('/')
 	})
 	
 	return (

@@ -7,7 +7,7 @@ export default function Signin () {
 	const [password, setPassword] = useState('');
 	
 	useEffect(() => {
-		checkClientAccessToken(localStorage.getItem('accessToken'))
+		checkClientAccessToken(localStorage.getItem('accessToken'))('/signin')
 	})
 	
 	const onFormSubmit = async (event) => {
