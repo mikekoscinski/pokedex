@@ -20,6 +20,9 @@ const getTokenFromHeader = (req) => {
 	) return req.headers.authorization.split(' ')[1];
 }
 
+
+
+// TODO: Need to adopt this for pre-auth routes ('/', 'signin', 'signup'). These routes should be restricted IF valid token already exists
 const authenticateToken = async (req, res, next) => {	
 	const clientToken = getTokenFromHeader(req)
 	if (clientToken === null) return res.sendStatus(401)
@@ -33,8 +36,24 @@ const authenticateToken = async (req, res, next) => {
 	})
 }
 
+const authenticateTokenOnPreAuthRoutes = async (req, res, next) => {
+	const clientToken = getTokenFromHeader(req)
+	if (clientToken === null) return res.sendStatus(200)
+	
+	jwt.verify(clientToken, process.env.ACCESS_TOKEN_SECRET, (error, user) => {
+		// TODO: IF token is invalid, return response that tells client to delete token from localStorage AND redirect to '/'
+		if (error) return res.status(403).send({ message: 'User session has expired. Please sign in again.' })
+		// TODO: If token is VALID, tell client to redirect to '/pokemon'
+		req.user = user
+		return res.status(200).send({ message: 'User is already signed in. Redirecting to application home page.' })
+		// return next()
+	})
+}
+
+
+
 const generateAccessToken = (user) => {
-	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' })
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
 }
 
 // Utility functions:
@@ -48,6 +67,15 @@ const passwordIsValid = (password) => {
 }
 
 // Routes:
+router.get('/', authenticateTokenOnPreAuthRoutes, async (req, res) => {
+	try {
+		
+	} catch (error) {
+		console.error(error.message)
+	}
+})
+
+
 router.post('/signin', async (req, res) => {
 	try {
 		const email = req.body.email.toString()
