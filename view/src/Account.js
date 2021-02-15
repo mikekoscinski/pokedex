@@ -10,6 +10,7 @@ export default function Account () {
 	const [newPassword, setNewPassword] = useState('')
 	
 	// If there is NO token, redirect to home page
+	// Note: This is only possible because I am not calling useEffect. Conditional execution (my if !localStorage below) breaks that hook.
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
 	
 	fetch('http://localhost:5000/account', {

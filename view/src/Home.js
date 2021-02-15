@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+const checkClientAccessToken = require('./checkclientaccesstoken.js').default
 
 export default function Home () {
 	// TODO: Eventually need to check if token is valid:
-	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	// if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	
+	useEffect(() => {
+		checkClientAccessToken(localStorage.getItem('accessToken'))
+	})
 	
 	return (
 		<>
