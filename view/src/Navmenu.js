@@ -21,7 +21,9 @@ export default function Navmenu() {
 				<ul className="navmenu-items" key={'ul'}>
 					<li key={'pokemon'}><a href="/pokemon" key={'link'}>Pokemon</a></li>
 					<li key={'search'}><a href="/search" key={'link'}>Search</a></li>
-					<li key={'teams'}><a href="/teams" key={'link'}>Teams</a></li>
+					
+					{/* TODO: 'teams' reserved for future feature */}
+					{/* <li key={'teams'}><a href="/teams" key={'link'}>Teams</a></li> */}
 					<li key={'account'}><a href="/account" key={'link'}>Account</a></li>
 				</ul>
 				<button onClick={signout}>

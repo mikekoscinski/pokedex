@@ -182,6 +182,7 @@ router.get('/search/moves', authenticateToken, async (req, res) => {
 	}
 });
 
+/* TODO: Reserved for future feature
 router.get('/teams/', authenticateToken, async (req, res) => {
 	try {
 		const { rows } = await model.getTeamData();
@@ -193,6 +194,7 @@ router.get('/teams/', authenticateToken, async (req, res) => {
 		console.error(error.message);
 	}
 });
+*/
 
 router.get('/account', authenticateToken, async (req, res) => {
 	try {
