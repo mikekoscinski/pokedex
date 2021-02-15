@@ -21,15 +21,9 @@ export default function Signup () {
 				body: JSON.stringify(data)
 			})
 			.then(res => res.json())
-			.then(data => {
-				if (!data.error) {
-					alert('Account successfully created.')
-					
-					// TODO: Need to store accessToken here
-					
-					return window.location.replace('/pokemon')
-				}
-				return alert(data.error)
+			.then(json => {
+				localStorage.setItem('accessToken', json.accessToken)
+				return window.location.replace('/pokemon')
 			})
 		} catch (error) {
 			console.error(error.message);

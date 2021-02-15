@@ -89,8 +89,8 @@ router.post('/signin', async (req, res) => {
 		});
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
-				const user = { email: email, username: username }
-				const accessToken = generateAccessToken(user)
+				const userForJWT = { email: email, username: username }
+				const accessToken = generateAccessToken(userForJWT)
 				const updateLastLogin = await model.updateLastLoginTime(email)
 				return res.send({ 
 					message: 'Success',
@@ -133,7 +133,8 @@ router.post('/signup', async (req, res) => {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
 		
-		const accessToken = generateAccessToken(user)
+		const userForJWT = { email: email, username: username }
+		const accessToken = generateAccessToken(userForJWT)
 		
 		return res.send({ 
 			message: 'Success: User successfully created.',
