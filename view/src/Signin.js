@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+const checkClientAccessToken = require('./checkclientaccesstoken.js').default
 
 export default function Signin () {	
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// TODO: Eventually need to check if token is valid:
-	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	useEffect(() => {
+		checkClientAccessToken(localStorage.getItem('accessToken'))
+	})
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
@@ -22,7 +25,6 @@ export default function Signin () {
 			})
 			.then(res => res.json()) // remember: this is an implicit return
 			.then(json => {
-				console.log(json)
 				localStorage.setItem('accessToken', json.accessToken)
 				window.location.replace('/pokemon')
 			})

@@ -2,6 +2,8 @@
 
 // NOTE: node-postgres (pg.Pool.query) returns 'rows' property on its response object. Thus, { rows } destructuring.
 
+// NOTE: AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+
 // Libraries:
 require('dotenv').config()
 const express = require('express');
@@ -53,7 +55,7 @@ const authenticateTokenOnPreAuthRoutes = async (req, res, next) => {
 
 
 const generateAccessToken = (user) => {
-	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' })
 }
 
 // Utility functions:
@@ -69,7 +71,7 @@ const passwordIsValid = (password) => {
 // Routes:
 router.get('/', authenticateTokenOnPreAuthRoutes, async (req, res) => {
 	try {
-		
+		return res.send(200)
 	} catch (error) {
 		console.error(error.message)
 	}
@@ -130,8 +132,12 @@ router.post('/signup', async (req, res) => {
 		// Hash only after all validation checks pass
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const insertNewUser = await model.insertUserData(username, email, hashedPassword);
+		
+		const accessToken = generateAccessToken(user)
+		
 		return res.send({ 
-			message: 'Success: User successfully created.' 
+			message: 'Success: User successfully created.',
+			accessToken: accessToken
 		})
 	} catch (error) {
 		console.error(error.message);

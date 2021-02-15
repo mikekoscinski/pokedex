@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+const checkClientAccessToken = require('./checkclientaccesstoken.js').default
 
 export default function Signup () {
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	
-	// TODO: Eventually need to check if token is valid:
-	if (localStorage.getItem('accessToken')) return window.location.replace('/pokemon')
+	useEffect(() => {
+		checkClientAccessToken(localStorage.getItem('accessToken'))
+	})
 	
 	const onFormSubmit = async (event) => {
 		event.preventDefault();
@@ -21,8 +24,10 @@ export default function Signup () {
 			.then(data => {
 				if (!data.error) {
 					alert('Account successfully created.')
-					return window.location.replace('/')
-					// AJAX prevents server-side call of res.redirect. Source: https://stackoverflow.com/questions/27202075/expressjs-res-redirect-not-working-as-expected
+					
+					// TODO: Need to store accessToken here
+					
+					return window.location.replace('/pokemon')
 				}
 				return alert(data.error)
 			})
