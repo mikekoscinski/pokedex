@@ -52,7 +52,7 @@ const passwordIsValid = (password) => {
 // Routes:
 router.get('/', async (req, res) => {
 	try {
-		return res.send(200)
+		return res.sendStatus(200)
 	} catch (error) {
 		console.error(error.message)
 	}
