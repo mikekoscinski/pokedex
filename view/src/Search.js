@@ -8,7 +8,12 @@ import MovesTable from './MovesTable';
 export default function Search () {
 	const [pokemon, setPokemon] = useState([]);
 	const [moves, setMoves] = useState([]);
-		
+	
+	useEffect(() => {
+		// TODO: Do the same here, Teams.js, EntryList.js as I did on '/', 'signin', 'signout'
+		// Need to write separate function - checking for different things
+	})
+	
 	const getPokemon = async () => {
 		try {
 			fetch('http://localhost:5000/search/pokemon', {
