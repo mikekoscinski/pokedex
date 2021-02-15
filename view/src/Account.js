@@ -9,7 +9,7 @@ export default function Account () {
 	
 	const [newPassword, setNewPassword] = useState('')
 	
-	// TODO: Eventually need to check if token is valid:
+	// If there is NO token, redirect to home page
 	if (!localStorage.getItem('accessToken')) return window.location.replace('/')
 	
 	fetch('http://localhost:5000/account', {
@@ -20,7 +20,11 @@ export default function Account () {
 		}
 	})
 	.then(res => {
-		if (!res.ok) return alert ('Error. Could not retrieve data.')
+		// If the token is invalid, delete it and redirect to home page
+		if (!res.ok) { 
+			localStorage.removeItem('accessToken')
+			return window.location.replace('/')
+		}
 		return res.json()
 	})
 	.then(json => {

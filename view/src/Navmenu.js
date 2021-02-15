@@ -2,6 +2,8 @@ import React from 'react'
 
 const signout = () => {
 	localStorage.removeItem('accessToken')
+	
+	// TODO: Why am I POSTing here?
 	fetch('http://localhost:5000/signout', {
 		method: 'POST',
 		headers: {
