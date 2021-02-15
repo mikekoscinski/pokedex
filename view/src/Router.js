@@ -21,7 +21,8 @@ export default function Router () {
 				<Route exact path="/search" component={Search} key={'search'} />
 				<Route exact path="/search/moves" component={Search} key={'search'} />
 				
-				<Route exact path="/teams" component={Teams} key={'teams'} />
+				{/* TODO: 'teams' reserved for future feature */}
+				{/* <Route exact path="/teams" component={Teams} key={'teams'} /> */}
 				<Route exact path="/account" component={Account} key={'account'} />
 				<Route component={NotFound} key={'notfound'} />
 			</Switch>
