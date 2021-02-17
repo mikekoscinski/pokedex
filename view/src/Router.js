@@ -5,7 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import EntryList from './EntryList';
 import Entry from './Entry';
 import Search from './Search';
-import Teams from './Teams';
+// import Teams from './Teams';
 import Account from './Account';
 import NotFound from './NotFound';
 import Navmenu from './Navmenu';
