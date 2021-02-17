@@ -1,6 +1,7 @@
 // 'pg' is only library we need in 'model' directory - allows us to make postgresql queries
 const Pool = require('pg').Pool;
 
+// TODO: Pull this in from .env
 const pool = new Pool({
 	user: 'mikekoscinski',
 	password: '',
