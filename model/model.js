@@ -1,13 +1,14 @@
+require('dotenv').config()
 // 'pg' is only library we need in 'model' directory - allows us to make postgresql queries
 const Pool = require('pg').Pool;
 
 // TODO: Pull this in from .env
 const pool = new Pool({
-	user: 'mikekoscinski',
-	password: '',
-	host: 'localhost',
-	port: 5432,
-	database: 'Dexter'
+	user: process.env.PG_POOL_USER,
+	password: process.env.PG_POOL_PASSWORD,
+	host: process.env.HOSTNAME,
+	port: process.env.PG_POOL_PORT,
+	database: process.env.PG_POOL_DATABASE
 });
 
 // Functions called in controller.js to retrieve data
@@ -69,11 +70,13 @@ module.exports = {
 		return data;
 	},
 	
+	/* TODO: Reserved for future development
 	getTeamData: async function () {
 		// TODO: Should user_id be a param here? Is there a way to do that without displaying user_id in the URL? Add user_id as param. Perhaps it should be just like getEntryData -- the GET request is '/:user_id/teams', then destructure { userID } and pass it here as a param. E.G. const data = await pool.query('SELECT * FROM "Team" WHERE user_id = $1', [user_id]);
 		const data = 'Update getTeamData() query in model.js';
 		return data;
 	},
+	*/
 	
 	updateAccountData: async function (column, newValue, email) {
 		const data = await pool.query(`UPDATE "User" SET ${column} = $1 WHERE email = $2`, [newValue, email]).catch(err => console.error(err.stack))
