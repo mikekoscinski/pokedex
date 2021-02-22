@@ -22,6 +22,8 @@ export default function Signup () {
 			})
 			.then(res => res.json())
 			.then(json => {
+				// First, check if we received a valid response
+				if (json.error) return alert(json.error)
 				localStorage.setItem('accessToken', json.accessToken)
 				return window.location.replace('/pokemon')
 			})
