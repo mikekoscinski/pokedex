@@ -107,9 +107,9 @@ export default function Entry ({ match }) {
 									))}
 								</p>
 							</div>
-							<div className="biography" key={composeKey(entry.name)('biography')()}>
+							{/* <div className="biography" key={composeKey(entry.name)('biography')()}>
 								<p key={composeKey(entry.name)('biography')('p')()}>TODO: INSERT BIO HERE.</p>
-							</div>
+							</div> */}
 						</div>
 					</div>
 					<div className="stats-section" key={composeKey(entry.name)('stats')('section')()}>
