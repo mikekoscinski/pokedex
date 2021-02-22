@@ -63,10 +63,11 @@ router.post('/signin', async (req, res) => {
 		const email = req.body.email.toString()
 		const password = req.body.password.toString()
 		const { rows } = await model.getAccountData('email', email);
-		const username = rows[0].username
 		if (rows.length === 0) return res.status(400).send({ 
 			error: 'The email and password you entered did not match our records. Please double-check and try again.' 
 		});
+		// Need to see if username exists before I try to define it. Otherwise I throw an error before I send a response and I'm left with a hanging request that goes unanswered.
+		const username = rows[0].username
 		try {
 			if (await bcrypt.compare(password, rows[0].password)) {
 				const userForJWT = { email: email, username: username }
