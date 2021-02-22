@@ -1,11 +1,12 @@
 // Libraries
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const cors = require('cors');
 
 // Server configuration
-const hostname = 'localhost';
-const port = 5000;
+const hostname = process.env.HOSTNAME;
+const port = process.env.EXPRESS_PORT;
 
 // Middleware
 app.use(cors()); // import 'cors' library first
@@ -31,5 +32,5 @@ app.use('/account', controller);
 
 // Creates Node.js web server at specified host & port
 app.listen(port, () => {
-	console.log(`Server running at http://${hostname}:${port}/`);
+	console.log(`Server running at ${hostname}:${port}`);
 });
