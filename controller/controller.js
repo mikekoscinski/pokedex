@@ -45,7 +45,14 @@ const passwordIsValid = (password) => {
 		password.match(/^(?=.*?[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[``~!@#$%^&*()\-_=+\[\]{}\\|:;''""<>,.\/?]).{12,100}$/g)
 	)
 }
-// TODO: Stone said could just return this instead of the if
+
+const emailIsValid = (email) => {
+	// Email address compliant with RFC2822. Source: https://regex101.com/library/sI6yF5
+	return (
+		email.match(/^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/g)
+	)
+}
+
 
 // Routes:
 router.get('/', async (req, res) => {
@@ -103,14 +110,18 @@ router.post('/signup', async (req, res) => {
 		const isUniqueEmail = await isUnique('email', email)
 		
 		// Input validation:
+		// Note: Do non-DB validation first, then do DB uniqueness queries
+		if (!emailIsValid(email)) return res.send({
+			error: 'Error: Please choose a valid email.'
+		})
+		if (!passwordIsValid(password)) return res.send({ 
+			error: 'Error: Please choose a valid password.' 
+		})
 		if (!isUniqueUsername) return res.send({ 
 			error: 'Error: This username is already taken. Please try another.' 
 		})
 		if (!isUniqueEmail) return res.send({ 
 			error: 'Error: This email is already taken. Please try another.' 
-		})
-		if (!passwordIsValid(password)) return res.send({ 
-			error: 'Error: Invalid password. Please try again.' 
 		})
 		
 		// Hash only after all validation checks pass
