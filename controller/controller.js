@@ -42,7 +42,7 @@ const generateAccessToken = (user) => {
 // Utility functions:
 const passwordIsValid = (password) => {
 	return (
-		password.match(/^(?=.*?[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[`~!@#$%^&*()\-_=+\[\]{}\\|:;'"<>,.\/?]).{12,100}$/g)
+		password.match(/^(?=.*?[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[``~!@#$%^&*()\-_=+\[\]{}\\|:;''""<>,.\/?]).{12,100}$/g)
 	)
 }
 // TODO: Stone said could just return this instead of the if
