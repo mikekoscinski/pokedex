@@ -53,7 +53,6 @@ const emailIsValid = (email) => {
 	)
 }
 
-
 // Routes:
 router.get('/', async (req, res) => {
 	try {
