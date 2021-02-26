@@ -41,13 +41,13 @@ const generateAccessToken = (user) => {
 
 // Utility functions:
 const passwordIsValid = (password) => {
-	if (
+	return (
 		password.length >= 12
 		&& password.length <= 100
 		&& password.match(/^(?=.*[a-zA-Z])(?=.*[~!@#$%^&*()_+])(?=.*\d).*$/g)
-	) return true
-	return false
+	)
 }
+// TODO: Stone said could just return this instead of the if
 
 // Routes:
 router.get('/', async (req, res) => {
