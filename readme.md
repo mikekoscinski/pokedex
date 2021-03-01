@@ -2,9 +2,11 @@
 
 Pokedex is a web application for comparing the strength of pokemon from the first three generation of Pokemon video games.
 
+Visit the application today at http://pokedex.club.
+
 ## Description
 
-What is the fastest Pokemon in Red/Blue version? How many dragon type pokemon are there? Is Electrode really the fastest pokemon in the franchise? Answer these questions and more with this Pokdex app.
+Is Electrode really the fastest gen 1 pokemon? How many dragon type pokemon are there? Would Lugia best Rayquaza in a battle? Answer these questions and more with this Pokdex app.
 
 View complete profiles on each of the first 386 pokemon. Design your dream team for Red/Blue/Yellow, Silver/Gold/Crystal, and Ruby/Sapphire/Emerald versions.
 
@@ -12,9 +14,25 @@ Users can sort both Pokemon and Moves based on their statistics. Sort pokemon by
 
 This application uses the in-game statistics from Pokemon Emerald version.
 
+## Technologies
+
+This application uses:
+
+- Node.js/Express on the server
+
+- React.js (with hooks) on the client
+
+- PostgreSQL for data persistence
+
+- Bcrypt for password hashing
+
+- JSON Web Tokens for user authentication
+
+- Node.js/Axios/Cheerio.js web scraper to obtain the Pokemon statistics. Cheerio was used for DOM navigation
+
 ## Installation
 
-Sign up for a new account at https://pokedex.club today.
+Sign up for a new account today at https://pokedex.club.
 
 ## Usage
 
@@ -45,6 +63,9 @@ Ongoing. This project is still in active development. Additional features have b
 Future features:
 
 - Create your own team - users can select their own 'dream team' of up to six pokemon. This will be saved with their account.
+
 - View for optimizing stats and type advantages when user creates their own team
+
 - Add images to each pokemon's entry page.
+
 - Add Pokdex bios to each pokemon's entry page.
