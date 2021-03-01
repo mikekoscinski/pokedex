@@ -30,6 +30,8 @@ This application uses:
 
 - Node.js/Axios/Cheerio.js web scraper to obtain the Pokemon statistics. Cheerio was used for DOM navigation
 
+- Hosted on a DigitalOcean Droplet (Ubuntu 20.04)
+
 ## Installation
 
 Sign up for a new account today at https://pokedex.club.
