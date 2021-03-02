@@ -1,3 +1,27 @@
 * {
   font-family: "Helvetica", "Arial", "sans-serif";
 }
+
+.navmenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navmenu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navmenu li {
+  float: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.navmenu li a {
+  text-align: left;
+}
