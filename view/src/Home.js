@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import './App.css'
-
 
 const checkClientAccessToken = require('./checkclientaccesstoken.js').default
 
