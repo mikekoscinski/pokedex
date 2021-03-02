@@ -45,3 +45,22 @@ tbody td {
   padding-bottom: 3px;
   width: 90px;
 }
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: gray;
+}
+
+a:active {
+  text-decoration: underline;
+  color: inherit;
+}
