@@ -9,6 +9,7 @@ import { render } from 'react-dom';
 
 // Components:
 import App from './App';
+import './App.css'
 
 render(
   <React.StrictMode>
