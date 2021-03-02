@@ -8,12 +8,22 @@ export default function Home () {
 	})
 	
 	return (
-		<>
-		<h1 className='banner'>Welcome to the Pokédex</h1>
-		<ul>
-			<li><a href="/signin">Sign in</a></li>
-			<li><a href="/signup">Sign up</a></li>
-		</ul>
-		</>
+		<div className='banner'>
+			<h3>PokédexClub</h3>
+			<h1>Find your strongest team in 60 seconds</h1>
+			<div>
+				<p>PokédexClub is the fastest way to compare pokémon stats. Sign up to find your dream team today.</p>
+			</div>
+			<ul>
+				<li>
+					<a href="/signup">
+						<button className='button signup'>
+							Sign up
+						</button>
+					</a>
+				</li>
+				<li><a href="/signin"><button className='button signin'>Sign in</button></a></li>
+			</ul>
+		</div>
 	)
 }
