@@ -56,11 +56,66 @@ a:visited {
   color: inherit;
 }
 
-a:hover {
+td a:hover {
   color: gray;
 }
 
-a:active {
+.navmenu a:hover {
+  color: gray;
+}
+
+td a:active {
   text-decoration: underline;
   color: inherit;
+}
+
+.banner {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner h1 {
+  width: 75%;
+}
+
+.banner div {
+  width: 50%;
+}
+
+.banner div p {
+  text-align: center;
+}
+
+.banner ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.banner ul li button {
+  width: 150px;
+  height: 32px;
+  font-weight: bold;
+  border-radius: 25px;
+}
+
+.banner ul li button.signup {
+  margin-right: 15px;
+  color: white;
+  background-color: gray;
+  border: none;
+}
+
+.banner ul li button.signin {
+  margin-left: 15px;
+  color: inherit;
+  background-color: white;
+  border: 2px solid gray;
+}
+
+.banner ul li button.signin:hover {
+  background-color: whitesmoke;
 }

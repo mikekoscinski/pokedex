@@ -18,7 +18,7 @@ export default function Navmenu() {
 	return (
 			<div className="navmenu" key="navmenu">
 				<ul className="navmenu-items" key={'ul'}>
-					<li><strong>Pokédex</strong></li>
+					<li><strong>PokédexClub</strong></li>
 					<li key={'pokemon'}><a href="/pokemon" key={'link'}>Pokemon</a></li>
 					<li key={'search'}><a href="/search" key={'link'}>Search</a></li>
 					
