@@ -13,6 +13,7 @@ import Navmenu from './Navmenu';
 export default function Router () {
 	return (
 		<BrowserRouter>
+			<Navmenu />
 			<Switch>
 				<Route exact path="/pokemon" component={EntryList} key={'entrylist'} />
 				<Route exact path="/pokemon/:pokedex_id" component={Entry} key={'entry'} />
@@ -26,7 +27,6 @@ export default function Router () {
 				<Route exact path="/account" component={Account} key={'account'} />
 				<Route component={NotFound} key={'notfound'} />
 			</Switch>
-			<Navmenu />
 		</BrowserRouter>
 	)
 }
